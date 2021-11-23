@@ -44,6 +44,13 @@ jobs:
           cluster_name: kind-${{matrix.system}}
           registry: false
 
+      # - name: Setup Minikube
+      #   uses: manusa/actions-setup-minikube@v2.4.2
+      #   with:
+      #     minikube version: 'v1.16.0'
+      #     kubernetes version: 'v1.19.2'
+      #     github token: ${{ secrets.GITHUB_TOKEN }}
+
 
       # - name: Install kustomize
       #   run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
@@ -63,8 +70,9 @@ jobs:
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
           kubectl apply -k github.com/open-policy-agent/gatekeeper-library/library/pod-security-policy
-          sleep 10
+          sleep 10 # @TODO: make a wait
           kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/pod-security-policy/privileged-containers/samples/psp-privileged-container/constraint.yaml
+          sleep 10 # @TODO: make a wait          
 
       - if: matrix.system == 'psp'
         run: |
