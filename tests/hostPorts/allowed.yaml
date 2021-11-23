@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-host-networking-ports-allowed
+  labels:
+    app: nginx-host-networking-ports
+spec:
+  containers:
+  - name: nginx
+    image: nginx

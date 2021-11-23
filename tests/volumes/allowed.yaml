@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-volume-types-allowed
+  labels:
+    app: nginx-volume-types
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+    - mountPath: /cache2
+      name: demo-vol
+  volumes:
+  - name: demo-vol
+    emptyDir: {}
