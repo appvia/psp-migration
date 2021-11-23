@@ -1,1 +1,1 @@
-submodules/gatekeeper-library/library/pod-security-policy/privileged-containers/samples/psp-privileged-container/example_allowed.yaml
+../../submodules/gatekeeper-library/library/pod-security-policy/privileged-containers/samples/psp-privileged-container/example_allowed.yaml

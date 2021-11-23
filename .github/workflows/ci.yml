@@ -1,0 +1,76 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        system: 
+          - psp
+          # - pss
+          - gatekeeper
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          submodules: true
+
+
+      # - name: Create kind cluster
+      #   uses: helm/kind-action@2a525709fd0874b75d7ae842d257981b0e0f557d
+      #   timeout-minutes: 5
+      #   with: 
+      #     kubectl_version: v1.22.2
+      #     cluster_name: kind-${{matrix.system}}
+
+      - name: Create kind cluster
+        uses: container-tools/kind-action@v1.7.0
+        timeout-minutes: 5
+        with: 
+          kubectl_version: v1.22.2
+          cluster_name: kind-${{matrix.system}}
+          registry: false
+
+
+      # - name: Install kustomize
+      #   run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+
+      # - name: Install cert-manager
+      #   run: |
+      #     kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
+      #     kubectl wait --for=condition=available --timeout=600s  -n cert-manager \
+      #       deployment/cert-manager \
+      #       deployment/cert-manager-cainjector \
+      #       deployment/cert-manager-webhook
+
+      - if: matrix.system == 'gatekeeper'
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.5/deploy/gatekeeper.yaml
+          kubectl wait --for=condition=available --timeout=600s  -n gatekeeper-system \
+            deployment/gatekeeper-audit \
+            deployment/gatekeeper-controller-manager
+          kubectl apply -k github.com/open-policy-agent/gatekeeper-library/library/pod-security-policy
+          kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/pod-security-policy/privileged-containers/samples/psp-privileged-container/constraint.yaml
+
+      - if: matrix.system == 'psp'
+        run: |
+          echo stuff here
+
+      - name: Deploy known good pod
+        run: kubectl apply -f tests/privileged/example_allowed.yaml
+
+      - name: Deploy known bad issuer pod
+        run: "! kubectl apply -f tests/privileged/example_disallowed.yaml"
+
