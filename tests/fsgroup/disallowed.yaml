@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-fsgroup-disallowed
+  labels:
+    app: nginx-users
+spec:
+  securityContext:
+    fsGroup: 250
+  containers:
+    - name: nginx
+      image: nginx

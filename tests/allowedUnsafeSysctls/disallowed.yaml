@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-allowunsafe-sysctls-disallowed
+  labels:
+    app: nginx-allowunsafe-sysctls
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  securityContext:
+    sysctls:
+    - name: net.ff
+      value: "65536"
