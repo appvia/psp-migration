@@ -63,6 +63,7 @@ jobs:
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
           kubectl apply -k github.com/open-policy-agent/gatekeeper-library/library/pod-security-policy
+          sleep 2
           kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper-library/master/library/pod-security-policy/privileged-containers/samples/psp-privileged-container/constraint.yaml
 
       - if: matrix.system == 'psp'
