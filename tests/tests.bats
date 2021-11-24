@@ -34,11 +34,11 @@ teardown() {
 @test "allowPrivilegeEscalation" {}
 @test "defaultAllowPrivilegeEscalation" {}
 @test "allowedCapabilities" {}
-@test "defaultAddCapabilities" {} # @TODO in gatekeeper, not implemented with library
+@test "defaultAddCapabilities" {} # @TODO gatekeeper mutator overrides the defined capabilities
 @test "requiredDropCapabilities" {}
 @test "seLinux" {}
-@test "allowedProcMountTypes" {} # @TODO This requires the ProcMountType feature flag to be enabled. Set --feature-gates=ProcMountType=true
+@test "allowedProcMountTypes" {}
 @test "apparmor" {}
 @test "seccomp" {}
 @test "forbiddenSysctls" {}
-@test "allowedUnsafeSysctls" {} # @TODO By default, all safe sysctls are allowed. If you wish to use unsafe sysctls, make sure to whitelist --allowed-unsafe-sysctls kubelet flag on each node. For example, --allowed-unsafe-sysctls='kernel.msg*,kernel.shm.*,net.*'.
+@test "allowedUnsafeSysctls" {}
