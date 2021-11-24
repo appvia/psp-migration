@@ -44,9 +44,14 @@ jobs:
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
           kubectl apply -k submodules/gatekeeper-library/library/pod-security-policy
-          kubectl wait --for condition=established --timeout=60s \
+          until kubectl wait --for condition=established --timeout=60s \
             crd/constrainttemplates.templates.gatekeeper.sh \
             crd/k8spspvolumetypes.constraints.gatekeeper.sh
+          do
+            echo -n .
+            sleep 1
+          done
+          
 
       - name: Cordon nodes to speed up testing
         run: kubectl cordon kind-control-plane
