@@ -20,7 +20,7 @@ jobs:
       matrix:
         system: 
           - psp
-          # - pss
+          - pss
           - gatekeeper
           - kyverno
           - kubewarden
