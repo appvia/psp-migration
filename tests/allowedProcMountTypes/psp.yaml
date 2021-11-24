@@ -1,1 +1,18 @@
-TODO
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: policy
+spec:
+  privileged: false
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  volumes:
+    - '*'
+  allowedProcMountTypes:
+    - Default
