@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: opa-allowed
+  name: capabilities-allowed
   labels:
     owner: me.agilebank.demo
 spec:

@@ -22,6 +22,7 @@ jobs:
           - psp
           # - pss
           - gatekeeper
+          - kyverno
 
     steps:
       - uses: actions/checkout@v2.4.0
@@ -39,7 +40,7 @@ jobs:
       - if: matrix.system == 'gatekeeper'
         name: Install gatekeeper
         run: |
-          kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml
+          kubectl apply --wait -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml
           kubectl wait --for=condition=available --timeout=600s  -n gatekeeper-system \
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
@@ -52,6 +53,12 @@ jobs:
             sleep 1
           done
           
+      - if: matrix.system == 'kyverno'
+        name: Install kyverno
+        run: |
+          kubectl --wait apply -k github.com/kyverno/kyverno/config
+          kubectl wait --for=condition=available --timeout=600s  -n kyverno \
+            deployment/kyverno
 
       - name: Cordon nodes to speed up testing
         run: kubectl cordon kind-control-plane
