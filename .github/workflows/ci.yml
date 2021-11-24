@@ -43,12 +43,12 @@ jobs:
           kubectl wait --for=condition=available --timeout=600s  -n gatekeeper-system \
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
-          kubectl apply -k submodules/gatekeeper-library/library/pod-security-policy
+          kubectl apply --wait -k submodules/gatekeeper-library/library/pod-security-policy
+          kubectl apply --wait -k patched_gatekeeper_templates
           until kubectl wait --for condition=established --timeout=60s \
             crd/constrainttemplates.templates.gatekeeper.sh \
             crd/k8spspvolumetypes.constraints.gatekeeper.sh
           do
-            echo -n .
             sleep 1
           done
           
