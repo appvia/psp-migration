@@ -1,1 +1,15 @@
-../../submodules/gatekeeper-library/library/pod-security-policy/seccomp/samples/psp-seccomp/example_allowed.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-seccomp-allowed
+  annotations:
+    container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
+  labels:
+    app: nginx-seccomp
+spec:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: nginx
+    image: nginx
