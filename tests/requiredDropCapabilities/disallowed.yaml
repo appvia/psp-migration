@@ -8,3 +8,6 @@ spec:
   containers:
     - name: nginx
       image: nginx
+      securityContext:
+        capabilities:
+          add: ["something"]

@@ -10,5 +10,5 @@ spec:
     image: nginx
   securityContext:
     sysctls:
-    - name: foo.msgmax
+    - name: foo.foomax
       value: "65536"
