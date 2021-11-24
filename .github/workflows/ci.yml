@@ -23,6 +23,7 @@ jobs:
           # - pss
           - gatekeeper
           - kyverno
+          - kubewarden
 
     steps:
       - uses: actions/checkout@v2.4.0
@@ -36,6 +37,10 @@ jobs:
           kubectl_version: v1.22.2
           registry: false
           config: tests/kind-config-${{matrix.system}}.yaml
+
+      - uses: azure/setup-helm@v1.1
+        with:
+          version: 'v3.7.1'
 
       - if: matrix.system == 'gatekeeper'
         name: Install gatekeeper
@@ -52,7 +57,15 @@ jobs:
           do
             sleep 1
           done
-          
+
+      - if: matrix.system == 'kubewarden'
+        name: Install kubewarden
+        run: |
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+          helm repo add kubewarden https://charts.kubewarden.io
+          helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
+          helm install --wait -n kubewarden kubewarden-controller kubewarden/kubewarden-controller
+
       - if: matrix.system == 'kyverno'
         name: Install kyverno
         run: |
