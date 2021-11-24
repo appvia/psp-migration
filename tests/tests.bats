@@ -3,9 +3,6 @@
 setup() {
   local -r testcase="${BATS_TEST_NAME:5}"
   kubectl apply -f tests/${testcase}/${SYSTEM}.yaml
-  # if [ "${SYSTEM}" == "gatekeeper"]; then
-    # sleep 5 # @TODO replace with wait
-  # fi
   kubectl apply -f tests/${testcase}/allowed.yaml 
   ! kubectl apply -f tests/${testcase}/disallowed.yaml 
 }
@@ -21,7 +18,7 @@ teardown() {
 @test "privileged" {}
 @test "hostPID" {}
 @test "hostIPC" {}
-@test "hostNetwork" {} # @TODO in gatekeeper, not implemented with library
+@test "hostNetwork" {} 
 @test "hostPorts" {}
 @test "volumes" {}
 @test "allowedHostPaths" {}
