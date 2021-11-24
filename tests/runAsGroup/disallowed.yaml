@@ -10,4 +10,4 @@ spec:
     - name: nginx
       image: nginx
       securityContext:
-        runAsGroup: 250
+        runAsUser: 250
