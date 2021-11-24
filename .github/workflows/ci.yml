@@ -28,24 +28,13 @@ jobs:
         with:
           submodules: true
 
-      - if: matrix.system == 'psp'
-        name: Create kind cluster for PSP
+      - name: Create kind cluster
         uses: container-tools/kind-action@v1.7.0
         timeout-minutes: 5
         with: 
           kubectl_version: v1.22.2
-          cluster_name: kind-${{matrix.system}}
           registry: false
-          config: tests/kind-config.yaml
-
-      - if: matrix.system == 'gatekeeper'
-        name: Create kind cluster for gatekeeper
-        uses: container-tools/kind-action@v1.7.0
-        timeout-minutes: 5
-        with: 
-          kubectl_version: v1.22.2
-          cluster_name: kind-${{matrix.system}}
-          registry: false
+          config: tests/kind-config-${{matrix.system}}.yaml
 
       - if: matrix.system == 'gatekeeper'
         name: Install gatekeeper
@@ -56,6 +45,9 @@ jobs:
             deployment/gatekeeper-controller-manager
           kubectl apply -k submodules/gatekeeper-library/library/pod-security-policy
           sleep 10 # @TODO: make a wait
+
+      - name: Cordon nodes to speed up testing
+        run: kubectl cordon kind-control-plane
 
       - name: BATS tests
         run: submodules/bats/bin/bats --report-formatter junit tests
