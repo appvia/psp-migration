@@ -39,7 +39,7 @@ jobs:
       - if: matrix.system == 'gatekeeper'
         name: Install gatekeeper
         run: |
-          kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.5/deploy/gatekeeper.yaml
+          kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml
           kubectl wait --for=condition=available --timeout=600s  -n gatekeeper-system \
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
