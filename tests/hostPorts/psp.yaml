@@ -4,7 +4,9 @@ metadata:
   name: policy
 spec:
   hostNetwork: false
-  hostPorts: []
+  hostPorts: 
+    - min: 80
+      max: 9000
   runAsUser:
     rule: 'RunAsAny'
   seLinux:
