@@ -58,7 +58,7 @@ jobs:
           sleep 10 # @TODO: make a wait
 
       - name: BATS tests
-        run: submodules/bats/bin/bats tests
+        run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
 
@@ -67,5 +67,5 @@ jobs:
         if: success() || failure()
         with:
           name: Test results        
-          path: ./report.xml
+          path: report.xml
           reporter: java-junit
