@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-forbidden-sysctls-allowed
+  name: nginx-allowunsafe-sysctls-allowed
   labels:
-    app: nginx-forbidden-sysctls
+    app: nginx-allowunsafe-sysctls
 spec:
   containers:
   - name: nginx
