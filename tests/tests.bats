@@ -7,6 +7,13 @@ setup() {
     if [ "${SYSTEM}" == "kyverno" ]; then
       while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') != "true" ]]; do sleep 1; done
     fi
+    if [ "${SYSTEM}" == "kubewarden" ]; then
+      kubectl wait --for=condition=ready --timeout=60s -f tests/${testcase}/${SYSTEM}.yaml
+      while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') != "true" ]]; do sleep 1; done
+    fi
+    if [ "${SYSTEM}" == "pss" ]; then
+      kubectl config set-context --current --namespace=test
+    fi
   fi
   kubectl apply -f tests/${testcase}/allowed.yaml 
   ! kubectl apply -f tests/${testcase}/disallowed.yaml 
@@ -14,14 +21,17 @@ setup() {
 
 teardown() {
   local -r testcase="${BATS_TEST_NAME:5}"
+  kubectl delete -f tests/${testcase}/allowed.yaml 
+  ! kubectl delete -f tests/${testcase}/disallowed.yaml
   if [ -f tests/${testcase}/${SYSTEM}.yaml ]; then
     kubectl delete --wait -f tests/${testcase}/${SYSTEM}.yaml
     if [ "${SYSTEM}" == "kyverno" ]; then
       while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') == "true" ]]; do sleep 1; done
     fi
+    if [ "${SYSTEM}" == "pss" ]; then
+      kubectl config set-context --current --namespace=default
+    fi
   fi
-  kubectl delete -f tests/${testcase}/allowed.yaml 
-  ! kubectl delete -f tests/${testcase}/disallowed.yaml
 }
 
 
