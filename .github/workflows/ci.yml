@@ -58,6 +58,7 @@ jobs:
           do
             sleep 1
           done
+          kubectl cordon kind-control-plane
 
       - if: matrix.system == 'kubewarden'
         name: Install kubewarden
@@ -80,6 +81,7 @@ jobs:
           kubectl apply --wait -k github.com/kyverno/kyverno/config
           kubectl wait --for=condition=available --timeout=600s  -n kyverno \
             deployment/kyverno
+          kubectl cordon kind-control-plane
 
       - if: matrix.system == 'krail'
         name: Install k-rail
@@ -89,9 +91,8 @@ jobs:
           kubectl create namespace k-rail
           kubectl label namespace k-rail k-rail/ignore=true
           helm install --wait k-rail k-rail/k-rail --namespace k-rail
+          kubectl cordon kind-control-plane
 
-      - name: Cordon nodes to speed up testing
-        run: kubectl cordon kind-control-plane
 
       - name: BATS tests
         run: submodules/bats/bin/bats --report-formatter junit tests

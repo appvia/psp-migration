@@ -1,0 +1,17 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: allowedprocmounttypes
+spec:
+  module: ghcr.io/kubewarden/policies/psp-allowed-proc-mount-types:v0.0.2
+  rules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      resources: ["pods"]
+      scope: "Namespaced"
+      operations:
+      - CREATE
+      - UPDATE
+  mutating: false
+  settings:
+    allow_unmasked_proc_mount_type: false

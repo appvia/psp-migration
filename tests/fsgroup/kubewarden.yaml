@@ -1,0 +1,20 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: fsgroup
+spec:
+  module: ghcr.io/kubewarden/policies/psp-allowed-fsgroups:v0.0.1
+  rules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      resources: ["pods"]
+      scope: "Namespaced"
+      operations:
+      - CREATE
+      - UPDATE
+  mutating: false
+  settings:
+    rule: MustRunAs
+    ranges:
+      - min: 100
+        max: 200

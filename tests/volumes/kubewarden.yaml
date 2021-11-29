@@ -1,0 +1,24 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: volumes
+spec:
+  policyServer: default
+  module: registry://ghcr.io/kubewarden/policies/psp-volumes:v0.1.2
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations:
+    - CREATE
+    - UPDATE
+  mutating: false
+  settings:
+    allowedTypes:
+    - configMap
+    - emptyDir
+    - projected
+    - secret
+    - downwardAPI
+    - persistentVolumeClaim
+    - flexVolume 

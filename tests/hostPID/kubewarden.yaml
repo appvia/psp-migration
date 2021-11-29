@@ -1,0 +1,16 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: hostpid
+spec:
+  module: registry://ghcr.io/kubewarden/policies/psp-host-namespaces:v0.0.9
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations:
+    - CREATE
+    - UPDATE
+  mutating: false
+  settings:
+    allow_host_pid: false

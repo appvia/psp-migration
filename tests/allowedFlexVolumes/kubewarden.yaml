@@ -1,0 +1,18 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: allowedflexvolumes
+spec:
+  module: registry://ghcr.io/kubewarden/policies/psp-flexvolume-drivers:v0.0.1
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations:
+    - CREATE
+    - UPDATE
+  mutating: false
+  settings:
+    allowedFlexVolumes:
+      - driver: "example/lvm"
+      - driver: "example/cifs"

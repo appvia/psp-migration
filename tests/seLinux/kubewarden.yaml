@@ -1,0 +1,21 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: selinux
+spec:
+  policyServer: default
+  module: registry://ghcr.io/kubewarden/policies/psp-selinux:v0.0.1
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations:
+    - CREATE
+    - UPDATE
+  mutating: false
+  settings:
+    rule: MustRunAs
+    user: system_u
+    role: object_r
+    type: svirt_sandbox_file_t
+    level: s0:c123,c456

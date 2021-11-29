@@ -1,0 +1,14 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: privileged
+spec:
+  module: registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations:
+    - CREATE
+    - UPDATE
+  mutating: false

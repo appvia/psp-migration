@@ -1,0 +1,15 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: allowprivilegeescalation
+spec:
+  module: ghcr.io/kubewarden/policies/psp-allow-privilege-escalation:v0.1.7
+  rules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      resources: ["pods"]
+      scope: "Namespaced"
+      operations:
+      - CREATE
+      - UPDATE
+  mutating: false
