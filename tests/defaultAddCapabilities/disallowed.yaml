@@ -10,4 +10,5 @@ spec:
       image: nginx
       securityContext:
         capabilities:
-          add: ["disallowed"]
+          add: 
+            - disallowed

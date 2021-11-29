@@ -1,7 +1,7 @@
 apiVersion: mutations.gatekeeper.sh/v1alpha1
 kind: Assign
 metadata:
-  name: k8spspcapabilities
+  name: k8spspdefaultaddcapabilities
 spec:
   applyTo:
   - groups: [""]
@@ -10,4 +10,20 @@ spec:
   location: "spec.containers[name:*].securityContext.capabilities.add"
   parameters:
     assign:
-      value: ["something"]
+      value: [something]
+    pathTests:
+      - subPath: spec.containers[name:*].securityContext.capabilities.add
+        condition: MustNotExist
+
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sPSPCapabilities
+metadata:
+  name: k8spspdefaultaddcapabilities
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    allowedCapabilities: ["something"]
