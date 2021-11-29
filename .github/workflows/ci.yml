@@ -91,8 +91,8 @@ jobs:
           kubectl create namespace k-rail
           kubectl label namespace k-rail k-rail/ignore=true
           helm install --wait k-rail k-rail/k-rail --namespace k-rail
-          kubectl cordon kind-control-plane
-
+          kubectl scale -n k-rail deployment k-rail --replicas 1
+          kubectl patch mutatingwebhookconfigurations.admissionregistration.k8s.io k-rail -p '{"webhooks":[{"name": "k-rail.cruise-automation.github.com","timeoutSeconds":20}]}'
 
       - name: BATS tests
         run: submodules/bats/bin/bats --report-formatter junit tests

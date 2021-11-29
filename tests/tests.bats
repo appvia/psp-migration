@@ -13,6 +13,10 @@ setup() {
     if [ "${SYSTEM}" == "pss" ]; then
       kubectl config set-context --current --namespace=test
     fi
+    if [ "${SYSTEM}" == "krail" ]; then
+      kubectl -n k-rail rollout restart deployment k-rail
+      kubectl -n k-rail rollout status deployment k-rail
+    fi
   fi
   kubectl apply -f tests/${testcase}/allowed.yaml 
   ! kubectl apply -f tests/${testcase}/disallowed.yaml 

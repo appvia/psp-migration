@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k-rail-config
+  namespace: k-rail
+data:
+  config.yml: |
+    cluster_name: default
+    policies:
+    - enabled: true
+      name: pod_no_host_pid
+      report_only: false
+    tls:
+      cert: /cert/cert.pem
+      key: /cert/key.pem
