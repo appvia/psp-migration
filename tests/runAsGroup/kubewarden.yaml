@@ -17,8 +17,8 @@ spec:
     run_as_group: 
       rule: "MustRunAs"
       ranges:
-        - min: 1000
-          max: 2000
+        - min: 100
+          max: 200
     run_as_user: 
       rule: "RunAsAny"
     supplemental_groups: 
