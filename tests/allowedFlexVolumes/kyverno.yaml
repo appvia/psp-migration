@@ -1,21 +1,20 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: psp-forbiddensysctls
+  name: psp-allowedflexvolumes
 spec:
   validationFailureAction: enforce
-  background: true
   rules:
-    - name: sysctls
+    - name: psp-allowedflexvolumes
       match:
         resources:
           kinds:
             - Pod
       validate:
         message: >-
-          sysctls are limited
+          Flexvolume types are limited
         pattern:
           spec:
-            =(securityContext):
-              =(sysctls):
-                - name: "!kernel.*"
+            =(volumes):
+              - =(flexVolume):
+                  driver: "example/lvm"

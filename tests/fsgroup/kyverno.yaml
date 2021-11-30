@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-fsgroup
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: psp-fsgroup
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: >-
+          Containers must have .securityContext.fsgroup in a range
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  fsGroup: 100-200
+            =(initContainers):
+              - securityContext:
+                  fsGroup: 100-200
+            =(ephemeralContainers):
+              - securityContext:
+                  fsGroup: 100-200
+  

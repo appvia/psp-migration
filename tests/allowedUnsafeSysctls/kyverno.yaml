@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: psp-forbiddensysctls
+  name: psp-allowedunsafesysctls
 spec:
   validationFailureAction: enforce
   background: true
@@ -13,9 +13,9 @@ spec:
             - Pod
       validate:
         message: >-
-          sysctls are limited
+          allowed unsafe sysctls are limited
         pattern:
           spec:
             =(securityContext):
               =(sysctls):
-                - name: "!kernel.*"
+                - name: kernel.msgmax

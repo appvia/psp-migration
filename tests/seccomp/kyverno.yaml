@@ -1,16 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: restrict-seccomp
-  annotations:
-    policies.kyverno.io/title: Restrict Seccomp
-    policies.kyverno.io/category: Pod Security Standards (Restricted)
-    policies.kyverno.io/severity: medium
-    policies.kyverno.io/subject: Pod
-    policies.kyverno.io/description: >-
-      The seccomp profile must not be explicitly set to Unconfined. This policy, 
-      requiring Kubernetes v1.19 or later, ensures that seccomp is not set or 
-      set to `RuntimeDefault` or `Localhost`.
+  name: psp-seccomp
 spec:
   background: true
   validationFailureAction: enforce

@@ -1,15 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: disallow-host-ports
-  annotations:
-    policies.kyverno.io/category: Pod Security Standards (Baseline)
-    policies.kyverno.io/severity: medium
-    policies.kyverno.io/subject: Pod
-    policies.kyverno.io/description: >-
-      Access to host ports allows potential snooping of network traffic and should not be
-      allowed, or at minimum restricted to a known list. This policy ensures the `hostPort`
-      fields are empty.
+  name: psp-hostports
 spec:
   validationFailureAction: enforce
   rules:
@@ -20,13 +12,16 @@ spec:
             - Pod
       validate:
         message: >-
-          Use of host ports is disallowed. The fields spec.containers[*].ports[*].hostPort
-          and spec.initContainers[*].ports[*].hostPort must be empty.
+          Use of host ports is limited. The fields spec.containers[*].ports[*].hostPort
+          and spec.initContainers[*].ports[*].hostPort must be in a given range
         pattern:
           spec:
             =(initContainers):
               - =(ports):
-                  - X(hostPort): 0
+                  - =(hostPort): 80-9000
+            =(ephermeralContainers):
+              - =(ports):
+                  - =(hostPort): 80-9000
             containers:
               - =(ports):
-                  - X(hostPort): 0
+                  - =(hostPort): 80-9000

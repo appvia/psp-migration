@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-requireddropcapabilities
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: psp-requireddropcapabilities
+    match:
+      resources:
+        kinds:
+        - Pod
+    validate:
+      message: >-
+        containers must drop some containers
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              capabilities:
+                drop:
+                  - something
+          =(ephemeralContainers):
+          - securityContext:
+              capabilities:
+                drop:
+                  - something
+          =(initContainers):
+          - securityContext:
+              capabilities:
+                drop:
+                  - something

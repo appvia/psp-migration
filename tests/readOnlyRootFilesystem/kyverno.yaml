@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-readonlyrootfilesystem
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: psp-readonlyrootfilesystem
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: >-
+          Containers must have .securityContext.readOnlyRootFilesystem: true
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  readOnlyRootFilesystem: true
+            =(initContainers):
+              - securityContext:
+                  readOnlyRootFilesystem: true
+            =(ephemeralContainers):
+              - securityContext:
+                  readOnlyRootFilesystem: true
+  

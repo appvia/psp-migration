@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-allowedcapabilities
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: capabilities
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: >-
+          Added capabilities is limited
+        pattern:
+          spec:
+            containers:
+              - =(securityContext):
+                  =(capabilities):
+                    X(add): "null" #TODO limit to list [something]
+            =(initContainers):
+              - =(securityContext):
+                  =(capabilities):
+                    X(add): "null" #TODO limit to list [something]
+            =(ephemeralContainers):
+              - =(securityContext):
+                  =(capabilities):
+                    X(add): "null" #TODO limit to list [something]

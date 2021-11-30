@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-runasgroup
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: psp-runasgroup
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: >-
+          Containers must have .securityContext.runAsGroup in a range
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  runAsGroup: 100-200
+            =(initContainers):
+              - securityContext:
+                  runAsGroup: 100-200
+            =(ephemeralContainers):
+              - securityContext:
+                  runAsGroup: 100-200
+  

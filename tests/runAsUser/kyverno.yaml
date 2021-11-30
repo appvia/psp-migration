@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-runasuser
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: psp-runasuser
+      match:
+        resources:
+          kinds:
+            - Pod
+      validate:
+        message: >-
+          Containers must have .securityContext.runAsUser in a range
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  runAsUser: 100-200
+            =(initContainers):
+              - securityContext:
+                  runAsUser: 100-200
+            =(ephemeralContainers):
+              - securityContext:
+                  runAsUser: 100-200
+  
