@@ -13,9 +13,14 @@ spec:
             - Pod
       validate:
         message: >-
-          allowed unsafe sysctls are limited
-        pattern:
-          spec:
-            =(securityContext):
-              =(sysctls):
-                - name: kernel.msgmax
+          allowed unsafesysctls are limited
+        anyPattern:
+          - spec:
+              =(securityContext):
+                =(sysctls):
+                  - name: "kernel.msgmax"
+          - spec:
+              containers:
+                =(securityContext):
+                  =(sysctls):
+                    - name: "kernel.msgmax"

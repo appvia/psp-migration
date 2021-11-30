@@ -14,8 +14,13 @@ spec:
       validate:
         message: >-
           sysctls are limited
-        pattern:
-          spec:
-            =(securityContext):
-              =(sysctls):
-                - name: "!kernel.*"
+        anyPattern:
+          - spec:
+              =(securityContext):
+                =(sysctls):
+                  - name: "!kernel.*"
+          - spec:
+              containers:
+                =(securityContext):
+                  =(sysctls):
+                    - name: "!kernel.*"
