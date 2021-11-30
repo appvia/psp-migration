@@ -17,11 +17,11 @@ spec:
           spec:
             containers:
               - securityContext:
-                  runAsUser: 100-200
+                  runAsUser: ">=100 & <=200"
             =(initContainers):
               - securityContext:
-                  runAsUser: 100-200
+                  runAsUser: ">=100 & <=200"
             =(ephemeralContainers):
               - securityContext:
-                  runAsUser: 100-200
+                  runAsUser: ">=100 & <=200"
   

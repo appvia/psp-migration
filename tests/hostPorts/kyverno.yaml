@@ -18,10 +18,10 @@ spec:
           spec:
             =(initContainers):
               - =(ports):
-                  - =(hostPort): 80-9000
+                  - =(hostPort): ">=80 & <=9000"
             =(ephermeralContainers):
               - =(ports):
-                  - =(hostPort): 80-9000
+                  - =(hostPort): ">=80 & <=9000"
             containers:
               - =(ports):
-                  - =(hostPort): 80-9000
+                  - =(hostPort): ">=80 & <=9000"
