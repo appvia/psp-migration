@@ -12,7 +12,7 @@ spec:
         - Pod
     validate:
       message: >-
-        containers must drop some containers
+        containers must drop some capabilities
       pattern:
         spec:
           containers:

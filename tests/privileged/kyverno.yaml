@@ -12,7 +12,8 @@ spec:
             - Pod
       validate:
         message: >-
-          Privileged mode is disallowed. The fields spec.containers[*].securityContext.privileged
+          Privileged mode is disallowed. The fields spec.securityContext.privileged,
+          spec.containers[*].securityContext.privileged
           and spec.initContainers[*].securityContext.privileged and 
           spec.ephemeralContainers[*].securityContext.privileged must not be set to true.
         pattern:

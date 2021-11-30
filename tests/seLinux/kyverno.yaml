@@ -13,26 +13,39 @@ spec:
       validate:
         message: >-
           SELinux options are limited
-        pattern:
-          spec:
-            =(initContainers):
-              - securityContext:
-                  seLinuxOptions:
+        anyPattern:
+          - spec:
+              securityContext:
+                seLinuxOptions:
                     level: s0:c123,c456
                     role: object_r
                     type: svirt_sandbox_file_t
                     user: system_u
-            =(ephemeralContainers):
-              - securityContext:
-                  seLinuxOptions:
-                    level: s0:c123,c456
-                    role: object_r
-                    type: svirt_sandbox_file_t
-                    user: system_u
-            containers:
-              - securityContext:
-                  seLinuxOptions:
-                    level: s0:c123,c456
-                    role: object_r
-                    type: svirt_sandbox_file_t
-                    user: system_u
+          - spec:
+              =(securityContext):
+                =(seLinuxOptions):
+                  level: s0:c123,c456
+                  role: object_r
+                  type: svirt_sandbox_file_t
+                  user: system_u
+              containers:
+                - securityContext:
+                    seLinuxOptions:
+                      level: s0:c123,c456
+                      role: object_r
+                      type: svirt_sandbox_file_t
+                      user: system_u
+              =(initContainers):
+                - securityContext:
+                    seLinuxOptions:
+                      level: s0:c123,c456
+                      role: object_r
+                      type: svirt_sandbox_file_t
+                      user: system_u
+                - securityContext:
+                    seLinuxOptions:
+                      level: s0:c123,c456
+                      role: object_r
+                      type: svirt_sandbox_file_t
+                      user: system_u
+  

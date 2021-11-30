@@ -13,15 +13,20 @@ spec:
       validate:
         message: >-
           Containers must have .securityContext.fsgroup in a range
-        pattern:
-          spec:
-            containers:
-              - securityContext:
-                  fsGroup: 100-200
-            =(initContainers):
-              - securityContext:
-                  fsGroup: 100-200
-            =(ephemeralContainers):
-              - securityContext:
-                  fsGroup: 100-200
+        anyPattern:
+          - spec:
+              securityContext:
+                fsGroup: ">=100 & <=200"
+          - spec:
+              =(securityContext):
+                =(fsGroup): ">=100 & <=200"
+              containers:
+                - securityContext:
+                    fsGroup: ">=100 & <=200"
+              =(initContainers):
+                - securityContext:
+                    fsGroup: ">=100 & <=200"
+              =(ephemeralContainers):
+                - securityContext:
+                    fsGroup: ">=100 & <=200"
   

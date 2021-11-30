@@ -13,15 +13,20 @@ spec:
       validate:
         message: >-
           Containers must have .securityContext.runAsUser in a range
-        pattern:
-          spec:
-            containers:
-              - securityContext:
-                  runAsUser: ">=100 & <=200"
-            =(initContainers):
-              - securityContext:
-                  runAsUser: ">=100 & <=200"
-            =(ephemeralContainers):
-              - securityContext:
-                  runAsUser: ">=100 & <=200"
+        anyPattern:
+          - spec:
+              securityContext:
+                runAsUser: ">=100 & <=200"
+          - spec:
+              =(securityContext):
+                =(runAsUser): ">=100 & <=200"
+              containers:
+                - securityContext:
+                    runAsUser: ">=100 & <=200"
+              =(initContainers):
+                - securityContext:
+                    runAsUser: ">=100 & <=200"
+              =(ephemeralContainers):
+                - securityContext:
+                    runAsUser: ">=100 & <=200"
   
