@@ -46,6 +46,7 @@ Eventually there'll probably be a tool to do this for you, but for now you can f
 - https://kubernetes.io/docs/concepts/security/pod-security-standards/
 - https://github.com/open-policy-agent/gatekeeper
 - https://github.com/kyverno/kyverno
+- https://github.com/kyverno/policies
 - https://github.com/kubewarden/kubewarden-controller
 - https://hub.kubewarden.io/
 - https://github.com/cruise-automation/k-rail/blob/master/charts/k-rail/values.yaml
