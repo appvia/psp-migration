@@ -1,0 +1,15 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: readonlyrootfilesystem
+spec:
+  policyServer: default
+  module: registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp-policy:v0.1.0
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations:
+    - CREATE
+    - UPDATE
+  mutating: false
