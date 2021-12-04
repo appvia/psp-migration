@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: allowedprocmounttypes
 spec:
-  module: ghcr.io/kubewarden/policies/psp-allowed-proc-mount-types:v0.0.2
+  module: registry://ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.1
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
