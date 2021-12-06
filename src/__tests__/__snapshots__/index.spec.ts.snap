@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse should parse a json object 1`] = `
+Object {
+  "apiVersion": "policy/v1beta1",
+  "kind": "PodSecurityPolicy",
+  "metadata": Object {
+    "name": "policy",
+  },
+  "spec": Object {
+    "fsGroup": Object {
+      "ranges": Array [
+        Object {
+          "max": 200,
+          "min": 100,
+        },
+      ],
+      "rule": "MustRunAs",
+    },
+    "runAsUser": Object {
+      "rule": "RunAsAny",
+    },
+    "seLinux": Object {
+      "rule": "RunAsAny",
+    },
+    "supplementalGroups": Object {
+      "rule": "RunAsAny",
+    },
+    "volumes": Array [
+      "*",
+    ],
+  },
+}
+`;
+
+exports[`parse should parse a yaml object 1`] = `
+Object {
+  "apiVersion": "policy/v1beta1",
+  "kind": "PodSecurityPolicy",
+  "metadata": Object {
+    "name": "policy",
+  },
+  "spec": Object {
+    "fsGroup": Object {
+      "ranges": Array [
+        Object {
+          "max": 200,
+          "min": 100,
+        },
+      ],
+      "rule": "MustRunAs",
+    },
+    "runAsUser": Object {
+      "rule": "RunAsAny",
+    },
+    "seLinux": Object {
+      "rule": "RunAsAny",
+    },
+    "supplementalGroups": Object {
+      "rule": "RunAsAny",
+    },
+    "volumes": Array [
+      "*",
+    ],
+  },
+}
+`;

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/appvia/psp-migration#readme",
   "devDependencies": {
+    "@kubernetes/client-node": "^0.16.1",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.11",
     "jest": "^27.4.3",
@@ -30,8 +31,14 @@
     "preset": "ts-jest",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!**/*.d.ts"
+      "** /*.ts",
+      "**/*.js",
+      "!.**",
+      "!__tests__/**",
+      "!node_modules/**",
+      "!coverage/**",
+      "!jest.config.js",
+      "!wallaby.js"
     ],
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
@@ -43,19 +50,30 @@
       "text",
       "text-summary"
     ],
-    "collectCoverage": true,
     "coverageDirectory": "coverage",
     "restoreMocks": true,
-    "resetMocks": true,
-    "collectCoverageFrom": [
-      "** /*.ts",
-      "**/*.js",
-      "!.**",
-      "!__tests__/**",
-      "!node_modules/**",
-      "!coverage/**",
-      "!jest.config.js",
-      "!wallaby.js"
-    ]
+    "resetMocks": true
+  },
+  "wallaby": {
+    "files": [
+      "*.ts",
+      "src/**/*.json",
+      "src/**/*.ts",
+      "!src/**/*.spec.ts",
+      {
+        "pattern": ".env",
+        "instrument": false
+      }
+    ],
+    "tests": [
+      "src/**/*.spec.ts"
+    ],
+    "env": {
+      "type": "node"
+    },
+    "testFramework": "jest"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
   }
 }
