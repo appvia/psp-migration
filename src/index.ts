@@ -10,7 +10,7 @@ export function parse(string: string): k8s.V1beta1PodSecurityPolicy {
 
 export function transform(PSP: k8s.V1beta1PodSecurityPolicy, engine: string): string {
   //@ts-ignore
-  return mod[`transform_${engine}`](PSP)
+  return mod[`transform_${engine}`](PSP).map(mod.unique_names)
 }
 
 export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
@@ -131,7 +131,6 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
 }
 
 
-// @TODO: need unique names for each policy
 export function gatekeeper_pod_policy_helper(kind: string, parameters: object | null = null): object {
   return {
     apiVersion: "constraints.gatekeeper.sh/v1beta1",
@@ -154,7 +153,8 @@ export function gatekeeper_pod_policy_helper(kind: string, parameters: object | 
 }
 
 export function unique_names(obj: object): object {
+  const hash = createHash('sha256').update(JSON.stringify(obj)).digest('hex').substring(0, 5).toLowerCase()
   //@ts-ignore
-  obj.metadata.name = `${obj.metadata.name}-${createHash('sha256').update(JSON.stringify(obj)).digest('hex')}`
+  obj.metadata.name = `${obj.metadata.name}-${hash}`
   return obj
 }

@@ -22,10 +22,8 @@ jobs:
       - uses: actions/setup-node@v2.5.0
         with:
           node-version-file: '.nvmrc'
-
       - run: npm install
-
-      - run: jest --json --outputFile=result.json --testLocationInResults
+      - run: node_modules/.bin/jest --json --outputFile=result.json --testLocationInResults
       - uses: tanmen/jest-reporter@v1
         if: always()
         with:
