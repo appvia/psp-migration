@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          submodules: true
+
+      - uses: actions/setup-node@v2.5.0
+        with:
+          node-version-file: '.nvmrc'
+
+      - run: npm install
+
+      - run: jest --json --outputFile=result.json --testLocationInResults
+      - uses: tanmen/jest-reporter@v1
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

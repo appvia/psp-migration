@@ -9,13 +9,7 @@ Object {
   },
   "spec": Object {
     "fsGroup": Object {
-      "ranges": Array [
-        Object {
-          "max": 200,
-          "min": 100,
-        },
-      ],
-      "rule": "MustRunAs",
+      "rule": "RunAsAny",
     },
     "runAsUser": Object {
       "rule": "RunAsAny",
@@ -42,13 +36,7 @@ Object {
   },
   "spec": Object {
     "fsGroup": Object {
-      "ranges": Array [
-        Object {
-          "max": 200,
-          "min": 100,
-        },
-      ],
-      "rule": "MustRunAs",
+      "rule": "RunAsAny",
     },
     "runAsUser": Object {
       "rule": "RunAsAny",
@@ -64,4 +52,980 @@ Object {
     ],
   },
 }
+`;
+
+exports[`transform_gatekeeper allowPrivilegeEscalation 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAllowPrivilegeEscalationContainer",
+    "metadata": Object {
+      "name": "psp-k8spspallowprivilegeescalationcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper allowedCapabilities 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPCapabilities",
+    "metadata": Object {
+      "name": "psp-k8spspcapabilities",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedCapabilities": Array [
+          "something",
+        ],
+        "requiredDropCapabilities": Array [],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper allowedFlexVolumes 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPFlexVolumes",
+    "metadata": Object {
+      "name": "psp-k8spspflexvolumes",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedFlexVolumes": Array [
+          Object {
+            "driver": "example/lvm",
+          },
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper allowedHostPaths 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostFilesystem",
+    "metadata": Object {
+      "name": "psp-k8spsphostfilesystem",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedHostPaths": Array [
+          Object {
+            "pathPrefix": "/foo",
+            "readOnly": true,
+          },
+        ],
+      },
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostFilesystem",
+    "metadata": Object {
+      "name": "psp-k8spsphostfilesystem",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedHostPaths": Array [
+          Object {
+            "pathPrefix": "/foo",
+            "readOnly": true,
+          },
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper allowedProcMountTypes 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPProcMount",
+    "metadata": Object {
+      "name": "psp-k8spspprocmount",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "procMount": "Default",
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper allowedUnsafeSysctls 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPForbiddenSysctls",
+    "metadata": Object {
+      "name": "psp-k8spspforbiddensysctls",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedSysctls": Array [
+          "kernel.msgmax",
+        ],
+        "forbiddenSysctls": Array [],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper apparmor 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAppArmor",
+    "metadata": Object {
+      "name": "psp-k8spspapparmor",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedProfiles": Array [
+          "runtime/default",
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper defaultAddCapabilities 1`] = `
+Array [
+  Object {
+    "apiVersion": "mutations.gatekeeper.sh/v1beta1",
+    "kind": "ModifySet",
+    "metadata": Object {
+      "name": "psp-k8spspdefaultaddcapabilities",
+    },
+    "spec": Object {
+      "applyTo": Array [
+        Object {
+          "groups": Array [
+            "",
+          ],
+          "kinds": Array [
+            "Pod",
+          ],
+          "versions": Array [
+            "v1",
+          ],
+        },
+      ],
+      "location": "spec.containers[name:*].securityContext.capabilities.add",
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "*",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+        "scope": "Namespaced",
+      },
+      "parameters": Object {
+        "values": Object {
+          "fromList": Array [
+            "something",
+          ],
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper defaultAllowPrivilegeEscalation 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAllowPrivilegeEscalationContainer",
+    "metadata": Object {
+      "name": "psp-k8spspallowprivilegeescalationcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "mutations.gatekeeper.sh/v1beta1",
+    "kind": "ModifySet",
+    "metadata": Object {
+      "name": "psp-k8spspdefaultallowprivilegeescalation",
+    },
+    "spec": Object {
+      "applyTo": Array [
+        Object {
+          "groups": Array [
+            "",
+          ],
+          "kinds": Array [
+            "Pod",
+          ],
+          "versions": Array [
+            "v1",
+          ],
+        },
+      ],
+      "location": "spec.containers[name:*].securityContext.allowPrivilegeEscalation",
+      "parameters": Object {
+        "assign": Object {
+          "value": false,
+        },
+        "pathTests": Array [
+          Object {
+            "condition": "MustNotExist",
+            "subPath": "spec.containers[name:*].securityContext.allowPrivilegeEscalation",
+          },
+        ],
+      },
+    },
+  },
+  Object {
+    "apiVersion": "mutations.gatekeeper.sh/v1beta1",
+    "kind": "ModifySet",
+    "metadata": Object {
+      "name": "psp-k8spspdefaultallowprivilegeescalation-init",
+    },
+    "spec": Object {
+      "applyTo": Array [
+        Object {
+          "groups": Array [
+            "",
+          ],
+          "kinds": Array [
+            "Pod",
+          ],
+          "versions": Array [
+            "v1",
+          ],
+        },
+      ],
+      "location": "spec.initContainers[name:*].securityContext.allowPrivilegeEscalation",
+      "parameters": Object {
+        "assign": Object {
+          "value": false,
+        },
+        "pathTests": Array [
+          Object {
+            "condition": "MustNotExist",
+            "subPath": "spec.initContainers[name:*].securityContext.allowPrivilegeEscalation",
+          },
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper forbiddenSysctls 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPForbiddenSysctls",
+    "metadata": Object {
+      "name": "psp-k8spspforbiddensysctls",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedSysctls": Array [
+          "foo.*",
+        ],
+        "forbiddenSysctls": Array [
+          "kernel.*",
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper fsgroup 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAllowedUsers",
+    "metadata": Object {
+      "name": "psp-k8spspallowedusers",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "fsGroup": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper hostIPC 1`] = `Array []`;
+
+exports[`transform_gatekeeper hostNetwork 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostNetworkingPorts",
+    "metadata": Object {
+      "name": "psp-k8spsphostnetworkingports",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "hostNetwork": true,
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper hostPID 1`] = `Array []`;
+
+exports[`transform_gatekeeper hostPorts 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostNetworkingPorts",
+    "metadata": Object {
+      "name": "psp-k8spsphostnetworkingports",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "hostNetwork": true,
+        "max": 9000,
+        "min": 80,
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper privileged 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper readOnlyRootFilesystem 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPReadOnlyRootFilesystem",
+    "metadata": Object {
+      "name": "psp-k8spspreadonlyrootfilesystem",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper requiredDropCapabilities 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPCapabilities",
+    "metadata": Object {
+      "name": "psp-k8spspcapabilities",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedCapabilities": Array [],
+        "requiredDropCapabilities": Array [
+          "something",
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper runAsGroup 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAllowedUsers",
+    "metadata": Object {
+      "name": "psp-k8spspallowedusers",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "runAsGroup": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper runAsUser 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAllowedUsers",
+    "metadata": Object {
+      "name": "psp-k8spspallowedusers",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "runAsUser": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper seLinux 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPSELinuxV2",
+    "metadata": Object {
+      "name": "psp-k8spspselinuxv2",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedSELinuxOptions": Array [
+          Object {
+            "level": "s0:c123,c456",
+            "role": "object_r",
+            "type": "svirt_sandbox_file_t",
+            "user": "system_u",
+          },
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper seccomp 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPSeccomp",
+    "metadata": Object {
+      "name": "psp-k8spspseccomp",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "allowedProfiles": Array [
+          "runtime/default",
+          "docker/default",
+        ],
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper supplementalGroups 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPAllowedUsers",
+    "metadata": Object {
+      "name": "psp-k8spspallowedusers",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "supplementalGroups": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_gatekeeper volumes 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPPrivilegedContainer",
+    "metadata": Object {
+      "name": "psp-k8spspprivilegedcontainer",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPVolumeTypes",
+    "metadata": Object {
+      "name": "psp-k8spspvolumetypes",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "volumes": Array [
+          "projected",
+          "emptyDir",
+        ],
+      },
+    },
+  },
+]
 `;

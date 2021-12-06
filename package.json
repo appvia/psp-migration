@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -31,14 +31,11 @@
     "preset": "ts-jest",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "** /*.ts",
-      "**/*.js",
+      "src/**/*.ts",
       "!.**",
-      "!__tests__/**",
+      "!src/__tests__/**",
       "!node_modules/**",
-      "!coverage/**",
-      "!jest.config.js",
-      "!wallaby.js"
+      "!coverage/**"
     ],
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
