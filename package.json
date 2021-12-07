@@ -1,6 +1,6 @@
 {
   "name": "psp-migration",
-  "version": "1.0.0",
+  "version": "git-HEAD",
   "description": "> PodSecurityPolicy is dead, long live ???",
   "main": "src/index.ts",
   "directories": {
@@ -29,6 +29,7 @@
     "@kubernetes/client-node": "^0.16.1",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.11",
+    "@types/yargs": "^17.0.7",
     "jest": "^27.4.3",
     "npm-run-all": "^4.1.5",
     "pkg": "^5.5.1",
@@ -94,6 +95,7 @@
     "testFramework": "jest"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "yargs": "^17.3.0"
   }
 }
