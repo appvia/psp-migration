@@ -6,7 +6,23 @@
 
 This project is striving to recreate common Pod Security Policy configuration in other common kubernetes policy engines, to better inform the consumer how to migrate before it is removed in Kubernetes 1.25
 
-Eventually there'll probably be a tool to do this for you, but for now you can follow the tests.
+
+## Installation
+
+Until a 1.0.0 release see the most recent build in github actions and grab the binary for your os+arch.
+
+Nearer to an actual versioned release time there'll be a [krew](https://krew.sigs.k8s.io/) plugin to simplify installation, there'll also probably be a webpage you can and do it all in the browser.
+
+## Usage
+
+The app takes PodSecurityPolicy on `stdIn` and output your policy engine of choice on `stdOut`, you select the policy engine with the `--engine=<engine>`
+so you can do something like:
+
+```bash
+$ cat psp.yaml | ./psp-migration --engine gatekeeper > output.yaml
+or
+$ kubectl get -o podsecuritypolicy -e gatekeeper | ./psp-migration | kubectl apply -f -
+```
 
 ## :warning: This table is manually updated, see the [automated test suites results](https://github.com/appvia/psp-migration/actions/workflows/ci.yml) :warning:
 
