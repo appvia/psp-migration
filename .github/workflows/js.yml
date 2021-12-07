@@ -34,4 +34,46 @@ jobs:
 
       - uses: actions/upload-artifact@v2.3.0
         with:
-          path: dist/bin/*
+          name: psp-migration-alpine-arm64
+          path: dist/bin/psp-migration-alpine-arm64
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-alpine-x64
+          path: dist/bin/psp-migration-alpine-x64
+
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-linux-arm64
+          path: dist/bin/psp-migration-linux-arm64
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-linux-x64
+          path: dist/bin/psp-migration-linux-x64
+
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-linuxstatic-arm64
+          path: dist/bin/psp-migration-linuxstatic-arm64
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-linuxstatic-x64
+          path: dist/bin/psp-migration-linuxstatic-x64
+
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-macos-arm64
+          path: dist/bin/psp-migration-macos-arm64
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-macos-x64
+          path: dist/bin/psp-migration-macos-x64
+
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-win-arm64
+          path: dist/bin/psp-migration-win-arm64
+
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          name: psp-migration-win-x64
+          path: dist/bin/psp-migration-win-x64
