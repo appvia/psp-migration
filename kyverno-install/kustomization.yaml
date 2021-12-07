@@ -1,0 +1,8 @@
+resources: 
+  - github.com/kyverno/kyverno/config
+
+images:
+  - name: ghcr.io/kyverno/kyverno
+    newTag: latest@sha256:a78a24b758a2e4fd88edd02ccc242dad503fb083a46839dd5c6d14b77a1ad218
+  - name: ghcr.io/kyverno/kyvernopre
+    newTag: latest@sha256:1124d52b6363bdbe6a9a8c910786ce7f3b1c90ca400f4f65f88d44df6947e41c
