@@ -5,25 +5,59 @@ metadata:
 spec:
   validationFailureAction: enforce
   rules:
-    - name: capabilities
-      match:
-        resources:
-          kinds:
-            - Pod
-      validate:
-        message: >-
-          Added capabilities is limited
-        pattern:
-          spec:
-            containers:
-              - =(securityContext):
-                  =(capabilities):
-                    X(add): "null" #TODO limit to list [something]
-            =(initContainers):
-              - =(securityContext):
-                  =(capabilities):
-                    X(add): "null" #TODO limit to list [something]
-            =(ephemeralContainers):
-              - =(securityContext):
-                  =(capabilities):
-                    X(add): "null" #TODO limit to list [something]
+  # Checks initContainers to ensure they don't add anything other than what is permitted.
+  - name: psp-allowedcapabilities-initcontainers
+    match:
+      resources:
+        kinds:
+        - Pod
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: In
+        value:
+        - CREATE
+        - UPDATE
+      # Check if initContainers even exist in the Pod
+      - key: "{{ request.object.spec.initContainers[] | length(@) }}"
+        operator: GreaterThanOrEquals
+        value: 1
+    validate:
+      message: The only capabilities that may be explicitly added are `something` or `somethingelse`.
+      foreach:
+      - list: "request.object.spec.initContainers[].securityContext.capabilities"
+        deny:
+          conditions:
+            any:
+            # Loop over the `add[]` array in each container and deny if anything other than the "something" or "somethingelse" capability has been added.
+            - key: "{{ element.add }}"
+              operator: AnyNotIn
+              value:
+              - something
+              - somethingelse
+  # Checks containers to ensure they don't add anything other than what is permitted.
+  - name: psp-allowedcapabilities-containers
+    match:
+      resources:
+        kinds:
+        - Pod
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: In
+        value:
+        - CREATE
+        - UPDATE
+    validate:
+      message: The only capability that may be explicitly added is `something`.
+      foreach:
+      - list: "request.object.spec.containers[].securityContext.capabilities"
+        deny:
+          conditions:
+            any:
+            # Loop over the `add[]` array in each container and deny if anything other than the "something" or "somethingelse" capability has been added.
+            - key: "{{ element.add }}"
+              operator: AnyNotIn
+              value:
+              - something
+              - somethingelse

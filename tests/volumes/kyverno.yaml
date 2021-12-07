@@ -1,8 +1,34 @@
-#@TODO: check volumetype is in this list
-#     - configMap
-#     - emptyDir
-#     - projected
-#     - secret
-#     - downwardAPI
-#     - persistentVolumeClaim
-#     - flexVolume #required for allowedFlexVolumes
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: psp-volumes
+spec:
+  validationFailureAction: enforce
+  background: false
+  rules:
+  - name: allowed-vols
+    match:
+      resources:
+        kinds:
+        - Pod
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: In
+        value: 
+        - CREATE
+        - UPDATE
+      - key: "{{ request.object.spec.volumes[].keys(@)[] | length(@) }}"
+        operator: GreaterThan
+        value: 0
+    validate:
+      message: "Only emptyDir and projected volumes are allowed."
+      deny:
+        conditions:
+          all:
+          - key: "{{ request.object.spec.volumes[].keys(@)[] }}"
+            operator: AnyNotIn
+            value:
+            - name
+            - projected
+            - emptyDir
