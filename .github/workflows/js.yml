@@ -59,6 +59,9 @@ jobs:
           name: psp-migration-linuxstatic-x64
           path: dist/bin/psp-migration-linuxstatic-x64
 
+      - uses: MOZGIII/install-ldid-action@v1
+        with:
+          tag: v2.1.5-procursus2
       - uses: actions/upload-artifact@v2.3.0
         with:
           name: psp-migration-macos-arm64
