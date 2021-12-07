@@ -28,3 +28,9 @@ jobs:
         if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v2.3.0
+        with:
+          path: dist/bin/*

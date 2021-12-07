@@ -8,7 +8,7 @@ export function parse(string: string): k8s.V1beta1PodSecurityPolicy {
 }
 
 
-export function transform(PSP: k8s.V1beta1PodSecurityPolicy, engine: string): string {
+export function transform(PSP: k8s.V1beta1PodSecurityPolicy, engine: string): object[] {
   //@ts-ignore
   return mod[`transform_${engine}`](PSP).map(mod.unique_names)
 }
