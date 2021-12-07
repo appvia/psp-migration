@@ -1,6 +1,6 @@
 {
   "name": "psp-migration",
-  "version": "git-HEAD",
+  "version": "0.0.0-git-HEAD",
   "description": "> PodSecurityPolicy is dead, long live ???",
   "main": "src/index.ts",
   "directories": {
