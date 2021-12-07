@@ -3,13 +3,12 @@ name: Policy Fixture Test
 on:
   push:
     branches:
-      - 'main'
-    tags:
-      - 'v*'
+      - main
   pull_request:
-    branches:
-      - 'main'
-
+    paths:
+      - tests/**
+      - submodules/**
+      - patched_gatekeeper_templates/**
 
 jobs:
   build:
