@@ -7,9 +7,10 @@ on:
     tags:
       - 'v*'
   pull_request:
-    branches:
-      - 'main'
-
+    paths:
+      - src/**
+      - "*.json"
+      - ".nvmrc"
 
 jobs:
   build:
