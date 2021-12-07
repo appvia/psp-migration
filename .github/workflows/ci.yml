@@ -14,18 +14,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.system != 'psp' }}
+    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
       matrix:
         system: 
           - psp
-          - pss
           - gatekeeper
           - kyverno
-          - kubewarden
-          - krail
+        experimental: [false]
+        include:
+          - system: kubewarden
+            experimental: true
+          - system: krail
+            experimental: true
+          - system: pss
+            experimental: true
 
     steps:
       - uses: actions/checkout@v2.4.0
