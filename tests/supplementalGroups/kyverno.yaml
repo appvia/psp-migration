@@ -5,23 +5,19 @@ metadata:
 spec:
   validationFailureAction: enforce
   rules:
-    - name: psp-supplementalGroups
-      match:
-        resources:
-          kinds:
-            - Pod
-      validate:
-        message: >-
-          Containers must have .securityContext.supplementalGroups in a range
-        pattern:
-          spec:
-            containers:
-              - securityContext:
-                  supplementalGroups: #TODO make into foreach loop
-            =(initContainers):
-              - securityContext:
-                  supplementalGroups: #TODO make into foreach loop
-            =(ephemeralContainers):
-              - securityContext:
-                  supplementalGroups: #TODO make into foreach loop
-  
+  - name: supplementalgroup-pseudo
+    match:
+      resources:
+        kinds:
+          - Pod
+    validate:
+      message: Any supplementalGroup ID must be within the collection [100-200].
+      foreach:
+      # Get all the supplementalGroup IDs
+      - list: "request.object.spec.securityContext.supplementalGroups"
+        deny:
+          conditions:
+            any:
+            - key: "{{ element }}"
+              operator: AnyNotIn
+              value: 100-200
