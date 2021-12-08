@@ -19,9 +19,9 @@ The app takes PodSecurityPolicy on `stdIn` and output your policy engine of choi
 so you can do something like:
 
 ```bash
-$ cat psp.yaml | ./psp-migration --engine gatekeeper > output.yaml
+$ cat psp.yaml | ./psp-migration --engine=gatekeeper > output.yaml
 or
-$ kubectl get -o podsecuritypolicy -e gatekeeper | ./psp-migration | kubectl apply -f -
+$ kubectl get -o podsecuritypolicy | ./psp-migration -e gatekeeper | kubectl apply -f -
 ```
 
 ## :warning: This table is manually updated, see the [automated test suites results](https://github.com/appvia/psp-migration/actions/workflows/ci.yml) :warning:
