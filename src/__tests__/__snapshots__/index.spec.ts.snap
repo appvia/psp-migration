@@ -581,7 +581,32 @@ Array [
 ]
 `;
 
-exports[`transform_gatekeeper hostIPC 1`] = `Array []`;
+exports[`transform_gatekeeper hostIPC 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostNamespace",
+    "metadata": Object {
+      "name": "psp-k8spsphostnamespace",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+]
+`;
 
 exports[`transform_gatekeeper hostNetwork 1`] = `
 Array [
@@ -612,7 +637,32 @@ Array [
 ]
 `;
 
-exports[`transform_gatekeeper hostPID 1`] = `Array []`;
+exports[`transform_gatekeeper hostPID 1`] = `
+Array [
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostNamespace",
+    "metadata": Object {
+      "name": "psp-k8spsphostnamespace",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": null,
+    },
+  },
+]
+`;
 
 exports[`transform_gatekeeper hostPorts 1`] = `
 Array [
@@ -1025,6 +1075,868 @@ Array [
           "emptyDir",
         ],
       },
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno allowPrivilegeEscalation 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowprivilegeescalation",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-allowprivilegeescalation-0 rule",
+          "name": "psp-allowprivilegeescalation-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(allowPrivilegeEscalation)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(allowPrivilegeEscalation)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(allowPrivilegeEscalation)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno allowedCapabilities 1`] = `Array []`;
+
+exports[`transform_kyverno allowedFlexVolumes 1`] = `Array []`;
+
+exports[`transform_kyverno allowedHostPaths 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno allowedProcMountTypes 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno allowedUnsafeSysctls 1`] = `Array []`;
+
+exports[`transform_kyverno apparmor 1`] = `Array []`;
+
+exports[`transform_kyverno defaultAddCapabilities 1`] = `Array []`;
+
+exports[`transform_kyverno defaultAllowPrivilegeEscalation 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowprivilegeescalation",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-allowprivilegeescalation-0 rule",
+          "name": "psp-allowprivilegeescalation-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(allowPrivilegeEscalation)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(allowPrivilegeEscalation)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(allowPrivilegeEscalation)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno forbiddenSysctls 1`] = `Array []`;
+
+exports[`transform_kyverno fsgroup 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno hostIPC 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-hostipc",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-hostipc-0 rule",
+          "name": "psp-hostipc-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(hostIPC": false,
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno hostNetwork 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-hostnetwork",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-hostnetwork-0 rule",
+          "name": "psp-hostnetwork-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(hostNetwork": false,
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno hostPID 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-hostpid",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-hostpid-0 rule",
+          "name": "psp-hostpid-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(hostPID": false,
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno hostPorts 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-hostports",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-hostports-0 rule",
+          "name": "psp-hostports-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(ports)": Object {
+                      "=(hostPort)": ">=80 & <=9000",
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(ports)": Object {
+                      "=(hostPort)": ">=80 & <=9000",
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(ports)": Object {
+                      "=(hostPort)": ">=80 & <=9000",
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-hostnetwork",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-hostnetwork-0 rule",
+          "name": "psp-hostnetwork-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(hostNetwork": false,
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno privileged 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno readOnlyRootFilesystem 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-readonlyrootfilesystem",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-readonlyrootfilesystem-0 rule",
+          "name": "psp-readonlyrootfilesystem-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(readOnlyRootFilesystem)": true,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(readOnlyRootFilesystem)": true,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(readOnlyRootFilesystem)": true,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno requiredDropCapabilities 1`] = `Array []`;
+
+exports[`transform_kyverno runAsGroup 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno runAsUser 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno seLinux 1`] = `Array []`;
+
+exports[`transform_kyverno seccomp 1`] = `Array []`;
+
+exports[`transform_kyverno supplementalGroups 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
+
+exports[`transform_kyverno volumes 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-privileged-0 rule",
+          "name": "psp-privileged-0",
+          "validate": Object {
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(privileged)": false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-volumes",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "message": "Rejected by psp-volumes-0 rule",
+          "name": "psp-volumes-0",
+          "preconditions": Object {
+            "all": Array [
+              Object {
+                "key": "{{ request.object.spec.volumes[].keys(@)[] | length(@) }}",
+                "operator": "GreaterThan",
+                "value": 0,
+              },
+            ],
+          },
+          "validate": Object {
+            "deny": Object {
+              "conditions": Object {
+                "all": Array [
+                  Object {
+                    "key": "{{ request.object.spec.volumes[].keys(@)[] }}",
+                    "operator": "AnyNotIn",
+                    "value": Array [
+                      "name",
+                      "projected",
+                      "emptyDir",
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
     },
   },
 ]
