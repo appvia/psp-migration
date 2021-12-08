@@ -14,6 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          submodules: true
+
       - uses: dorny/paths-filter@v2.10.2
         id: changes
         with:
@@ -22,11 +26,6 @@ jobs:
               - src/**
               - "*.json"
               - ".nvmrc"
-
-      - uses: actions/checkout@v2.4.0
-        if: steps.changes.outputs.js == 'true'
-        with:
-          submodules: true
 
       - uses: actions/setup-node@v2.5.0
         if: steps.changes.outputs.js == 'true'
