@@ -13,7 +13,7 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.readOnlyRootFilesystem === true)
     policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPReadOnlyRootFilesystem'))
 
-  if (PSP.spec?.hostIPC === true || PSP.spec?.hostPID === true)
+  if (PSP.spec?.hostIPC === false || PSP.spec?.hostPID === false)
     policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostNamespace'))
 
   if (PSP.spec?.hostPorts)
