@@ -5,10 +5,8 @@ on:
     branches:
       - main
   pull_request:
-    paths:
-      - tests/**
-      - submodules/**
-      - patched_gatekeeper_templates/**
+    branches:
+      - main
 
 jobs:
   build:
@@ -32,12 +30,22 @@ jobs:
             experimental: true
 
     steps:
+      - uses: dorny/paths-filter@v2.10.2
+        id: changes
+        with:
+          filters: |
+            psp:
+              - tests/**
+              - submodules/**
+              - patched_gatekeeper_templates/**
+
       - uses: actions/checkout@v2.4.0
+        if: steps.changes.outputs.psp == 'true'
         with:
           submodules: true
 
-      - name: Create kind cluster
-        uses: container-tools/kind-action@v1.7.0
+      - uses: container-tools/kind-action@v1.7.0
+        if: steps.changes.outputs.psp == 'true'
         timeout-minutes: 5
         with: 
           kubectl_version: v1.22.2
@@ -45,10 +53,11 @@ jobs:
           config: tests/kind-config-${{matrix.system}}.yaml
 
       - uses: azure/setup-helm@v1.1
+        if: steps.changes.outputs.psp == 'true'
         with:
           version: 'v3.7.1'
 
-      - if: matrix.system == 'gatekeeper'
+      - if: matrix.system == 'gatekeeper' && steps.changes.outputs.psp == 'true'
         name: Install gatekeeper
         run: |
           kubectl apply --wait -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml
@@ -65,7 +74,7 @@ jobs:
           done
           kubectl cordon kind-control-plane
 
-      - if: matrix.system == 'kubewarden'
+      - if: matrix.system == 'kubewarden' && steps.changes.outputs.psp == 'true'
         name: Install kubewarden
         run: |
           helm repo add jetstack https://charts.jetstack.io
@@ -80,7 +89,7 @@ jobs:
           helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
           helm install --wait -n kubewarden kubewarden-controller kubewarden/kubewarden-controller
 
-      - if: matrix.system == 'kyverno'
+      - if: matrix.system == 'kyverno' && steps.changes.outputs.psp == 'true'
         name: Install kyverno
         run: |
           kubectl apply --wait -k kyverno-install
@@ -89,7 +98,7 @@ jobs:
             deployment/kyverno
           kubectl cordon kind-control-plane
 
-      - if: matrix.system == 'krail'
+      - if: matrix.system == 'krail' && steps.changes.outputs.psp == 'true'
         name: Install k-rail
         run: |
           helm repo add k-rail https://cruise-automation.github.io/k-rail/
@@ -99,13 +108,14 @@ jobs:
           helm install --wait --set webhookTimeout=30 --set replicaCount=1 k-rail k-rail/k-rail --namespace k-rail
 
       - name: BATS tests
+        if: steps.changes.outputs.psp == 'true'
         run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
 
       - name: Test Report
         uses: dorny/test-reporter@v1.5.0
-        if: success() || failure()
+        if: steps.changes.outputs.psp == 'true' && always()
         with:
           name: Test results (${{ matrix.system }})
           path: report.xml
