@@ -13,11 +13,6 @@ spec:
         - Pod
     preconditions:
       all:
-      - key: "{{request.operation}}"
-        operator: In
-        value: 
-        - CREATE
-        - UPDATE
       - key: "{{ request.object.spec.volumes[].keys(@)[] | length(@) }}"
         operator: GreaterThan
         value: 0
