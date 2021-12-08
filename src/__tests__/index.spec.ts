@@ -1,4 +1,5 @@
 import * as mod from '../index'
+import * as gatekeeper from '../gatekeeper'
 import * as fs from 'fs'
 
 const fixturePSPYAML = `
@@ -30,7 +31,7 @@ describe('parse', () => {
 
 describe('transform', () => {
   it('should call the right engine', () => {
-    const spy = jest.spyOn(mod, "transform_gatekeeper")
+    const spy = jest.spyOn(gatekeeper, "transform_gatekeeper")
     mod.transform(fixturePSPObject, 'gatekeeper')
     expect(spy).toHaveBeenCalled()
   })
@@ -69,8 +70,8 @@ const pspFields = [
 ].map(field => [field])
 
 describe('transform_gatekeeper', () => {
-  it('should do an empty PSP', () => expect(mod.transform_gatekeeper(fixturePSPObject)).toStrictEqual([]))
+  it('should do an empty PSP', () => expect(gatekeeper.transform_gatekeeper(fixturePSPObject)).toStrictEqual([]))
   test.each(pspFields)('%s', (field) =>
-    expect(mod.transform_gatekeeper(help_load_psp(field))).toMatchSnapshot()
+    expect(gatekeeper.transform_gatekeeper(help_load_psp(field))).toMatchSnapshot()
   )
 })
