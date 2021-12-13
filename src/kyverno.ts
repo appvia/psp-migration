@@ -24,7 +24,7 @@ export class ClusterPolicy {
     rule.match = { resources: { kind: ["Pod"] } }
     rule.name = `${this.metadata?.name}-${this.spec.rules.length}`
     if (rule.validate)
-      rule.message = `Rejected by ${rule.name} rule`
+      rule.validate.message = `Rejected by ${rule.name} rule`
     this.spec.rules.push(rule)
   }
 
@@ -113,95 +113,237 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
     policies.push(policy)
   }
 
-  // if (PSP.metadata?.annotations && PSP.metadata?.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames'])
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPAppArmor', { allowedProfiles: PSP.metadata?.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames'].split(',') }))
+  if (PSP.metadata?.annotations && PSP.metadata?.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames']) {
+    let policy = new ClusterPolicy('apparmor')
+    policy.addRule({ validate: { pattern: { metadata: { "=(annotations)": { "=(container.apparmor.security.beta.kubernetes.io/*)": PSP.metadata?.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames'] } } } } })
+    policies.push(policy)
+  }
 
-  // if (PSP.metadata?.annotations && PSP.metadata?.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'])
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPSeccomp', { allowedProfiles: PSP.metadata?.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].split(',') }))
+  if (PSP.metadata?.annotations && PSP.metadata?.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames']) {
+    let policy = new ClusterPolicy('seccomp')
+    policy.addRule({ validate: { pattern: { metadata: { "=(annotations)": { "=(container.apparmor.security.beta.kubernetes.io/*)": PSP.metadata?.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'] } } } } })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.seLinux?.rule === 'MustRunAs')
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPSELinuxV2', { allowedSELinuxOptions: [PSP.spec?.seLinux?.seLinuxOptions] }))
+  if (PSP.spec?.seLinux?.rule === 'MustRunAs') {
+    let policy = new ClusterPolicy('seLinux')
+    let seLinuxOptions = PSP.spec?.seLinux?.seLinuxOptions
+    policy.addRule({
+      validate: {
+        anyPattern: [
+          {
+            spec: { securityContext: { seLinuxOptions } }
+          },
+          {
+            spec: {
+              "=(securityContext)": { "=(seLinuxOptions)": seLinuxOptions },
+              containers: [{ securityContext: { seLinuxOptions } }],
+              "=(initContainers)": [{ securityContext: { seLinuxOptions } }]
+            }
+          }
+        ]
+      }
+    })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.allowedCapabilities || PSP.spec?.requiredDropCapabilities)
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPCapabilities', { allowedCapabilities: (PSP.spec?.allowedCapabilities || []), requiredDropCapabilities: (PSP.spec?.requiredDropCapabilities || []) }))
+  if (PSP.spec?.allowedCapabilities) {
+    let policy = new ClusterPolicy('allowedCapabilities')
+    let deny = { conditions: { any: [{ key: "{{ element.add }}", operator: "AnyNotIn", value: PSP.spec?.allowedCapabilities }] } }
+    policy.addRule({
+      preconditions: {
+        all: [{
+          key: "{{ request.object.spec.initContainers[] | length(@) }}",
+          operator: "GreaterThanOrEquals",
+          value: 1
+        }]
+      },
+      validate: { foreach: [{ list: "request.object.spec.initContainers[].securityContext.capabilities", deny }] }
+    })
+    policy.addRule({
+      validate: { foreach: [{ list: "request.object.spec.containers[].securityContext.capabilities", deny }] }
+    })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.allowedFlexVolumes)
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPFlexVolumes', { allowedFlexVolumes: PSP.spec?.allowedFlexVolumes }))
+  if (PSP.spec?.requiredDropCapabilities) {
+    let policy = new ClusterPolicy('requiredDropCapabilities')
+    let securityContext = { securityContext: { capabilities: { drop: PSP.spec?.requiredDropCapabilities } } }
+    policy.addRule(wrap_validate_spec({ containers: [securityContext], "=(ephemeralContainers)": [securityContext], "=(initContainers)": [securityContext] }))
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.allowedHostPaths)
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostFilesystem', { allowedHostPaths: PSP.spec?.allowedHostPaths }))
 
-  // if (PSP.spec?.allowedProcMountTypes)
-  //   PSP.spec?.allowedProcMountTypes.forEach(procMountType =>
-  //     policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPProcMount', { procMount: procMountType })))
+  if (PSP.spec?.allowedFlexVolumes) {
+    //@TODO doesn't support multiple allowedFlexVolumes
+    let policy = new ClusterPolicy('allowedFlexVolumes')
+    policy.addRule(wrap_validate_spec({ "=(volumes)": [{ "=(flexVolume)": { driver: PSP.spec?.allowedFlexVolumes[0] } }] }))
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.allowedHostPaths)
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostFilesystem', { allowedHostPaths: PSP.spec?.allowedHostPaths }))
 
-  // if (PSP.spec?.allowedUnsafeSysctls || PSP.spec?.forbiddenSysctls)
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPForbiddenSysctls', { allowedSysctls: (PSP.spec?.allowedUnsafeSysctls || []), forbiddenSysctls: (PSP.spec?.forbiddenSysctls || []) }))
+  if (PSP.spec?.allowedHostPaths) {
+    //@TODO doesn't support multiple allowedHostPaths
+    let policy = new ClusterPolicy('allowedHostPaths')
+    policy.addRule({
+      preconditions: { all: [{ key: "{{ request.object.spec.volumes[?hostPath] | length(@) }}", operator: "GreaterThanOrEquals", value: 1 }] },
+      validate: { foreach: [{ list: "request.object.spec.volumes[?hostPath].hostPath", deny: { conditions: [{ key: "{{ element.path  | to_string(@) | split(@, '/') | [1] }}", operator: "NotEquals", value: PSP.spec?.allowedHostPaths[0].pathPrefix }] } }] }
+    })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.runAsUser && PSP.spec?.runAsUser?.rule !== 'RunAsAny')
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPAllowedUsers', { runAsUser: PSP.spec?.runAsUser }))
+  if (PSP.spec?.allowedProcMountTypes) {
+    //@TODO doesn't support multiple allowedProcMountTypes
+    let policy = new ClusterPolicy('allowedProcMountTypes')
+    let pol = [{ "=(securityContext)": { "=(procMount)": PSP.spec?.allowedProcMountTypes[0] } }]
+    policy.addRule(wrap_validate_spec({ "=(initContainers)": pol, "=(ephemeralContainers)": pol, containers: pol }))
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.runAsGroup && PSP.spec?.runAsGroup?.rule !== 'RunAsAny')
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPAllowedUsers', { runAsGroup: PSP.spec?.runAsGroup }))
+  if (PSP.spec?.allowedUnsafeSysctls) {
+    //@TODO doesn't support multiple allowedUnsafeSysctls or wildcards
+    let policy = new ClusterPolicy('allowedUnsafeSysctls')
+    let securitycontext = { "=(securityContext)": { "=(sysctls)": [{ name: PSP.spec?.allowedUnsafeSysctls[0] }] } }
+    policy.addRule({
+      validate: {
+        anyPattern: [
+          { spec: securitycontext },
+          { spec: { containers: [securitycontext] } },
+        ]
+      }
+    })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.supplementalGroups && PSP.spec?.supplementalGroups?.rule !== 'RunAsAny')
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPAllowedUsers', { supplementalGroups: PSP.spec?.supplementalGroups }))
+  if (PSP.spec?.forbiddenSysctls) {
+    //@TODO doesn't support multiple forbiddenSysctls
+    let policy = new ClusterPolicy('forbiddenSysctls')
+    let securitycontext = { "=(securityContext)": { "=(sysctls)": [{ name: `!${PSP.spec?.forbiddenSysctls[0]}` }] } }
+    policy.addRule({
+      validate: {
+        anyPattern: [
+          { spec: securitycontext },
+          { spec: { containers: [securitycontext] } },
+        ]
+      }
+    })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.fsGroup && PSP.spec?.fsGroup?.rule !== 'RunAsAny')
-  //   policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPAllowedUsers', { fsGroup: PSP.spec?.fsGroup }))
+  if (PSP.spec?.runAsUser && PSP.spec?.runAsUser?.rule !== 'RunAsAny') {
+    // @TODO doesn't support multiple runAsUser
+    let policy = new ClusterPolicy('runAsUser')
+    let securityContext = { securityContext: { runAsUser: `>=${PSP.spec?.runAsUser?.ranges[0].min} <=${PSP.spec?.runAsUser?.ranges[0].max}` } }
+    policy.addRule({
+      validate: {
+        anyPattern: [
+          { spec: securityContext },
+          {
+            spec: {
+              "=(securityContext)": { "=(runAsUser)": securityContext.securityContext.runAsUser },
+              containers: [securityContext],
+              "=(initContainers)": [securityContext],
+              "=(ephemeralContainers)": [securityContext],
+            }
+          },
+        ]
+      }
+    })
+    policies.push(policy)
+  }
 
-  // if (PSP.spec?.defaultAddCapabilities)
-  //   policies.push({
-  //     apiVersion: "mutations.gatekeeper.sh/v1beta1",
-  //     kind: "ModifySet",
-  //     metadata: { name: "psp-k8spspdefaultaddcapabilities" },
-  //     spec: {
-  //       applyTo: [{ groups: [""], versions: ["v1"], kinds: ["Pod"] }],
-  //       match: { scope: "Namespaced", kinds: [{ apiGroups: ["*"], kinds: ["Pod"] }] },
-  //       location: "spec.containers[name:*].securityContext.capabilities.add",
-  //       parameters: {
-  //         values: {
-  //           fromList: PSP.spec?.defaultAddCapabilities || []
-  //         }
-  //       }
-  //     }
-  //   })
-  // if (PSP.spec?.defaultAllowPrivilegeEscalation !== undefined) {
-  //   policies.push({
-  //     apiVersion: "mutations.gatekeeper.sh/v1beta1",
-  //     kind: "ModifySet",
-  //     metadata: { name: "psp-k8spspdefaultallowprivilegeescalation" },
-  //     spec: {
-  //       applyTo: [{ groups: [""], versions: ["v1"], kinds: ["Pod"] }],
-  //       location: "spec.containers[name:*].securityContext.allowPrivilegeEscalation",
-  //       parameters: {
-  //         pathTests: [{
-  //           subPath: "spec.containers[name:*].securityContext.allowPrivilegeEscalation",
-  //           condition: "MustNotExist"
-  //         }],
-  //         assign: { value: PSP.spec?.defaultAllowPrivilegeEscalation }
-  //       }
-  //     }
-  //   })
-  //   policies.push({
-  //     apiVersion: "mutations.gatekeeper.sh/v1beta1",
-  //     kind: "ModifySet",
-  //     metadata: { name: "psp-k8spspdefaultallowprivilegeescalation-init" },
-  //     spec: {
-  //       applyTo: [{ groups: [""], versions: ["v1"], kinds: ["Pod"] }],
-  //       location: "spec.initContainers[name:*].securityContext.allowPrivilegeEscalation",
-  //       parameters: {
-  //         pathTests: [{
-  //           subPath: "spec.initContainers[name:*].securityContext.allowPrivilegeEscalation",
-  //           condition: "MustNotExist"
-  //         }],
-  //         assign: { value: PSP.spec?.defaultAllowPrivilegeEscalation }
-  //       }
-  //     }
-  //   })
-  // }
+  if (PSP.spec?.runAsGroup && PSP.spec?.runAsGroup?.rule !== 'RunAsAny') {
+    // @TODO doesn't support multiple runAsGroup
+    let policy = new ClusterPolicy('runAsGroup')
+    let securityContext = { securityContext: { runAsGroup: `>=${PSP.spec?.runAsGroup?.ranges[0].min} <=${PSP.spec?.runAsGroup?.ranges[0].max}` } }
+    policy.addRule({
+      validate: {
+        anyPattern: [
+          { spec: securityContext },
+          {
+            spec: {
+              "=(securityContext)": { "=(runAsGroup)": securityContext.securityContext.runAsGroup },
+              containers: [securityContext],
+              "=(initContainers)": [securityContext],
+              "=(ephemeralContainers)": [securityContext],
+            }
+          },
+        ]
+      }
+    })
+    policies.push(policy)
+  }
+
+  if (PSP.spec?.fsGroup && PSP.spec?.fsGroup?.rule !== 'RunAsAny') {
+    // @TODO doesn't support multiple fsGroup
+    let policy = new ClusterPolicy('fsGroup')
+    let securityContext = { securityContext: { fsGroup: `>=${PSP.spec?.fsGroup?.ranges[0].min} <=${PSP.spec?.fsGroup?.ranges[0].max}` } }
+    policy.addRule({
+      validate: {
+        anyPattern: [
+          { spec: securityContext },
+          {
+            spec: {
+              "=(securityContext)": { "=(fsGroup)": securityContext.securityContext.fsGroup },
+              containers: [securityContext],
+              "=(initContainers)": [securityContext],
+              "=(ephemeralContainers)": [securityContext],
+            }
+          },
+        ]
+      }
+    })
+    policies.push(policy)
+  }
+
+  if (PSP.spec?.supplementalGroups && PSP.spec?.supplementalGroups?.rule !== 'RunAsAny') {
+    let policy = new ClusterPolicy('supplementalGroups')
+    let ranges = PSP.spec?.supplementalGroups?.ranges?.map(range => Array.from({ length: range.max - range.min + 1 }, (v, k) => k + range.min)).flat()
+    policy.addRule({
+      validate: {
+        foreach: [{
+          list: "request.object.spec.securityContext", deny: {
+            conditions: {
+              any: [{
+                key: "{{ element.supplementalGroups }}",
+                operator: "AnyNotIn",
+                value: ranges
+              }]
+            }
+          }
+        }]
+      })
+    policies.push(policy)
+  }
+
+  if (PSP.spec?.defaultAddCapabilities) {
+    // @TODO doesn't support init or ephemeral containers
+    let policy = new ClusterPolicy('defaultAddCapabilities')
+    PSP.spec?.defaultAddCapabilities.forEach(capability =>
+      policy.addRule({
+        mutate: {
+          patchesJson6902: `
+- op: add
+  path: "/spec/securityContext/capabilities/add/-"
+  value: ${capability}`
+        }
+      })
+    )
+    policies.push(policy)
+  }
+
+  if (PSP.spec?.defaultAllowPrivilegeEscalation !== undefined) {
+    // @TODO doesn't support init or ephemeral containers
+    let policy = new ClusterPolicy('defaultAllowPrivilegeEscalation')
+    policy.addRule({
+      mutate: {
+        patchesJson6902: `
+- op: add
+  path: "/spec/securityContext/allowPrivilegeEscalation"
+  value: ${PSP.spec?.defaultAllowPrivilegeEscalation}`
+      }
+    })
+    policies.push(policy)
+  }
   return policies
 }
