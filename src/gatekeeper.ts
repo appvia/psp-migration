@@ -48,9 +48,6 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
     PSP.spec?.allowedProcMountTypes.forEach(procMountType =>
       policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPProcMount', { procMount: procMountType })))
 
-  if (PSP.spec?.allowedHostPaths)
-    policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostFilesystem', { allowedHostPaths: PSP.spec?.allowedHostPaths }))
-
   if (PSP.spec?.allowedUnsafeSysctls || PSP.spec?.forbiddenSysctls)
     policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPForbiddenSysctls', { allowedSysctls: (PSP.spec?.allowedUnsafeSysctls || []), forbiddenSysctls: (PSP.spec?.forbiddenSysctls || []) }))
 
