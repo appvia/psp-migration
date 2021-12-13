@@ -199,35 +199,6 @@ Array [
       },
     },
   },
-  Object {
-    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
-    "kind": "K8sPSPHostFilesystem",
-    "metadata": Object {
-      "name": "psp-k8spsphostfilesystem",
-    },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
-              "",
-            ],
-            "kinds": Array [
-              "Pod",
-            ],
-          },
-        ],
-      },
-      "parameters": Object {
-        "allowedHostPaths": Array [
-          Object {
-            "pathPrefix": "/foo",
-            "readOnly": true,
-          },
-        ],
-      },
-    },
-  },
 ]
 `;
 
@@ -1098,9 +1069,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-allowprivilegeescalation-0 rule",
           "name": "psp-allowprivilegeescalation-0",
           "validate": Object {
+            "message": "Rejected by psp-allowprivilegeescalation-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1135,9 +1106,136 @@ Array [
 ]
 `;
 
-exports[`transform_kyverno allowedCapabilities 1`] = `Array []`;
+exports[`transform_kyverno allowedCapabilities 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowedcapabilities",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedcapabilities-0",
+          "preconditions": Object {
+            "all": Array [
+              Object {
+                "key": "{{ request.object.spec.initContainers[] | length(@) }}",
+                "operator": "GreaterThanOrEquals",
+                "value": 1,
+              },
+            ],
+          },
+          "validate": Object {
+            "foreach": Array [
+              Object {
+                "deny": Object {
+                  "conditions": Object {
+                    "any": Array [
+                      Object {
+                        "key": "{{ element.add }}",
+                        "operator": "AnyNotIn",
+                        "value": Array [
+                          "something",
+                        ],
+                      },
+                    ],
+                  },
+                },
+                "list": "request.object.spec.initContainers[].securityContext.capabilities",
+              },
+            ],
+            "message": "Rejected by psp-allowedcapabilities-0 rule",
+          },
+        },
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedcapabilities-1",
+          "validate": Object {
+            "foreach": Array [
+              Object {
+                "deny": Object {
+                  "conditions": Object {
+                    "any": Array [
+                      Object {
+                        "key": "{{ element.add }}",
+                        "operator": "AnyNotIn",
+                        "value": Array [
+                          "something",
+                        ],
+                      },
+                    ],
+                  },
+                },
+                "list": "request.object.spec.containers[].securityContext.capabilities",
+              },
+            ],
+            "message": "Rejected by psp-allowedcapabilities-1 rule",
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
-exports[`transform_kyverno allowedFlexVolumes 1`] = `Array []`;
+exports[`transform_kyverno allowedFlexVolumes 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowedflexvolumes",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedflexvolumes-0",
+          "validate": Object {
+            "message": "Rejected by psp-allowedflexvolumes-0 rule",
+            "pattern": Object {
+              "spec": Object {
+                "=(volumes)": Array [
+                  Object {
+                    "=(flexVolume)": Object {
+                      "driver": Object {
+                        "driver": "example/lvm",
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
 exports[`transform_kyverno allowedHostPaths 1`] = `
 Array [
@@ -1157,9 +1255,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1185,6 +1283,54 @@ Array [
                 ],
               },
             },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowedhostpaths",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedhostpaths-0",
+          "preconditions": Object {
+            "all": Array [
+              Object {
+                "key": "{{ request.object.spec.volumes[?hostPath] | length(@) }}",
+                "operator": "GreaterThanOrEquals",
+                "value": 1,
+              },
+            ],
+          },
+          "validate": Object {
+            "foreach": Array [
+              Object {
+                "deny": Object {
+                  "conditions": Array [
+                    Object {
+                      "key": "{{ element.path  | to_string(@) | split(@, '/') | [1] }}",
+                      "operator": "NotEquals",
+                      "value": "/foo",
+                    },
+                  ],
+                },
+                "list": "request.object.spec.volumes[?hostPath].hostPath",
+              },
+            ],
+            "message": "Rejected by psp-allowedhostpaths-0 rule",
           },
         },
       ],
@@ -1212,9 +1358,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1246,14 +1392,186 @@ Array [
       "validationFailureAction": "enforce",
     },
   },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowedprocmounttypes",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedprocmounttypes-0",
+          "validate": Object {
+            "message": "Rejected by psp-allowedprocmounttypes-0 rule",
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(procMount)": "Default",
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(procMount)": "Default",
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(procMount)": "Default",
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
 ]
 `;
 
-exports[`transform_kyverno allowedUnsafeSysctls 1`] = `Array []`;
+exports[`transform_kyverno allowedUnsafeSysctls 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowedunsafesysctls",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedunsafesysctls-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "=(securityContext)": Object {
+                    "=(sysctls)": Array [
+                      Object {
+                        "name": "kernel.msgmax",
+                      },
+                    ],
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "containers": Array [
+                    Object {
+                      "=(securityContext)": Object {
+                        "=(sysctls)": Array [
+                          Object {
+                            "name": "kernel.msgmax",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-allowedunsafesysctls-0 rule",
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
-exports[`transform_kyverno apparmor 1`] = `Array []`;
+exports[`transform_kyverno apparmor 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-apparmor",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-apparmor-0",
+          "validate": Object {
+            "message": "Rejected by psp-apparmor-0 rule",
+            "pattern": Object {
+              "metadata": Object {
+                "=(annotations)": Object {
+                  "=(container.apparmor.security.beta.kubernetes.io/*)": "runtime/default",
+                },
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
-exports[`transform_kyverno defaultAddCapabilities 1`] = `Array []`;
+exports[`transform_kyverno defaultAddCapabilities 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-defaultaddcapabilities",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "mutate": Object {
+            "patchesJson6902": "
+- op: add
+  path: \\"/spec/securityContext/capabilities/add/-\\"
+  value: something",
+          },
+          "name": "psp-defaultaddcapabilities-0",
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
 exports[`transform_kyverno defaultAllowPrivilegeEscalation 1`] = `
 Array [
@@ -1273,9 +1591,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-allowprivilegeescalation-0 rule",
           "name": "psp-allowprivilegeescalation-0",
           "validate": Object {
+            "message": "Rejected by psp-allowprivilegeescalation-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1307,10 +1625,147 @@ Array [
       "validationFailureAction": "enforce",
     },
   },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-defaultallowprivilegeescalation",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "mutate": Object {
+            "patchesJson6902": "
+- op: add
+  path: \\"/spec/securityContext/allowPrivilegeEscalation\\"
+  value: false",
+          },
+          "name": "psp-defaultallowprivilegeescalation-0",
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
 ]
 `;
 
-exports[`transform_kyverno forbiddenSysctls 1`] = `Array []`;
+exports[`transform_kyverno forbiddenSysctls 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-allowedunsafesysctls",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-allowedunsafesysctls-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "=(securityContext)": Object {
+                    "=(sysctls)": Array [
+                      Object {
+                        "name": "foo.*",
+                      },
+                    ],
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "containers": Array [
+                    Object {
+                      "=(securityContext)": Object {
+                        "=(sysctls)": Array [
+                          Object {
+                            "name": "foo.*",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-allowedunsafesysctls-0 rule",
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-forbiddensysctls",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-forbiddensysctls-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "=(securityContext)": Object {
+                    "=(sysctls)": Array [
+                      Object {
+                        "name": "!kernel.*",
+                      },
+                    ],
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "containers": Array [
+                    Object {
+                      "=(securityContext)": Object {
+                        "=(sysctls)": Array [
+                          Object {
+                            "name": "!kernel.*",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-forbiddensysctls-0 rule",
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
 exports[`transform_kyverno fsgroup 1`] = `
 Array [
@@ -1330,9 +1785,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1358,6 +1813,68 @@ Array [
                 ],
               },
             },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-fsgroup",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-fsgroup-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "securityContext": Object {
+                    "fsGroup": ">=100 <=200",
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "=(ephemeralContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "fsGroup": ">=100 <=200",
+                      },
+                    },
+                  ],
+                  "=(initContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "fsGroup": ">=100 <=200",
+                      },
+                    },
+                  ],
+                  "=(securityContext)": Object {
+                    "=(fsGroup)": ">=100 <=200",
+                  },
+                  "containers": Array [
+                    Object {
+                      "securityContext": Object {
+                        "fsGroup": ">=100 <=200",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-fsgroup-0 rule",
           },
         },
       ],
@@ -1385,9 +1902,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-hostipc-0 rule",
           "name": "psp-hostipc-0",
           "validate": Object {
+            "message": "Rejected by psp-hostipc-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(hostIPC": false,
@@ -1420,9 +1937,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-hostnetwork-0 rule",
           "name": "psp-hostnetwork-0",
           "validate": Object {
+            "message": "Rejected by psp-hostnetwork-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(hostNetwork": false,
@@ -1455,9 +1972,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-hostpid-0 rule",
           "name": "psp-hostpid-0",
           "validate": Object {
+            "message": "Rejected by psp-hostpid-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(hostPID": false,
@@ -1490,9 +2007,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-hostports-0 rule",
           "name": "psp-hostports-0",
           "validate": Object {
+            "message": "Rejected by psp-hostports-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1540,9 +2057,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-hostnetwork-0 rule",
           "name": "psp-hostnetwork-0",
           "validate": Object {
+            "message": "Rejected by psp-hostnetwork-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(hostNetwork": false,
@@ -1575,9 +2092,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1630,9 +2147,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-readonlyrootfilesystem-0 rule",
           "name": "psp-readonlyrootfilesystem-0",
           "validate": Object {
+            "message": "Rejected by psp-readonlyrootfilesystem-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1667,7 +2184,72 @@ Array [
 ]
 `;
 
-exports[`transform_kyverno requiredDropCapabilities 1`] = `Array []`;
+exports[`transform_kyverno requiredDropCapabilities 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-requireddropcapabilities",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-requireddropcapabilities-0",
+          "validate": Object {
+            "message": "Rejected by psp-requireddropcapabilities-0 rule",
+            "pattern": Object {
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "securityContext": Object {
+                      "capabilities": Object {
+                        "drop": Array [
+                          "something",
+                        ],
+                      },
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "securityContext": Object {
+                      "capabilities": Object {
+                        "drop": Array [
+                          "something",
+                        ],
+                      },
+                    },
+                  },
+                ],
+                "containers": Array [
+                  Object {
+                    "securityContext": Object {
+                      "capabilities": Object {
+                        "drop": Array [
+                          "something",
+                        ],
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
 exports[`transform_kyverno runAsGroup 1`] = `
 Array [
@@ -1687,9 +2269,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1715,6 +2297,68 @@ Array [
                 ],
               },
             },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-runasgroup",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-runasgroup-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "securityContext": Object {
+                    "runAsGroup": ">=100 <=200",
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "=(ephemeralContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "runAsGroup": ">=100 <=200",
+                      },
+                    },
+                  ],
+                  "=(initContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "runAsGroup": ">=100 <=200",
+                      },
+                    },
+                  ],
+                  "=(securityContext)": Object {
+                    "=(runAsGroup)": ">=100 <=200",
+                  },
+                  "containers": Array [
+                    Object {
+                      "securityContext": Object {
+                        "runAsGroup": ">=100 <=200",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-runasgroup-0 rule",
           },
         },
       ],
@@ -1742,9 +2386,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1776,12 +2420,187 @@ Array [
       "validationFailureAction": "enforce",
     },
   },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-runasuser",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-runasuser-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "securityContext": Object {
+                    "runAsUser": ">=100 <=200",
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "=(ephemeralContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "runAsUser": ">=100 <=200",
+                      },
+                    },
+                  ],
+                  "=(initContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "runAsUser": ">=100 <=200",
+                      },
+                    },
+                  ],
+                  "=(securityContext)": Object {
+                    "=(runAsUser)": ">=100 <=200",
+                  },
+                  "containers": Array [
+                    Object {
+                      "securityContext": Object {
+                        "runAsUser": ">=100 <=200",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-runasuser-0 rule",
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
 ]
 `;
 
-exports[`transform_kyverno seLinux 1`] = `Array []`;
+exports[`transform_kyverno seLinux 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-selinux",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-selinux-0",
+          "validate": Object {
+            "anyPattern": Array [
+              Object {
+                "spec": Object {
+                  "securityContext": Object {
+                    "seLinuxOptions": Object {
+                      "level": "s0:c123,c456",
+                      "role": "object_r",
+                      "type": "svirt_sandbox_file_t",
+                      "user": "system_u",
+                    },
+                  },
+                },
+              },
+              Object {
+                "spec": Object {
+                  "=(initContainers)": Array [
+                    Object {
+                      "securityContext": Object {
+                        "seLinuxOptions": Object {
+                          "level": "s0:c123,c456",
+                          "role": "object_r",
+                          "type": "svirt_sandbox_file_t",
+                          "user": "system_u",
+                        },
+                      },
+                    },
+                  ],
+                  "=(securityContext)": Object {
+                    "=(seLinuxOptions)": Object {
+                      "level": "s0:c123,c456",
+                      "role": "object_r",
+                      "type": "svirt_sandbox_file_t",
+                      "user": "system_u",
+                    },
+                  },
+                  "containers": Array [
+                    Object {
+                      "securityContext": Object {
+                        "seLinuxOptions": Object {
+                          "level": "s0:c123,c456",
+                          "role": "object_r",
+                          "type": "svirt_sandbox_file_t",
+                          "user": "system_u",
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            "message": "Rejected by psp-selinux-0 rule",
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
-exports[`transform_kyverno seccomp 1`] = `Array []`;
+exports[`transform_kyverno seccomp 1`] = `
+Array [
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-seccomp",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-seccomp-0",
+          "validate": Object {
+            "message": "Rejected by psp-seccomp-0 rule",
+            "pattern": Object {
+              "metadata": Object {
+                "=(annotations)": Object {
+                  "=(container.apparmor.security.beta.kubernetes.io/*)": "runtime/default,docker/default",
+                },
+              },
+            },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+]
+`;
 
 exports[`transform_kyverno supplementalGroups 1`] = `
 Array [
@@ -1801,9 +2620,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1829,6 +2648,149 @@ Array [
                 ],
               },
             },
+          },
+        },
+      ],
+      "validationFailureAction": "enforce",
+    },
+  },
+  ClusterPolicy {
+    "apiVersion": "kyverno.io/v1",
+    "kind": "ClusterPolicy",
+    "metadata": Object {
+      "name": "psp-supplementalgroups",
+    },
+    "spec": Object {
+      "rules": Array [
+        Object {
+          "match": Object {
+            "resources": Object {
+              "kind": Array [
+                "Pod",
+              ],
+            },
+          },
+          "name": "psp-supplementalgroups-0",
+          "validate": Object {
+            "foreach": Array [
+              Object {
+                "deny": Object {
+                  "conditions": Object {
+                    "any": Array [
+                      Object {
+                        "key": "{{ element.supplementalGroups }}",
+                        "operator": "AnyNotIn",
+                        "value": Array [
+                          100,
+                          101,
+                          102,
+                          103,
+                          104,
+                          105,
+                          106,
+                          107,
+                          108,
+                          109,
+                          110,
+                          111,
+                          112,
+                          113,
+                          114,
+                          115,
+                          116,
+                          117,
+                          118,
+                          119,
+                          120,
+                          121,
+                          122,
+                          123,
+                          124,
+                          125,
+                          126,
+                          127,
+                          128,
+                          129,
+                          130,
+                          131,
+                          132,
+                          133,
+                          134,
+                          135,
+                          136,
+                          137,
+                          138,
+                          139,
+                          140,
+                          141,
+                          142,
+                          143,
+                          144,
+                          145,
+                          146,
+                          147,
+                          148,
+                          149,
+                          150,
+                          151,
+                          152,
+                          153,
+                          154,
+                          155,
+                          156,
+                          157,
+                          158,
+                          159,
+                          160,
+                          161,
+                          162,
+                          163,
+                          164,
+                          165,
+                          166,
+                          167,
+                          168,
+                          169,
+                          170,
+                          171,
+                          172,
+                          173,
+                          174,
+                          175,
+                          176,
+                          177,
+                          178,
+                          179,
+                          180,
+                          181,
+                          182,
+                          183,
+                          184,
+                          185,
+                          186,
+                          187,
+                          188,
+                          189,
+                          190,
+                          191,
+                          192,
+                          193,
+                          194,
+                          195,
+                          196,
+                          197,
+                          198,
+                          199,
+                          200,
+                        ],
+                      },
+                    ],
+                  },
+                },
+                "list": "request.object.spec.securityContext",
+              },
+            ],
+            "message": "Rejected by psp-supplementalgroups-0 rule",
           },
         },
       ],
@@ -1856,9 +2818,9 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-privileged-0 rule",
           "name": "psp-privileged-0",
           "validate": Object {
+            "message": "Rejected by psp-privileged-0 rule",
             "pattern": Object {
               "spec": Object {
                 "=(ephemeralContainers)": Array [
@@ -1906,7 +2868,6 @@ Array [
               ],
             },
           },
-          "message": "Rejected by psp-volumes-0 rule",
           "name": "psp-volumes-0",
           "preconditions": Object {
             "all": Array [
@@ -1933,6 +2894,7 @@ Array [
                 ],
               },
             },
+            "message": "Rejected by psp-volumes-0 rule",
           },
         },
       ],
