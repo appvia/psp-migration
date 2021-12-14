@@ -1,6 +1,7 @@
 import * as mod from '../index'
 import * as gatekeeper from '../gatekeeper'
 import * as kyverno from '../kyverno'
+import * as kubewarden from '../kubewarden'
 import * as fs from 'fs'
 
 const fixturePSPYAML = `
@@ -81,5 +82,12 @@ describe('transform_kyverno', () => {
   it('should do an empty PSP', () => expect(kyverno.transform_kyverno(fixturePSPObject)).toStrictEqual([]))
   test.each(pspFields)('%s', (field) =>
     expect(kyverno.transform_kyverno(help_load_psp(field))).toMatchSnapshot()
+  )
+})
+
+describe('transform_kubewarden', () => {
+  it('should do an empty PSP', () => expect(kubewarden.transform_kubewarden(fixturePSPObject)).toStrictEqual([]))
+  test.each(pspFields)('%s', (field) =>
+    expect(kubewarden.transform_kubewarden(help_load_psp(field))).toMatchSnapshot()
   )
 })
