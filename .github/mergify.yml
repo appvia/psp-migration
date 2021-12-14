@@ -1,0 +1,24 @@
+pull_request_rules:
+  - name: approve dependabot
+    conditions:
+      - author=dependabot[bot]
+    actions:
+      review:
+        type: APPROVE
+
+  - name: automatic merge dependabot
+    conditions:
+      - author=dependabot[bot]
+    actions:
+      merge:
+        method: rebase
+        rebase_fallback: squash
+
+  - name: assign to owner
+    conditions:
+      - author=dependabot[bot]
+      - check-failure>1
+    actions:
+      assign:
+        users:
+          - chrisns
