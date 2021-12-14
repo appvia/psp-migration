@@ -22,32 +22,20 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
       'registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.2',
     ))
 
-  if (PSP.spec?.hostIPC === false)
+  if (PSP.spec?.hostIPC === false ||
+    PSP.spec?.hostPID === false ||
+    PSP.spec?.hostPorts ||
+    PSP.spec?.hostNetwork === false
+  )
     policies.push(mod.kubewarden_policy_helper(
-      'hostIPC',
+      'hostnamespaces',
       'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1',
-      { allow_host_ipc: false }
-    ))
-
-  if (PSP.spec?.hostPID === false)
-    policies.push(mod.kubewarden_policy_helper(
-      'hostPID',
-      'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1',
-      { allow_host_pid: false }
-    ))
-
-  if (PSP.spec?.hostPorts)
-    policies.push(mod.kubewarden_policy_helper(
-      'hostPorts',
-      'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1',
-      { allow_host_ports: PSP.spec?.hostPorts }
-    ))
-
-  if (PSP.spec?.hostNetwork === false)
-    policies.push(mod.kubewarden_policy_helper(
-      'hostNetwork',
-      'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1',
-      { allow_host_network: false }
+      {
+        allow_host_ipc: PSP.spec?.hostIPC,
+        allow_host_pid: PSP.spec?.hostPID,
+        allow_host_ports: PSP.spec?.hostPorts,
+        allow_host_network: PSP.spec?.hostNetwork,
+      }
     ))
 
   if (!PSP.spec?.volumes?.includes('*'))

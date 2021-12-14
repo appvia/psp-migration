@@ -1600,7 +1600,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-hostipc",
+      "name": "psp-hostnamespaces",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
@@ -1624,6 +1624,9 @@ Array [
       ],
       "settings": Object {
         "allow_host_ipc": false,
+        "allow_host_network": undefined,
+        "allow_host_pid": undefined,
+        "allow_host_ports": undefined,
       },
     },
   },
@@ -1636,7 +1639,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-hostnetwork",
+      "name": "psp-hostnamespaces",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
@@ -1659,7 +1662,10 @@ Array [
         },
       ],
       "settings": Object {
+        "allow_host_ipc": undefined,
         "allow_host_network": false,
+        "allow_host_pid": undefined,
+        "allow_host_ports": undefined,
       },
     },
   },
@@ -1672,7 +1678,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-hostpid",
+      "name": "psp-hostnamespaces",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
@@ -1695,7 +1701,10 @@ Array [
         },
       ],
       "settings": Object {
+        "allow_host_ipc": undefined,
+        "allow_host_network": undefined,
         "allow_host_pid": false,
+        "allow_host_ports": undefined,
       },
     },
   },
@@ -1708,7 +1717,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-hostports",
+      "name": "psp-hostnamespaces",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
@@ -1731,43 +1740,15 @@ Array [
         },
       ],
       "settings": Object {
+        "allow_host_ipc": undefined,
+        "allow_host_network": false,
+        "allow_host_pid": undefined,
         "allow_host_ports": Array [
           Object {
             "max": 9000,
             "min": 80,
           },
         ],
-      },
-    },
-  },
-  Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
-    "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
-      "name": "psp-hostnetwork",
-    },
-    "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
-      "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
-            "",
-          ],
-          "apiVersions": Array [
-            "v1",
-          ],
-          "operations": Array [
-            "CREATE",
-            "UPDATE",
-          ],
-          "resources": Array [
-            "pods",
-          ],
-        },
-      ],
-      "settings": Object {
-        "allow_host_network": false,
       },
     },
   },
