@@ -233,7 +233,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   if (PSP.spec?.runAsUser && PSP.spec?.runAsUser?.rule !== 'RunAsAny') {
     // @TODO doesn't support multiple runAsUser
     let policy = new ClusterPolicy('runAsUser')
-    let securityContext = { securityContext: { runAsUser: `>=${PSP.spec?.runAsUser?.ranges[0].min} <=${PSP.spec?.runAsUser?.ranges[0].max}` } }
+    let securityContext = { securityContext: { runAsUser: `>=${PSP.spec.runAsUser.ranges![0]!.min} <=${PSP.spec.runAsUser.ranges![0]!.max}` } }
     policy.addRule({
       validate: {
         anyPattern: [
@@ -255,7 +255,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   if (PSP.spec?.runAsGroup && PSP.spec?.runAsGroup?.rule !== 'RunAsAny') {
     // @TODO doesn't support multiple runAsGroup
     let policy = new ClusterPolicy('runAsGroup')
-    let securityContext = { securityContext: { runAsGroup: `>=${PSP.spec?.runAsGroup?.ranges[0].min} <=${PSP.spec?.runAsGroup?.ranges[0].max}` } }
+    let securityContext = { securityContext: { runAsGroup: `>=${PSP.spec.runAsGroup.ranges![0]!.min} <=${PSP.spec?.runAsGroup?.ranges![0]!.max}` } }
     policy.addRule({
       validate: {
         anyPattern: [
@@ -277,7 +277,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   if (PSP.spec?.fsGroup && PSP.spec?.fsGroup?.rule !== 'RunAsAny') {
     // @TODO doesn't support multiple fsGroup
     let policy = new ClusterPolicy('fsGroup')
-    let securityContext = { securityContext: { fsGroup: `>=${PSP.spec?.fsGroup?.ranges[0].min} <=${PSP.spec?.fsGroup?.ranges[0].max}` } }
+    let securityContext = { securityContext: { fsGroup: `>=${PSP.spec?.fsGroup?.ranges![0]!.min} <=${PSP.spec?.fsGroup?.ranges![0]!.max}` } }
     policy.addRule({
       validate: {
         anyPattern: [
@@ -312,7 +312,8 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
             }
           }
         }]
-      })
+      }
+    })
     policies.push(policy)
   }
 
