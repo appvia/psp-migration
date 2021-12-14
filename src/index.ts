@@ -4,6 +4,7 @@ import { createHash } from 'crypto'
 
 import { transform_gatekeeper } from './gatekeeper'
 import { transform_kyverno } from './kyverno'
+import { transform_kubewarden } from './kubewarden'
 
 import * as mod from './index'
 
@@ -18,6 +19,9 @@ export function transform(PSP: k8s.V1beta1PodSecurityPolicy, engine: string): ob
 
   if (engine === 'kyverno')
     return transform_kyverno(PSP).map(mod.unique_names)
+
+  if (engine === 'kubewarden')
+    return transform_kubewarden(PSP).map(mod.unique_names)
 
   throw new Error(`Unknown engine ${engine}`)
 }
