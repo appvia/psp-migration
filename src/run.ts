@@ -22,6 +22,6 @@ const parsed = parse(psp)
 
 //@ts-ignore
 const transformed = transform(parsed, options.engine)
-const yamlString = transformed.map(policy => yaml.dump(policy, { noRefs: true })).join('\n---\n')
+const yamlString = transformed.map(policy => yaml.dump(policy, { noRefs: true, quotingType: '"' })).join('\n---\n')
 
 process.stdout.write(yamlString)
