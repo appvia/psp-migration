@@ -125,7 +125,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - run: npm install
-      - run: npm run build
+      - run: npm run build:tsc
       # - uses: actions/download-artifact@v2
       #   id: download
       #   with:
@@ -197,6 +197,6 @@ jobs:
         uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
-          name: Test results (${{ matrix.system }})
+          name: E2E Test results (${{ matrix.system }})
           path: report.xml
           reporter: java-junit
