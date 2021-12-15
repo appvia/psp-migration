@@ -21,7 +21,7 @@ export class ClusterPolicy {
   }
 
   addRule(rule: any) {
-    rule.match = { resources: { kind: ["Pod"] } }
+    rule.match = { resources: { kinds: ["Pod"] } }
     rule.name = `${this.metadata?.name}-${this.spec.rules.length}`
     if (rule.validate)
       rule.validate.message = `Rejected by ${rule.name} rule`

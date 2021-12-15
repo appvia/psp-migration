@@ -2248,7 +2248,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2303,7 +2303,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2343,7 +2343,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2391,7 +2391,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2434,7 +2434,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2484,7 +2484,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2537,7 +2537,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2587,7 +2587,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2642,7 +2642,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2700,7 +2700,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2737,7 +2737,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2770,7 +2770,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2820,7 +2820,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2853,7 +2853,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2906,7 +2906,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -2964,7 +2964,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3014,7 +3014,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3081,7 +3081,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3116,7 +3116,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3151,7 +3151,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3186,7 +3186,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3236,7 +3236,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3271,7 +3271,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3326,7 +3326,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3381,7 +3381,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3448,7 +3448,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3498,7 +3498,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3565,7 +3565,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3615,7 +3615,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3682,7 +3682,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3762,7 +3762,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3799,7 +3799,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3849,7 +3849,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -3997,7 +3997,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
@@ -4047,7 +4047,7 @@ Array [
         Object {
           "match": Object {
             "resources": Object {
-              "kind": Array [
+              "kinds": Array [
                 "Pod",
               ],
             },
