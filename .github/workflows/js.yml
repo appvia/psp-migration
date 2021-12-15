@@ -26,6 +26,7 @@ jobs:
               - src/**
               - "*.json"
               - ".nvmrc"
+              - .github/workflows/js.yaml
 
       - uses: actions/setup-node@v2.5.0
         if: steps.changes.outputs.js == 'true'
@@ -101,3 +102,99 @@ jobs:
         with:
           name: psp-migration-macos-x64
           path: dist/bin/psp-migration-macos-x64
+
+  e2e:
+    # needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        system: 
+          - gatekeeper
+          - kyverno
+          - kubewarden
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          submodules: true
+
+      - uses: actions/setup-node@v2.5.0
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm install
+      - run: npm run build
+      # - uses: actions/download-artifact@v2
+      #   id: download
+      #   with:
+      #     name: psp-migration-linux-arm64
+      #     path: path/to/artifacts
+
+      # - name: 'Echo download path'
+      #   run: echo ${{steps.download.outputs.download-path}}
+
+      - uses: container-tools/kind-action@v1.7.0
+        timeout-minutes: 5
+        with: 
+          kubectl_version: v1.22.2
+          registry: false
+          config: tests/kind-config-${{matrix.system}}.yaml
+
+      - uses: azure/setup-helm@v1.1
+        with:
+          version: 'v3.7.1'
+
+      - if: matrix.system == 'gatekeeper'
+        name: Install gatekeeper
+        run: |
+          kubectl apply --wait -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml
+          kubectl wait --for=condition=available --timeout=600s  -n gatekeeper-system \
+            deployment/gatekeeper-audit \
+            deployment/gatekeeper-controller-manager
+          kubectl apply --wait -k submodules/gatekeeper-library/library/pod-security-policy
+          kubectl apply --wait -k patched_gatekeeper_templates
+          until kubectl wait --for condition=established --timeout=60s \
+            crd/constrainttemplates.templates.gatekeeper.sh \
+            crd/k8spspvolumetypes.constraints.gatekeeper.sh
+          do
+            sleep 1
+          done
+          kubectl cordon kind-control-plane
+
+      - if: matrix.system == 'kubewarden' 
+        name: Install kubewarden
+        run: |
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo add kubewarden https://charts.kubewarden.io
+          helm repo update
+          helm install --wait \
+            cert-manager jetstack/cert-manager \
+            --namespace cert-manager \
+            --create-namespace \
+            --version v1.5.3 \
+            --set installCRDs=true
+          helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
+          helm install --wait -n kubewarden kubewarden-controller kubewarden/kubewarden-controller
+
+      - if: matrix.system == 'kyverno'
+        name: Install kyverno
+        run: |
+          kubectl apply --wait -k kyverno-install
+          # kubectl apply --wait -k github.com/kyverno/kyverno/config
+          kubectl wait --for=condition=available --timeout=600s  -n kyverno \
+            deployment/kyverno
+          kubectl cordon kind-control-plane
+
+      - name: BATS tests
+        run: submodules/bats/bin/bats --report-formatter junit tests
+        env:
+          SYSTEM: ${{ matrix.system }}
+          E2E_TEST: "true"
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1.5.0
+        if: always()
+        with:
+          name: Test results (${{ matrix.system }})
+          path: report.xml
+          reporter: java-junit

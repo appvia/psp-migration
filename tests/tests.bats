@@ -2,8 +2,16 @@
 
 setup() {
   local -r testcase="${BATS_TEST_NAME:5}"
+
+  if [ "${E2E_TEST}" == "true" ]; then
+    node dist/run.js --engine=${SYSTEM} < tests/${testcase}/psp.yaml > tests/${testcase}/${SYSTEM}.yaml
+  fi
   if [ -f tests/${testcase}/${SYSTEM}.yaml ]; then
     kubectl apply -f tests/${testcase}/${SYSTEM}.yaml
+    if [ -f tests/${testcase}/${SYSTEM}-helper.yaml ]; then
+      kubectl apply -f tests/${testcase}/${SYSTEM}-helper.yaml
+    fi
+
     if [ "${SYSTEM}" == "kyverno" ]; then
       while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') != "true" ]]; do sleep 1; done
     fi
@@ -28,6 +36,9 @@ teardown() {
   ! kubectl delete -f tests/${testcase}/disallowed.yaml
   if [ -f tests/${testcase}/${SYSTEM}.yaml ]; then
     kubectl delete --wait -f tests/${testcase}/${SYSTEM}.yaml
+    if [ -f tests/${testcase}/${SYSTEM}-helper.yaml ]; then
+      kubectl delete -f tests/${testcase}/${SYSTEM}-helper.yaml
+    fi
     if [ "${SYSTEM}" == "kyverno" ]; then
       while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') == "true" ]]; do sleep 1; done
     fi
@@ -42,23 +53,23 @@ teardown() {
 @test "hostPID" {}
 @test "hostIPC" {}
 @test "hostNetwork" {} 
-@test "hostPorts" {} # @TODO make kyverno policy
+@test "hostPorts" {}
 @test "volumes" {}
-@test "allowedHostPaths" {} # @TODO make kyverno policy
-@test "allowedFlexVolumes" {} # @TODO make kyverno policy
-@test "readOnlyRootFilesystem" {} # @TODO make kyverno policy
-@test "runAsUser" {} # @TODO make kyverno policy
-@test "runAsGroup" {} # @TODO make kyverno policy
-@test "supplementalGroups" {} # @TODO make kyverno policy
-@test "fsgroup" {} # @TODO make kyverno policy
+@test "allowedHostPaths" {} 
+@test "allowedFlexVolumes" {} 
+@test "readOnlyRootFilesystem" {} 
+@test "runAsUser" {} 
+@test "runAsGroup" {} 
+@test "supplementalGroups" {} 
+@test "fsgroup" {} 
 @test "allowPrivilegeEscalation" {}
-@test "defaultAllowPrivilegeEscalation" {}  # @TODO make kyverno policy
+@test "defaultAllowPrivilegeEscalation" {}  
 @test "allowedCapabilities" {}
-@test "defaultAddCapabilities" {} # @TODO gatekeeper mutator overrides the defined capabilities
-@test "requiredDropCapabilities" {}  # @TODO make kyverno policy
-@test "seLinux" {} # @TODO make kyverno policy
+@test "defaultAddCapabilities" {} 
+@test "requiredDropCapabilities" {}  
+@test "seLinux" {} 
 @test "allowedProcMountTypes" {}
 @test "apparmor" {}
 @test "seccomp" {}
-@test "forbiddenSysctls" {} # @TODO make kyverno policy
-@test "allowedUnsafeSysctls" {} # @TODO make kyverno policy
+@test "forbiddenSysctls" {} 
+@test "allowedUnsafeSysctls" {} 
