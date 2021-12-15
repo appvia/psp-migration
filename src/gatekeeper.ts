@@ -83,7 +83,7 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.defaultAllowPrivilegeEscalation !== undefined) {
     policies.push({
       apiVersion: "mutations.gatekeeper.sh/v1beta1",
-      kind: "ModifySet",
+      kind: "Assign",
       metadata: { name: "psp-k8spspdefaultallowprivilegeescalation" },
       spec: {
         applyTo: [{ groups: [""], versions: ["v1"], kinds: ["Pod"] }],
@@ -99,7 +99,7 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
     })
     policies.push({
       apiVersion: "mutations.gatekeeper.sh/v1beta1",
-      kind: "ModifySet",
+      kind: "Assign",
       metadata: { name: "psp-k8spspdefaultallowprivilegeescalation-init" },
       spec: {
         applyTo: [{ groups: [""], versions: ["v1"], kinds: ["Pod"] }],
