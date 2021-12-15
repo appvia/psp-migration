@@ -2507,7 +2507,7 @@ Array [
                     Object {
                       "key": "{{ element.path  | to_string(@) | split(@, '/') | [1] }}",
                       "operator": "NotEquals",
-                      "value": "/foo",
+                      "value": "foo",
                     },
                   ],
                 },

@@ -187,7 +187,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
     let policy = new ClusterPolicy('allowedHostPaths')
     policy.addRule({
       preconditions: { all: [{ key: "{{ request.object.spec.volumes[?hostPath] | length(@) }}", operator: "GreaterThanOrEquals", value: 1 }] },
-      validate: { foreach: [{ list: "request.object.spec.volumes[?hostPath].hostPath", deny: { conditions: [{ key: "{{ element.path  | to_string(@) | split(@, '/') | [1] }}", operator: "NotEquals", value: PSP.spec?.allowedHostPaths[0].pathPrefix }] } }] }
+      validate: { foreach: [{ list: "request.object.spec.volumes[?hostPath].hostPath", deny: { conditions: [{ key: "{{ element.path  | to_string(@) | split(@, '/') | [1] }}", operator: "NotEquals", value: PSP.spec?.allowedHostPaths[0].pathPrefix?.substring(1) }] } }] }
     })
     policies.push(policy)
   }
