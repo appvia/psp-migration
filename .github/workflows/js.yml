@@ -26,6 +26,8 @@ jobs:
               - src/**
               - "*.json"
               - ".nvmrc"
+              - "tests/*/psp.yaml"
+              - "tests/*/*-helper.yaml"
               - .github/workflows/js.yaml
 
       - uses: actions/setup-node@v2.5.0
