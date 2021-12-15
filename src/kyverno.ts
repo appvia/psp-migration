@@ -124,8 +124,42 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   }
 
   if (PSP.metadata?.annotations && PSP.metadata?.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames']) {
+    // TODO: doesn't support more than one allowed profile
     let policy = new ClusterPolicy('seccomp')
-    policy.addRule({ validate: { pattern: { metadata: { "=(annotations)": { "=(container.apparmor.security.beta.kubernetes.io/*)": PSP.metadata?.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'] } } } } })
+    let allowedProfileTypes: string[] = []
+    let localhostPaths: string[] = []
+    if (PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].toLowerCase().includes("runtime/default") ||
+      PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].toLowerCase().includes("docker/default"))
+      allowedProfileTypes.push("RuntimeDefault")
+
+
+    if (PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].toLowerCase().includes("localhost")) {
+      PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames']
+        .split(",")
+        .filter(x => x.toLowerCase().includes("localhost"))
+        .forEach(x => localhostPaths.push(x.substring(x.indexOf("/") + 1)))
+      allowedProfileTypes.push("Localhost")
+    }
+
+    let seccompProfile: any = { type: allowedProfileTypes.join(" | ") }
+
+    if (localhostPaths.length > 0)
+      seccompProfile.localhostPaths = localhostPaths.join(" | ")
+
+    let securityContext = { "=(securityContext)": { "=(seccompProfile)": seccompProfile } }
+
+    policy.addRule({
+      validate: {
+        pattern: {
+          spec: {
+            ...securityContext,
+            containers: [securityContext],
+            "=(initContainers)": [securityContext],
+            "=(ephemeralContainers)": [securityContext]
+          }
+        }
+      }
+    })
     policies.push(policy)
   }
 

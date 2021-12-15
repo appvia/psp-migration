@@ -3769,10 +3769,39 @@ Array [
           "validate": Object {
             "message": "Rejected by psp-seccomp-0 rule",
             "pattern": Object {
-              "metadata": Object {
-                "=(annotations)": Object {
-                  "=(container.apparmor.security.beta.kubernetes.io/*)": "runtime/default,docker/default",
+              "spec": Object {
+                "=(ephemeralContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(seccompProfile)": Object {
+                        "type": "RuntimeDefault",
+                      },
+                    },
+                  },
+                ],
+                "=(initContainers)": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(seccompProfile)": Object {
+                        "type": "RuntimeDefault",
+                      },
+                    },
+                  },
+                ],
+                "=(securityContext)": Object {
+                  "=(seccompProfile)": Object {
+                    "type": "RuntimeDefault",
+                  },
                 },
+                "containers": Array [
+                  Object {
+                    "=(securityContext)": Object {
+                      "=(seccompProfile)": Object {
+                        "type": "RuntimeDefault",
+                      },
+                    },
+                  },
+                ],
               },
             },
           },
