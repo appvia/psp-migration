@@ -117,9 +117,9 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
       'usergroup',
       'registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.3',
       {
-        run_as_user: PSP.spec?.runAsUser?.rule,
-        run_as_group: PSP.spec?.runAsGroup?.rule,
-        supplemental_groups: PSP.spec?.runAsGroup?.rule
+        run_as_user: PSP.spec?.runAsUser,
+        run_as_group: PSP.spec?.runAsGroup,
+        supplemental_groups: PSP.spec?.supplementalGroups
       }
     ))
 
