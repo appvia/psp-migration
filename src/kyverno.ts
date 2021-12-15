@@ -8,16 +8,20 @@ export class ClusterPolicy {
   metadata?: k8s.V1ObjectMeta
   spec?: any
 
-  constructor(name: string) {
+  constructor(name: string, mutate: boolean = false) {
     this.apiVersion = "kyverno.io/v1"
     this.kind = "ClusterPolicy"
     this.metadata = {
       name: `psp-${name.toLowerCase()}`,
     }
     this.spec = {
-      validationFailureAction: "enforce",
       rules: []
     }
+    if (mutate)
+      this.spec.schemaValidation = false
+    else
+      this.spec.validationFailureAction = "enforce"
+
   }
 
   addRule(rule: any) {
@@ -319,7 +323,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
 
   if (PSP.spec?.defaultAddCapabilities) {
     // @TODO doesn't support init or ephemeral containers
-    let policy = new ClusterPolicy('defaultAddCapabilities')
+    let policy = new ClusterPolicy('defaultAddCapabilities', true)
     PSP.spec?.defaultAddCapabilities.forEach(capability =>
       policy.addRule({
         mutate: {
@@ -335,7 +339,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
 
   if (PSP.spec?.defaultAllowPrivilegeEscalation !== undefined) {
     // @TODO doesn't support init or ephemeral containers
-    let policy = new ClusterPolicy('defaultAllowPrivilegeEscalation')
+    let policy = new ClusterPolicy('defaultAllowPrivilegeEscalation', true)
     policy.addRule({
       mutate: {
         patchesJson6902: `

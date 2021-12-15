@@ -2749,7 +2749,7 @@ Array [
           "name": "psp-defaultaddcapabilities-0",
         },
       ],
-      "validationFailureAction": "enforce",
+      "schemaValidation": false,
     },
   },
 ]
@@ -2832,7 +2832,7 @@ Array [
           "name": "psp-defaultallowprivilegeescalation-0",
         },
       ],
-      "validationFailureAction": "enforce",
+      "schemaValidation": false,
     },
   },
 ]
