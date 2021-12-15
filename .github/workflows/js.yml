@@ -174,7 +174,9 @@ jobs:
             --namespace cert-manager \
             --create-namespace \
             --version v1.5.3 \
-            --set installCRDs=true
+            --set installCRDs=true \
+            --set policyServer.replicaCount=1 \
+            --set policyServer.image.tag=latest@sha256:4d8e85e830b092f84a1005429077d0987945ca27324d97b6e90994730876605d
           helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
           helm install --wait -n kubewarden kubewarden-controller kubewarden/kubewarden-controller
 
