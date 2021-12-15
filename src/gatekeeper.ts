@@ -20,8 +20,9 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
     PSP.spec?.hostPorts.forEach(portRange =>
       policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostNetworkingPorts', { hostNetwork: true, min: portRange.min, max: portRange.max }))
     )
-  else if (PSP.spec?.hostNetwork === false)
-    policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostNetworkingPorts', { hostNetwork: true }))
+
+  if (PSP.spec?.hostNetwork !== undefined)
+    policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPHostNetworkingPorts', { hostNetwork: PSP.spec.hostNetwork }))
 
   if (!PSP.spec?.volumes?.includes('*'))
     policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPVolumeTypes', { volumes: PSP.spec?.volumes }))
