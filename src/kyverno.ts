@@ -177,7 +177,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   if (PSP.spec?.allowedFlexVolumes) {
     //@TODO doesn't support multiple allowedFlexVolumes
     let policy = new ClusterPolicy('allowedFlexVolumes')
-    policy.addRule(wrap_validate_spec({ "=(volumes)": [{ "=(flexVolume)": { driver: PSP.spec?.allowedFlexVolumes[0] } }] }))
+    policy.addRule(wrap_validate_spec({ "=(volumes)": [{ "=(flexVolume)": PSP.spec?.allowedFlexVolumes[0] }] }))
     policies.push(policy)
   }
 
