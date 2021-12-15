@@ -3023,7 +3023,7 @@ Array [
               Object {
                 "spec": Object {
                   "securityContext": Object {
-                    "fsGroup": ">=100 <=200",
+                    "fsGroup": ">=100 & <=200",
                   },
                 },
               },
@@ -3032,24 +3032,24 @@ Array [
                   "=(ephemeralContainers)": Array [
                     Object {
                       "securityContext": Object {
-                        "fsGroup": ">=100 <=200",
+                        "fsGroup": ">=100 & <=200",
                       },
                     },
                   ],
                   "=(initContainers)": Array [
                     Object {
                       "securityContext": Object {
-                        "fsGroup": ">=100 <=200",
+                        "fsGroup": ">=100 & <=200",
                       },
                     },
                   ],
                   "=(securityContext)": Object {
-                    "=(fsGroup)": ">=100 <=200",
+                    "=(fsGroup)": ">=100 & <=200",
                   },
                   "containers": Array [
                     Object {
                       "securityContext": Object {
-                        "fsGroup": ">=100 <=200",
+                        "fsGroup": ">=100 & <=200",
                       },
                     },
                   ],
@@ -3507,7 +3507,7 @@ Array [
               Object {
                 "spec": Object {
                   "securityContext": Object {
-                    "runAsGroup": ">=100 <=200",
+                    "runAsGroup": ">=100 & <=200",
                   },
                 },
               },
@@ -3516,24 +3516,24 @@ Array [
                   "=(ephemeralContainers)": Array [
                     Object {
                       "securityContext": Object {
-                        "runAsGroup": ">=100 <=200",
+                        "runAsGroup": ">=100 & <=200",
                       },
                     },
                   ],
                   "=(initContainers)": Array [
                     Object {
                       "securityContext": Object {
-                        "runAsGroup": ">=100 <=200",
+                        "runAsGroup": ">=100 & <=200",
                       },
                     },
                   ],
                   "=(securityContext)": Object {
-                    "=(runAsGroup)": ">=100 <=200",
+                    "=(runAsGroup)": ">=100 & <=200",
                   },
                   "containers": Array [
                     Object {
                       "securityContext": Object {
-                        "runAsGroup": ">=100 <=200",
+                        "runAsGroup": ">=100 & <=200",
                       },
                     },
                   ],
@@ -3624,7 +3624,7 @@ Array [
               Object {
                 "spec": Object {
                   "securityContext": Object {
-                    "runAsUser": ">=100 <=200",
+                    "runAsUser": ">=100 & <=200",
                   },
                 },
               },
@@ -3633,24 +3633,24 @@ Array [
                   "=(ephemeralContainers)": Array [
                     Object {
                       "securityContext": Object {
-                        "runAsUser": ">=100 <=200",
+                        "runAsUser": ">=100 & <=200",
                       },
                     },
                   ],
                   "=(initContainers)": Array [
                     Object {
                       "securityContext": Object {
-                        "runAsUser": ">=100 <=200",
+                        "runAsUser": ">=100 & <=200",
                       },
                     },
                   ],
                   "=(securityContext)": Object {
-                    "=(runAsUser)": ">=100 <=200",
+                    "=(runAsUser)": ">=100 & <=200",
                   },
                   "containers": Array [
                     Object {
                       "securityContext": Object {
-                        "runAsUser": ">=100 <=200",
+                        "runAsUser": ">=100 & <=200",
                       },
                     },
                   ],
