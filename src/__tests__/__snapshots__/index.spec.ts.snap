@@ -2661,8 +2661,8 @@ Array [
               },
               Object {
                 "spec": Object {
-                  "containers": Array [
-                    Object {
+                  "containers": Object {
+                    "securitycontext": Object {
                       "=(securityContext)": Object {
                         "=(sysctls)": Array [
                           Object {
@@ -2671,7 +2671,7 @@ Array [
                         ],
                       },
                     },
-                  ],
+                  },
                 },
               },
             ],
@@ -2872,8 +2872,8 @@ Array [
               },
               Object {
                 "spec": Object {
-                  "containers": Array [
-                    Object {
+                  "containers": Object {
+                    "securitycontext": Object {
                       "=(securityContext)": Object {
                         "=(sysctls)": Array [
                           Object {
@@ -2882,7 +2882,7 @@ Array [
                         ],
                       },
                     },
-                  ],
+                  },
                 },
               },
             ],
