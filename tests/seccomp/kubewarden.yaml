@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: seccomp
 spec:
-  module: registry://ghcr.io/kubewarden/policies/seccomp-psp-policy:v0.1.0
+  module: registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.0
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
@@ -16,4 +16,5 @@ spec:
   settings:
     allowed_profiles:
       - runtime/default
-      - docker/default
+    profile_types:
+      - RuntimeDefault
