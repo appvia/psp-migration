@@ -1945,9 +1945,21 @@ Array [
         },
       ],
       "settings": Object {
-        "run_as_group": "MustRunAs",
-        "run_as_user": "RunAsAny",
-        "supplemental_groups": "MustRunAs",
+        "run_as_group": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
+        "run_as_user": Object {
+          "rule": "RunAsAny",
+        },
+        "supplemental_groups": Object {
+          "rule": "RunAsAny",
+        },
       },
     },
   },
@@ -2013,8 +2025,18 @@ Array [
       ],
       "settings": Object {
         "run_as_group": undefined,
-        "run_as_user": "MustRunAs",
-        "supplemental_groups": undefined,
+        "run_as_user": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
+        "supplemental_groups": Object {
+          "rule": "RunAsAny",
+        },
       },
     },
   },
@@ -2159,8 +2181,18 @@ Array [
       ],
       "settings": Object {
         "run_as_group": undefined,
-        "run_as_user": "RunAsAny",
-        "supplemental_groups": undefined,
+        "run_as_user": Object {
+          "rule": "RunAsAny",
+        },
+        "supplemental_groups": Object {
+          "ranges": Array [
+            Object {
+              "max": 200,
+              "min": 100,
+            },
+          ],
+          "rule": "MustRunAs",
+        },
       },
     },
   },
