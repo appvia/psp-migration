@@ -15,23 +15,3 @@ spec:
         - op: add
           path: "/spec/securityContext/capabilities/add/-"
           value: something
----
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
-metadata:
-  name: psp-defaultaddcapabilitiescheck
-spec:
-  validationFailureAction: enforce
-  rules:
-  - name: psp-defaultaddcapabilitiescheck
-    match:
-      resources:
-        kinds:
-        - Pod
-    validate:
-      message: >-
-        fake
-      pattern:
-        spec:
-          containers:
-          - securityContext: null
