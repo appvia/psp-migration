@@ -3196,23 +3196,29 @@ Array [
               "spec": Object {
                 "=(ephemeralContainers)": Array [
                   Object {
-                    "=(ports)": Object {
-                      "=(hostPort)": ">=80 & <=9000",
-                    },
+                    "=(ports)": Array [
+                      Object {
+                        "=(hostPort)": ">=80 & <=9000",
+                      },
+                    ],
                   },
                 ],
                 "=(initContainers)": Array [
                   Object {
-                    "=(ports)": Object {
-                      "=(hostPort)": ">=80 & <=9000",
-                    },
+                    "=(ports)": Array [
+                      Object {
+                        "=(hostPort)": ">=80 & <=9000",
+                      },
+                    ],
                   },
                 ],
                 "containers": Array [
                   Object {
-                    "=(ports)": Object {
-                      "=(hostPort)": ">=80 & <=9000",
-                    },
+                    "=(ports)": Array [
+                      Object {
+                        "=(hostPort)": ">=80 & <=9000",
+                      },
+                    ],
                   },
                 ],
               },
