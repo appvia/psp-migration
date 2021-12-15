@@ -2404,9 +2404,7 @@ Array [
                 "=(volumes)": Array [
                   Object {
                     "=(flexVolume)": Object {
-                      "driver": Object {
-                        "driver": "example/lvm",
-                      },
+                      "driver": "example/lvm",
                     },
                   },
                 ],
