@@ -601,7 +601,7 @@ Array [
         ],
       },
       "parameters": Object {
-        "hostNetwork": true,
+        "hostNetwork": false,
       },
     },
   },
@@ -660,6 +660,30 @@ Array [
         "hostNetwork": true,
         "max": 9000,
         "min": 80,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "constraints.gatekeeper.sh/v1beta1",
+    "kind": "K8sPSPHostNetworkingPorts",
+    "metadata": Object {
+      "name": "psp-k8spsphostnetworkingports",
+    },
+    "spec": Object {
+      "match": Object {
+        "kinds": Array [
+          Object {
+            "apiGroups": Array [
+              "",
+            ],
+            "kinds": Array [
+              "Pod",
+            ],
+          },
+        ],
+      },
+      "parameters": Object {
+        "hostNetwork": false,
       },
     },
   },
