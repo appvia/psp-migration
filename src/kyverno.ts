@@ -81,7 +81,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   if (PSP.spec?.hostPorts) {
     let policy = new ClusterPolicy('hostPorts')
     PSP.spec?.hostPorts.forEach(portRange =>
-      policy.addRule(wrap_validate_spec(optional_ephemeral_init_container_copy({ "=(ports)": { "=(hostPort)": `>=${portRange.min} & <=${portRange.max}` } })))
+      policy.addRule(wrap_validate_spec(optional_ephemeral_init_container_copy({ "=(ports)": [{ "=(hostPort)": `>=${portRange.min} & <=${portRange.max}` }] })))
     )
     policies.push(policy)
   }
