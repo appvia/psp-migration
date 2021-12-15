@@ -3091,7 +3091,7 @@ Array [
             "message": "Rejected by psp-hostipc-0 rule",
             "pattern": Object {
               "spec": Object {
-                "=(hostIPC": false,
+                "=(hostIPC)": false,
               },
             },
           },
@@ -3126,7 +3126,7 @@ Array [
             "message": "Rejected by psp-hostnetwork-0 rule",
             "pattern": Object {
               "spec": Object {
-                "=(hostNetwork": false,
+                "=(hostNetwork)": false,
               },
             },
           },
@@ -3161,7 +3161,7 @@ Array [
             "message": "Rejected by psp-hostpid-0 rule",
             "pattern": Object {
               "spec": Object {
-                "=(hostPID": false,
+                "=(hostPID)": false,
               },
             },
           },
@@ -3246,7 +3246,7 @@ Array [
             "message": "Rejected by psp-hostnetwork-0 rule",
             "pattern": Object {
               "spec": Object {
-                "=(hostNetwork": false,
+                "=(hostNetwork)": false,
               },
             },
           },

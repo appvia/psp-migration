@@ -64,13 +64,13 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
 
   if (PSP.spec?.hostIPC === false) {
     let policy = new ClusterPolicy('hostIPC')
-    policy.addRule(wrap_validate_spec({ "=(hostIPC": false }))
+    policy.addRule(wrap_validate_spec({ "=(hostIPC)": false }))
     policies.push(policy)
   }
 
   if (PSP.spec?.hostPID === false) {
     let policy = new ClusterPolicy('hostPID')
-    policy.addRule(wrap_validate_spec({ "=(hostPID": false }))
+    policy.addRule(wrap_validate_spec({ "=(hostPID)": false }))
     policies.push(policy)
   }
 
@@ -84,7 +84,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
 
   if (PSP.spec?.hostNetwork === false) {
     let policy = new ClusterPolicy('hostNetwork')
-    policy.addRule(wrap_validate_spec({ "=(hostNetwork": false }))
+    policy.addRule(wrap_validate_spec({ "=(hostNetwork)": false }))
     policies.push(policy)
   }
 
