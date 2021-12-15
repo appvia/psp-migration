@@ -17,15 +17,3 @@ spec:
     values:
       fromList:  ["something"]
 
----
-apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sPSPCapabilities
-metadata:
-  name: k8spspdefaultaddcapabilities
-spec:
-  match:
-    kinds:
-      - apiGroups: [""]
-        kinds: ["Pod"]
-  parameters:
-    allowedCapabilities: ["something"]

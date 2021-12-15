@@ -390,7 +390,7 @@ Array [
   },
   Object {
     "apiVersion": "mutations.gatekeeper.sh/v1beta1",
-    "kind": "ModifySet",
+    "kind": "Assign",
     "metadata": Object {
       "name": "psp-k8spspdefaultallowprivilegeescalation",
     },
@@ -424,7 +424,7 @@ Array [
   },
   Object {
     "apiVersion": "mutations.gatekeeper.sh/v1beta1",
-    "kind": "ModifySet",
+    "kind": "Assign",
     "metadata": Object {
       "name": "psp-k8spspdefaultallowprivilegeescalation-init",
     },
