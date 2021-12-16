@@ -16,3 +16,5 @@ spec:
   settings:
     default_add_capabilities:
       - something
+    allowed_capabilities:
+      - something
