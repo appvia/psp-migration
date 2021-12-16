@@ -481,11 +481,9 @@ Array [
         ],
       },
       "parameters": Object {
-        "allowedSysctls": Array [
-          "foo.*",
-        ],
+        "allowedSysctls": Array [],
         "forbiddenSysctls": Array [
-          "kernel.*",
+          "kernel.m*",
         ],
       },
     },
@@ -1510,11 +1508,9 @@ Array [
         },
       ],
       "settings": Object {
-        "allowedUnsafeSysctls": Array [
-          "foo.*",
-        ],
+        "allowedUnsafeSysctls": undefined,
         "forbiddenSysctls": Array [
-          "kernel.*",
+          "kernel.m*",
         ],
       },
     },
@@ -2851,59 +2847,6 @@ Array [
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
     "metadata": Object {
-      "name": "psp-allowedunsafesysctls",
-    },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
-                "Pod",
-              ],
-            },
-          },
-          "name": "psp-allowedunsafesysctls-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "=(securityContext)": Object {
-                    "=(sysctls)": Array [
-                      Object {
-                        "name": "foo.*",
-                      },
-                    ],
-                  },
-                },
-              },
-              Object {
-                "spec": Object {
-                  "containers": Object {
-                    "securitycontext": Object {
-                      "=(securityContext)": Object {
-                        "=(sysctls)": Array [
-                          Object {
-                            "name": "foo.*",
-                          },
-                        ],
-                      },
-                    },
-                  },
-                },
-              },
-            ],
-            "message": "Rejected by psp-allowedunsafesysctls-0 rule",
-          },
-        },
-      ],
-      "validationFailureAction": "enforce",
-    },
-  },
-  ClusterPolicy {
-    "apiVersion": "kyverno.io/v1",
-    "kind": "ClusterPolicy",
-    "metadata": Object {
       "name": "psp-forbiddensysctls",
     },
     "spec": Object {
@@ -2924,7 +2867,7 @@ Array [
                   "=(securityContext)": Object {
                     "=(sysctls)": Array [
                       Object {
-                        "name": "!kernel.*",
+                        "name": "!kernel.m*",
                       },
                     ],
                   },
@@ -2937,7 +2880,7 @@ Array [
                       "=(securityContext)": Object {
                         "=(sysctls)": Array [
                           Object {
-                            "name": "!kernel.*",
+                            "name": "!kernel.m*",
                           },
                         ],
                       },

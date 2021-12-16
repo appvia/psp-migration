@@ -1,18 +1,20 @@
 apiVersion: policies.kubewarden.io/v1alpha2
 kind: ClusterAdmissionPolicy
 metadata:
-  name: forbiddensysctls
+  name: psp-allowedprocmounttypes-ae58a
 spec:
   module: registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6
   rules:
-    - apiGroups: [""]
-      apiVersions: ["v1"]
-      resources: ["pods"]
-      scope: "Namespaced"
+    - apiGroups:
+        - ""
+      apiVersions:
+        - v1
+      resources:
+        - pods
       operations:
-      - CREATE
-      - UPDATE
+        - CREATE
+        - UPDATE
   mutating: false
   settings:
     forbiddenSysctls:
-    - kernel.m*
+      - kernel.m*
