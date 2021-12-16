@@ -15,4 +15,4 @@ spec:
   mutating: false
   settings:
     forbiddenSysctls:
-    - kernel.*
+    - kernel.m*

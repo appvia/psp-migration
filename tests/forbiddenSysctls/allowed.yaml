@@ -10,5 +10,5 @@ spec:
     image: nginx
   securityContext:
     sysctls:
-    - name: foo.foomax
+    - name: kernel.shm_rmid_forced
       value: "65536"
