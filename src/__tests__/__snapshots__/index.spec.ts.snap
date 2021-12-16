@@ -1117,7 +1117,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-requireddropcapabilities",
+      "name": "psp-capabilities",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8",
@@ -1409,7 +1409,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-requireddropcapabilities",
+      "name": "psp-capabilities",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8",
@@ -1432,7 +1432,9 @@ Array [
         },
       ],
       "settings": Object {
-        "allowed_capabilities": undefined,
+        "allowed_capabilities": Array [
+          "something",
+        ],
         "default_add_capabilities": Array [
           "something",
         ],
@@ -1826,7 +1828,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-requireddropcapabilities",
+      "name": "psp-capabilities",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8",
@@ -1849,7 +1851,7 @@ Array [
         },
       ],
       "settings": Object {
-        "allowed_capabilities": undefined,
+        "allowed_capabilities": Array [],
         "default_add_capabilities": undefined,
         "required_drop_capabilities": Array [
           "something",
