@@ -57,8 +57,9 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.seLinux?.rule === 'MustRunAs')
     policies.push(mod.kubewarden_policy_helper(
       'seLinux',
-      'registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.1',
-      { rule: PSP.spec.seLinux.rule, ...PSP.spec.seLinux.seLinuxOptions }
+      'registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.2',
+      { rule: PSP.spec.seLinux.rule, ...PSP.spec.seLinux.seLinuxOptions },
+      PSP.spec.seLinux.rule === 'MustRunAs'
     ))
 
   if (PSP.spec?.allowedCapabilities || PSP.spec?.requiredDropCapabilities || PSP.spec?.defaultAddCapabilities)

@@ -2023,8 +2023,8 @@ Array [
       "name": "psp-selinux",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.1",
-      "mutating": false,
+      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.2",
+      "mutating": true,
       "rules": Array [
         Object {
           "apiGroups": Array [
