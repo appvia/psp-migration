@@ -1081,7 +1081,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-allowprivilegeescalation",
+      "name": "psp-defaultallowprivilegeescalation",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10",
@@ -1103,7 +1103,9 @@ Array [
           ],
         },
       ],
-      "settings": null,
+      "settings": Object {
+        "default_allow_privilege_escalation": false,
+      },
     },
   },
 ]
@@ -1447,36 +1449,7 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-allowprivilegeescalation",
-    },
-    "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10",
-      "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
-            "",
-          ],
-          "apiVersions": Array [
-            "v1",
-          ],
-          "operations": Array [
-            "CREATE",
-            "UPDATE",
-          ],
-          "resources": Array [
-            "pods",
-          ],
-        },
-      ],
-      "settings": null,
-    },
-  },
-  Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
-    "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
-      "name": "psp-defaultaddcapabilities",
+      "name": "psp-defaultallowprivilegeescalation",
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10",
