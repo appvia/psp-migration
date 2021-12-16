@@ -12,4 +12,7 @@ spec:
       operations:
       - CREATE
       - UPDATE
-  mutating: true
+  mutating: false
+  settings:
+    default_allow_privilege_escalation: false
+
