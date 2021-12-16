@@ -2063,7 +2063,7 @@ Array [
       "name": "psp-seccomp",
     },
     "spec": Object {
-      "module": "@TODOTODO",
+      "module": "registry://ghcr.io/jvanz/policies/seccomp-psp:issue6",
       "mutating": false,
       "rules": Array [
         Object {
@@ -2086,6 +2086,10 @@ Array [
         "allowed_profiles": Array [
           "runtime/default",
           "docker/default",
+        ],
+        "localhost_profiles": Array [],
+        "profile_types": Array [
+          "RuntimeDefault",
         ],
       },
     },

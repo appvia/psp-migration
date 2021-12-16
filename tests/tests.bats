@@ -49,27 +49,27 @@ teardown() {
 }
 
 
-@test "privileged" {}
-@test "hostPID" {}
-@test "hostIPC" {}
-@test "hostNetwork" {} 
-@test "hostPorts" {}
-@test "volumes" {}
-@test "allowedHostPaths" {} 
-@test "allowedFlexVolumes" {} 
-@test "readOnlyRootFilesystem" {} 
-@test "runAsUser" {} 
-@test "runAsGroup" {} 
-@test "supplementalGroups" {} 
-@test "fsgroup" {} 
-@test "allowPrivilegeEscalation" {}
-@test "defaultAllowPrivilegeEscalation" {}  
-@test "allowedCapabilities" {}
-@test "defaultAddCapabilities" {} 
-@test "requiredDropCapabilities" {}  
-@test "seLinux" {} 
-@test "allowedProcMountTypes" {}
-@test "apparmor" {}
+# @test "privileged" {}
+# @test "hostPID" {}
+# @test "hostIPC" {}
+# @test "hostNetwork" {} 
+# @test "hostPorts" {}
+# @test "volumes" {}
+# @test "allowedHostPaths" {} 
+# @test "allowedFlexVolumes" {} 
+# @test "readOnlyRootFilesystem" {} 
+# @test "runAsUser" {} 
+# @test "runAsGroup" {} 
+# @test "supplementalGroups" {} 
+# @test "fsgroup" {} 
+# @test "allowPrivilegeEscalation" {}
+# @test "defaultAllowPrivilegeEscalation" {}  
+# @test "allowedCapabilities" {}
+# @test "defaultAddCapabilities" {} 
+# @test "requiredDropCapabilities" {}  
+# @test "seLinux" {} 
+# @test "allowedProcMountTypes" {}
+# @test "apparmor" {}
 @test "seccomp" {}
-@test "forbiddenSysctls" {} 
-@test "allowedUnsafeSysctls" {} 
+# @test "forbiddenSysctls" {} 
+# @test "allowedUnsafeSysctls" {} 

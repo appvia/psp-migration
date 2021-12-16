@@ -47,12 +47,25 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
       { allowed_profiles: PSP.metadata.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames'].split(",") }
     ))
 
-  if (PSP.metadata?.annotations && PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'])
+  if (PSP.metadata?.annotations && PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames']) {
+    let profile_types: string[] = []
+    let localhost_profiles: string[] = []
+    if (PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].toLowerCase().includes('runtime/default'))
+      profile_types.push("RuntimeDefault")
+    if (PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].toLowerCase().includes('localhost')) {
+      profile_types.push("Localhost")
+      localhost_profiles.push(...PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].split(',').filter((x: string) => x.toLowerCase().includes('localhost')).map(x => x.replace('localhost/', '')))
+    }
     policies.push(mod.kubewarden_policy_helper(
       'seccomp',
-      '@TODOTODO',
-      { allowed_profiles: PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].split(",") }
+      'registry://ghcr.io/jvanz/policies/seccomp-psp:issue6',
+      {
+        allowed_profiles: PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].split(","),
+        profile_types,
+        localhost_profiles,
+      }
     ))
+  }
 
   if (PSP.spec?.seLinux?.rule === 'MustRunAs')
     policies.push(mod.kubewarden_policy_helper(
