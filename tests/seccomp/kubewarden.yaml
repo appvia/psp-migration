@@ -1,0 +1,24 @@
+apiVersion: policies.kubewarden.io/v1alpha2
+kind: ClusterAdmissionPolicy
+metadata:
+  name: psp-seccomp-0c260
+spec:
+  module: registry://ghcr.io/jvanz/policies/seccomp-psp:issue6
+  rules:
+    - apiGroups:
+        - ""
+      apiVersions:
+        - v1
+      resources:
+        - pods
+      operations:
+        - CREATE
+        - UPDATE
+  mutating: false
+  settings:
+    allowed_profiles:
+      - runtime/default
+      - docker/default
+    profile_types:
+      - RuntimeDefault
+    localhost_profiles: []

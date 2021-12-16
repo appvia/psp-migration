@@ -84,11 +84,19 @@ jobs:
             --namespace cert-manager \
             --create-namespace \
             --version v1.5.3 \
-            --set installCRDs=true \
+            --set installCRDs=true
+          helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
+          helm install --wait -n \
+            kubewarden kubewarden-controller kubewarden/kubewarden-controller \
             --set policyServer.replicaCount=1 \
             --set policyServer.image.tag=latest@sha256:4d8e85e830b092f84a1005429077d0987945ca27324d97b6e90994730876605d
-          helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
-          helm install --wait -n kubewarden kubewarden-controller kubewarden/kubewarden-controller
+          kubectl -n kubewarden patch deployment policy-server-default --type json --patch '[
+            {"op": "replace", "path": "/spec/strategy", "value": {"type": "Recreate"}},
+            {"op": "replace", "path": "/spec/template/spec/containers/0/readinessProbe/failureThreshold", "value": 1},
+            {"op": "replace", "path": "/spec/template/spec/containers/0/readinessProbe/periodSeconds", "value": 1},
+            {"op": "replace", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "IfNotPresent"},
+            {"op": "replace", "path": "/spec/template/spec/terminationGracePeriodSeconds", "value": 1}
+            ]'
 
       - if: matrix.system == 'kyverno' && steps.changes.outputs.psp == 'true'
         name: Install kyverno
