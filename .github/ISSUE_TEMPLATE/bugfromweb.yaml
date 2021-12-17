@@ -5,8 +5,7 @@ labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
+      value: Thanks for taking the time to fill out this bug report!
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
@@ -28,10 +27,9 @@ body:
     attributes:
       label: What policy engine were you generating policy for
       options:
-        - Gatekeeper
-        - Kynvero
-        - Kubewarden
-
+        - label: Gatekeeper
+        - label: Kynvero
+        - label: Kubewarden
   - type: textarea
     id: input
     attributes:
