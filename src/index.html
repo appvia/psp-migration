@@ -1,0 +1,34 @@
+<html>
+
+<head>
+</head>
+
+<body>
+  <form>
+    <textarea id="in" cols="80" rows="25">
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: policy
+spec:
+  privileged: false
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  volumes:
+    - '*'
+        </textarea>
+    <button id="bugreport">Report a bug</button>
+    <textarea id="gatekeeper" cols="80" rows="20"></textarea>
+    <textarea id="kyverno" cols="80" rows="20"></textarea>
+    <textarea id="kubewarden" cols="80" rows="20"></textarea>
+  </form>
+</body>
+<script src="http://localhost:8080/bundle.js"></script>
+
+</html>
