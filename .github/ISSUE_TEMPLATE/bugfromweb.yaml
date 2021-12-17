@@ -30,7 +30,7 @@ body:
       label: What policy engine(s) are you using?
       description: You may select more than one.
       options:
-        - label: Kynevro
+        - label: Kyverno
         - label: Kubewarden
         - label: Gatekeeper
 
@@ -53,7 +53,7 @@ body:
       render: yaml
 
   - type: textarea
-    id: kynvero-yaml
+    id: kyverno-yaml
     attributes:
-      label: kynvero output
+      label: kyverno output
       render: yaml
