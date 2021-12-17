@@ -41,19 +41,19 @@ body:
       render: yaml
 
   - type: textarea
-    id: gatekeeper
+    id: gatekeeper-yaml
     attributes:
       label: gatekeeper output
       render: yaml
 
   - type: textarea
-    id: kubewarden
+    id: kubewarden-yaml
     attributes:
       label: kubewarden output
       render: yaml
 
   - type: textarea
-    id: kynvero
+    id: kynvero-yaml
     attributes:
       label: kynvero output
       render: yaml
