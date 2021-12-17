@@ -7,6 +7,7 @@ body:
     attributes:
       value: Thanks for taking the time to fill out this bug report!
   - type: checkboxes
+    id: searched-existing-issues
     attributes:
       label: Is there an existing issue for this?
       description: Please [search](https://github.com/appvia/psp-migration/issues) to see if an issue already exists for the bug you encountered.
