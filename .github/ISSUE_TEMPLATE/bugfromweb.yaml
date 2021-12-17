@@ -6,14 +6,7 @@ body:
   - type: markdown
     attributes:
       value: Thanks for taking the time to fill out this bug report!
-  - type: checkboxes
-    id: searched-existing-issues
-    attributes:
-      label: Is there an existing issue for this?
-      description: Please [search](https://github.com/appvia/psp-migration/issues) to see if an issue already exists for the bug you encountered.
-      options:
-      - label: I have searched the existing issues
-        required: true
+
   - type: textarea
     id: what-happened
     attributes:
@@ -26,7 +19,7 @@ body:
   - type: checkboxes
     id: engine
     attributes:
-      label: What policy engine were you generating policy for
+      label: What policy engine were you generating policy for?
       options:
         - label: Gatekeeper
         - label: Kynvero
