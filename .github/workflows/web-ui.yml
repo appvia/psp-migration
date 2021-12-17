@@ -1,5 +1,4 @@
-name: JS build
-
+name: Web UI
 on:
   push:
     branches:
