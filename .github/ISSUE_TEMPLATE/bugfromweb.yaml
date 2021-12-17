@@ -24,6 +24,16 @@ body:
     validations:
       required: true
 
+  - type: checkboxes
+    id: engines
+    attributes:
+      label: What policy engine(s) are you using?
+      description: You may select more than one.
+      options:
+        - label: Kynevro
+        - label: Kubewarden
+        - label: Gatekeeper
+
   - type: textarea
     id: input
     attributes:
