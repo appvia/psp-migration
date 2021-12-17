@@ -23,12 +23,6 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  - type: checkboxes
-    id: engine
-    attributes:
-      label: What policy engine were you generating policy for?
-      options:
-        - label: Gatekeeper
 
   - type: textarea
     id: input
