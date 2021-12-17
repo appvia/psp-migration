@@ -20,7 +20,7 @@ jobs:
           node-version-file: '.nvmrc'
       - run: npm install
 
-      - run: npm run build
+      - run: "npm run build:webpack"
 
       - uses: actions/upload-artifact@v2.3.1
         with:
