@@ -36,7 +36,7 @@ jobs:
           node-version-file: '.nvmrc'
       - run: npm install
         if: steps.changes.outputs.js == 'true'
-      - run: node_modules/.bin/jest --json --outputFile=result.json --testLocationInResults
+      - run: npm run ci-test
         if: steps.changes.outputs.js == 'true'
       - uses: tanmen/jest-reporter@v1
         if: steps.changes.outputs.js == 'true' && always()
