@@ -24,30 +24,7 @@ process()
 function bugReport() {
   const title = "Bug Report from web-ui"
   //@ts-expect-error
-  const provided = document.getElementById("in")?.value
-
-  let outputs = ""
-  //@ts-expect-error
-  engines.forEach(engine => outputs += `## ${engine}: \n \`\`\`yaml${document.getElementById(engine).value}\`\`\`\n`)
-
-  const body = `
-# Please describe the bug you encountered.
-
-# What did you do?
-
-# What did you expect to see?
-
-# What did you see instead?
-
-# Input:
-\`\`\`yaml
-${provided}
-\`\`\`
-
-# Output:
-${outputs}
-`
-  window.open(`https://github.com/appvia/psp-migration/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`)
+  window.open(`https://github.com/appvia/psp-migration/issues/new?template=bugfromweb.yaml&title=${encodeURIComponent(title)}&input=[${encodeURIComponent(document.getElementById("in")?.value)}]&gatekeeper-yaml=[${encodeURIComponent(document.getElementById("gatekeeper").value)}]&kyverno-yaml=[${encodeURIComponent(document.getElementById("kyverno").value)}]&kubewarden-yaml=[${encodeURIComponent(document.getElementById("kubewarden").value)}]`)
 }
 
 document.getElementById("in")?.addEventListener("input", process)
