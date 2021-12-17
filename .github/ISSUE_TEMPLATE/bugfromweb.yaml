@@ -27,7 +27,6 @@ body:
     id: engine
     attributes:
       label: What policy engine were you generating policy for
-      multiple: true
       options:
         - Gatekeeper
         - Kynvero
