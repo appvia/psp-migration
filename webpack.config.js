@@ -1,3 +1,5 @@
+const git = require("git-rev-sync");
+
 const path = require('path')
 const CopyPlugin = require("copy-webpack-plugin")
 const webpack = require("webpack")
@@ -37,7 +39,10 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       'jQuery': 'jquery',
-    })    
+    }),
+    new webpack.DefinePlugin({
+      COMMIT_SHA: JSON.stringify(git.long()),
+    }),
   ],
   output: {
     filename: 'bundle.js',
