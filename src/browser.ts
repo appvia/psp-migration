@@ -53,7 +53,11 @@ function bugReport() {
   bugurl.searchParams.append("title", title)
 
   //@ts-expect-error
+  bugurl.searchParams.append("version", [COMMIT_SHA])
+
+  //@ts-expect-error
   bugurl.searchParams.append("input", [editor.getValue()])
+
   //@ts-expect-error
   engines.forEach(engine => bugurl.searchParams.append(`${engine}-yaml`, [editors[engine].getValue()]))
 
