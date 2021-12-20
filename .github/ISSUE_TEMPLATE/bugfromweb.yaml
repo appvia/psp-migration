@@ -43,17 +43,25 @@ body:
   - type: textarea
     id: gatekeeper-yaml
     attributes:
-      label: gatekeeper output
+      label: Gatekeeper output
       render: yaml
 
   - type: textarea
     id: kubewarden-yaml
     attributes:
-      label: kubewarden output
+      label: Kubewarden output
       render: yaml
 
   - type: textarea
     id: kyverno-yaml
     attributes:
-      label: kyverno output
+      label: Kyverno output
       render: yaml
+
+  - type: input
+    id: version
+    attributes:
+      label: GIT 
+      description: Git SHA of build
+    validations:
+      required: true
