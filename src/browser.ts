@@ -13,7 +13,7 @@ import { parse, transform } from './index'
 
 const engines = ['gatekeeper', 'kyverno', 'kubewarden']
 
-$(".tabs").tabs()
+window.M.Tabs.init(jQuery(".tabs"))
 
 function process() {
   engines.forEach(engine => {
