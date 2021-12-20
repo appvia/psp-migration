@@ -1,0 +1,25 @@
+name: Feature Request
+description: File a feature request
+title: "[FeatureRequest]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this feature request!
+
+  - type: checkboxes
+    id: searched-existing-issues
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please [search](https://github.com/appvia/psp-migration/issues) to see if an issue already exists for the feature you're describing.
+      options:
+      - label: I have searched the existing issues
+        required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What is the idea?
+      placeholder: Tell us what you think this should do!
+    validations:
+      required: true
