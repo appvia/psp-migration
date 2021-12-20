@@ -1,5 +1,6 @@
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 @import "materialize-css/sass/components/color-variables";
+@import "github-fork-ribbon-css/gh-fork-ribbon.css";
 $primary-color: color("teal", "base") !default;
 @import 'materialize-css';
 
@@ -20,7 +21,7 @@ h1 {
 
 .tab-content .code,
 .input-field {
-  height: 60%;
+  height: 60vh;
 }
 
 #editor {
@@ -32,3 +33,12 @@ h1 {
   right: 0;
 }
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
