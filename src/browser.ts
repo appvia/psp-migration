@@ -2,12 +2,10 @@ import 'materialize-css'
 
 import "./styles.scss"
 
+import * as ace from 'ace-builds'
+import 'ace-builds/webpack-resolver'
+
 import * as yaml from 'js-yaml'
-
-import hljs from 'highlight.js/lib/core'
-import yamllang from 'highlight.js/lib/languages/yaml'
-
-hljs.registerLanguage('yaml', yamllang)
 
 import { parse, transform } from './index'
 
@@ -15,41 +13,87 @@ const engines = ['gatekeeper', 'kyverno', 'kubewarden']
 
 window.M.Tabs.init(jQuery(".tabs"))
 
+let editors: any = {}
+
+const editorDefault = {
+  mode: "ace/mode/yaml",
+  theme: "ace/theme/crimson_editor",
+  tabSize: 2,
+  useSoftTabs: true,
+}
+
+engines.forEach(engine => editors[engine] = ace.edit(engine, {
+  ...editorDefault,
+  readOnly: true,
+}))
+
+
 function process() {
   engines.forEach(engine => {
     try {
-      //@ts-expect-error
-      let code = transform(parse(document.getElementById("in").value), engine)
+      let code = transform(parse(editor.getValue()), engine)
         .map(policy => yaml.dump(policy, { noRefs: true, quotingType: '"' }))
         .join('\n---\n')
-      //@ts-expect-error
-      document.getElementById(engine).innerHTML = hljs.highlight(code, { language: 'yaml' }).value
+      editors[engine].setValue(code)
+      editors[engine].clearSelection()
     }
     catch (e) {
       console.error(e)
       //@ts-expect-error
-      document.getElementById(engine).innerHTML = e.message
+      editors[engine].setValue(e.message)
     }
   })
 }
 
-process()
-
 function bugReport() {
   const title = "Bug Report from web-ui"
-
   const bugurl = new URL("https://github.com/appvia/psp-migration/issues/new")
 
   bugurl.searchParams.append("template", "bugfromweb.yaml")
   bugurl.searchParams.append("title", title)
 
   //@ts-expect-error
-  bugurl.searchParams.append("input", [document.getElementById("in")?.value])
+  bugurl.searchParams.append("input", [editor.getValue()])
   //@ts-expect-error
-  engines.forEach(engine => bugurl.searchParams.append(`${engine}-yaml`, [document.getElementById(engine)?.textContent]))
+  engines.forEach(engine => bugurl.searchParams.append(`${engine}-yaml`, [editors[engine].getValue()]))
 
   window.open(bugurl.href)
 }
 
-document.getElementById("in")?.addEventListener("input", process)
 document.getElementById("bugreport")?.addEventListener("click", bugReport)
+
+const editor = ace.edit("editor", {
+  ...editorDefault,
+  value: `apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: policy
+spec:
+  privileged: false
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  volumes:
+    - '*'`
+})
+
+
+editor.on("change", process)
+process()
+
+document.getElementById("upload")?.addEventListener("change", () => {
+  //@ts-expect-error
+  const [file] = document.querySelector('input[type=file]').files
+  const reader = new FileReader()
+
+  reader.addEventListener("load", () =>
+    editor.setValue(reader.result as string))
+
+  if (file)
+    reader.readAsText(file)
+})
