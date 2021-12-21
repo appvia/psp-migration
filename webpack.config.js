@@ -35,6 +35,12 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: "src/index.html", to: "index.html" },
+        {
+          from: "src/images/*",
+          to({ context, absoluteFilename }) {
+            return "[name][ext]";
+          },
+        },
       ],
     }),
     new webpack.ProvidePlugin({
