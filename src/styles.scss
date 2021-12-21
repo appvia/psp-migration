@@ -39,4 +39,7 @@ main {
   .col {
     height:48px;
   }
+  .select-wrapper input.select-dropdown {
+    border-bottom: none;
+  }
 }
