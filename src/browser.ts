@@ -12,6 +12,7 @@ import { parse, transform } from './index'
 const engines = ['gatekeeper', 'kyverno', 'kubewarden']
 
 window.M.Tabs.init(jQuery(".tabs"))
+window.M.FormSelect.init(jQuery("select"), {})
 
 let editors: any = {}
 
@@ -100,4 +101,15 @@ document.getElementById("upload")?.addEventListener("change", () => {
 
   if (file)
     reader.readAsText(file)
+})
+
+document.getElementById("example-select")?.addEventListener("change", () => {
+  //@ts-expect-error
+  const originalURL: string = document.getElementById("example-select")?.value
+  const url = originalURL
+    .replace("github.com", "raw.githubusercontent.com")
+    .replace("/blob/", "/")
+  fetch(url)
+    .then(response => response.text())
+    .then(data => editor.setValue(`# ${originalURL} \n${data}`));
 })
