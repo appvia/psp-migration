@@ -2,6 +2,20 @@
 
 > PodSecurityPolicy is dead, long live ???
 
+[![CodeQL](https://github.com/appvia/psp-migration/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/codeql-analysis.yml)
+[![JS build](https://github.com/appvia/psp-migration/actions/workflows/js.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/js.yml)
+[![Policy Fixture Test](https://github.com/appvia/psp-migration/actions/workflows/ci.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/ci.yml)
+[![Web UI](https://github.com/appvia/psp-migration/actions/workflows/web-ui.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/web-ui.yml)
+[![GitHub issues](https://img.shields.io/github/issues/appvia/psp-migration)](https://github.com/appvia/psp-migration/issues)
+[![GitHub forks](https://img.shields.io/github/forks/appvia/psp-migration)](https://github.com/appvia/psp-migration/network)
+[![GitHub stars](https://img.shields.io/github/stars/appvia/psp-migration)](https://github.com/appvia/psp-migration/stargazers)
+![GitHub contributors](https://img.shields.io/github/contributors/appvia/psp-migration)
+![GitHub last commit](https://img.shields.io/github/last-commit/appvia/psp-migration)
+[![Appvia Community Slack](https://img.shields.io/badge/slack-@appvia_community-default.svg?logo=slack 
+)](https://join.slack.com/t/appvia-community/shared_invite/zt-rcqz9vif-eDDQrbD_EAZBxsem30c2bQ
+)
+[![GitHub license](https://img.shields.io/github/license/appvia/psp-migration)](https://github.com/appvia/psp-migration/blob/main/LICENSE)
+
 ## 🚨 🚧 UNDER ACTIVE DEVELOPMENT (pull requests welcome) 🚧 🚨
 
 This project is striving to recreate common Pod Security Policy configuration in other common kubernetes policy engines, to better inform the consumer how to migrate before it is removed in Kubernetes 1.25
@@ -11,7 +25,9 @@ This project is striving to recreate common Pod Security Policy configuration in
 
 Until a 1.0.0 release see the most recent build in github actions and grab the binary for your os+arch.
 
-Nearer to an actual versioned release time there'll be a [krew](https://krew.sigs.k8s.io/) plugin to simplify installation, there'll also probably be a webpage you can and do it all in the browser.
+Nearer to an actual versioned release time there'll be a [krew](https://krew.sigs.k8s.io/) plugin to simplify installation.
+
+In the meantime you can **[try it now in the browser](https://appvia.github.io/psp-migration/)!**
 
 ## Usage
 
