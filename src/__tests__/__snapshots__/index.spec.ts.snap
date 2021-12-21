@@ -278,7 +278,7 @@ Array [
         "allowedSysctls": Array [
           "kernel.msgmax",
         ],
-        "forbiddenSysctls": Array [],
+        "forbiddenSysctls": null,
       },
     },
   },
@@ -481,7 +481,7 @@ Array [
         ],
       },
       "parameters": Object {
-        "allowedSysctls": Array [],
+        "allowedSysctls": null,
         "forbiddenSysctls": Array [
           "kernel.m*",
         ],
