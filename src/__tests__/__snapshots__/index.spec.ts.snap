@@ -2879,17 +2879,15 @@ Array [
               },
               Object {
                 "spec": Object {
-                  "containers": Array [
-                    Object {
-                      "=(securityContext)": Object {
-                        "=(sysctls)": Array [
-                          Object {
-                            "name": "!kernel.m*",
-                          },
-                        ],
-                      },
+                  "containers": Object {
+                    "=(securityContext)": Object {
+                      "=(sysctls)": Array [
+                        Object {
+                          "name": "!kernel.m*",
+                        },
+                      ],
                     },
-                  ],
+                  },
                 },
               },
             ],
