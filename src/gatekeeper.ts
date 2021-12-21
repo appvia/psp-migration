@@ -50,7 +50,7 @@ export function transform_gatekeeper(PSP: k8s.V1beta1PodSecurityPolicy): object[
       policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPProcMount', { procMount: procMountType })))
 
   if (PSP.spec?.allowedUnsafeSysctls || PSP.spec?.forbiddenSysctls)
-    policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPForbiddenSysctls', { allowedSysctls: (PSP.spec?.allowedUnsafeSysctls || []), forbiddenSysctls: (PSP.spec?.forbiddenSysctls || []) }))
+    policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPForbiddenSysctls', { allowedSysctls: (PSP.spec?.allowedUnsafeSysctls || null), forbiddenSysctls: (PSP.spec?.forbiddenSysctls || null) }))
 
   if (PSP.spec?.runAsUser && PSP.spec?.runAsUser?.rule !== 'RunAsAny')
     policies.push(mod.gatekeeper_pod_policy_helper('K8sPSPAllowedUsers', { runAsUser: PSP.spec?.runAsUser }))
