@@ -210,3 +210,4 @@ jobs:
           name: E2E Test results (${{ matrix.system }})
           path: report.xml
           reporter: java-junit
+          fail-on-error: false
