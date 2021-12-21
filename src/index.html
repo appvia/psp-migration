@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <title>PodSecurityPolicy Migrator</title>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -10,11 +11,11 @@
   <meta property="og:image" content="https://appvia.github.io/psp-migration/social-image_640.jpg">
   <meta property="og:url" content="https://appvia.github.io/psp-migration">
   <meta name="twitter:card" content="summary_large_image">
-  
+
   <meta property="og:description" content="Tool to migrate from PodSecurityPolicy to Gatekeeper, Kubewarden or Kyverno">
   <meta property="og:site_name" content="PodSecurityPolicy Migrator">
   <meta name="twitter:image:alt" content="Tool to migrate from PodSecurityPolicy to Gatekeeper, Kubewarden or Kyverno">
-  
+
   <meta name="twitter:site" content="@appvia_io">
 </head>
 
@@ -31,18 +32,36 @@
         </svg></a>
     </div>
   </nav>
-<main>
+  <main>
     <h1 class="center">PodSecurityPolicy Migrator</h1>
     <div class="row">
       <div class="col s12 m6">
-        <input type="file" id="upload" name="files" style="display: none;" />
-        <label for="upload" class="waves-effect waves-light btn" id="uploadbutton"><i
-            class="large material-icons left">file_upload</i>Upload</label>
-
-        <div class="input-field">
-          <div id="editor" class="code"> </div>
-          <div class="description center"> <i class="material-icons">arrow_upward</i>
-            PodSecurity Policy goes here<i class="material-icons">arrow_upward</i></div>
+        <div class="row toolbar">
+          <div class="col s4 m6 l4">
+            <input type="file" id="upload" name="files" style="display: none;" />
+            <label for="upload" class="waves-effect waves-light btn" id="uploadbutton"><i
+                class="large material-icons left">file_upload</i>Upload</label>
+          </div>
+          <div class="col s8 m6 l8">
+            <select id="example-select">
+              <option value="" disabled selected>Select an example</option>
+              <option value="https://github.com/kubernetes/website/blob/main/content/en/examples/policy/example-psp.yaml">
+                example-psp.yaml</option>
+              <option value="https://github.com/kubernetes/website/blob/main/content/en/examples/policy/baseline-psp.yaml">
+                baseline-psp.yaml</option>
+              <option value="https://github.com/kubernetes/website/blob/main/content/en/examples/policy/privileged-psp.yaml">
+                privileged-psp.yaml</option>
+              <option value="https://github.com/kubernetes/website/blob/main/content/en/examples/policy/restricted-psp.yaml">
+                restricted-psp.yaml</option>
+            </select>
+          </div>
+          </div>
+          <div class="row">
+            <div class="tab-content">
+              <div id="editor" class="code"> </div>
+              <div class="description center"> <i class="material-icons">arrow_upward</i>
+                PodSecurity Policy goes here<i class="material-icons">arrow_upward</i></div>
+          </div>
         </div>
       </div>
       <div class="col s12 m6">
@@ -52,50 +71,50 @@
               <li class="tab col s4"><a class="active" href="#gatekeeper-tab">Gatekeeper</a></li>
               <li class="tab col s4"><a href="#kubewarden-tab">Kubewarden</a></li>
               <li class="tab col s3"><a href="#kyverno-tab">Kyverno</a></li>
-              </ul>
-              </div>
-              <div id="kyverno-tab" class="tab-content col s12">
-            <div class="code" id="kyverno"></div>
+            </ul>
             </div>
-            
-            <div id="gatekeeper-tab" class="tab-content col s12">
+            <div id="kyverno-tab" class="tab-content col s12">
+            <div class="code" id="kyverno"></div>
+          </div>
+          
+          <div id="gatekeeper-tab" class="tab-content col s12">
             <div class="code" id="gatekeeper"></div>
 
-            </div>
-            
-            <div id="kubewarden-tab" class="tab-content col s12">
+          </div>
+          
+          <div id="kubewarden-tab" class="tab-content col s12">
             <div class="code" id="kubewarden"></div>
-            
+
           </div>
           <div class="description center"> <i class="material-icons">arrow_upward</i>
             Alternative Policy comes out here<i class="material-icons">arrow_upward</i></div>
         </div>
-        </div>
+      </div>
     </div>
-    </main>
-    <footer class="page-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col s12 center">
-            <button class="btn-large red" id="bugreport">🐛 Report a bug 🐛</button>
-          </div>
+  </main>
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center">
+          <button class="btn-large red" id="bugreport">🐛 Report a bug 🐛</button>
         </div>
       </div>
-        <div class="footer-copyright">
-          <div class="container">
-            © 2021 APPVIA. ALL RIGHTS RESERVED.
-            <a class="grey-text text-lighten-4 right" href="https://www.appvia.io/privacy-policy" target="_blank">Privacy Policy</a>
-          </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        © 2021 APPVIA. ALL RIGHTS RESERVED.
+        <a class="grey-text text-lighten-4 right" href="https://www.appvia.io/privacy-policy" target="_blank">Privacy
+          Policy</a>
+        </div>
         </div>
         </footer>
-  </body>
-  <script src="./bundle.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBYEBB95VP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-XBYEBB95VP');
-  </script>
+        </body>
+        <script src="./bundle.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBYEBB95VP"></script>
+        <script>
+                                                                          ayer = window.dataLayer || [];
+          fu  taLayer.push(arguments); }
+                                                                          gtag('js', gtag('config', 'G-XBYEBB95VP');
+                                                                        </script>
 
 </html>

@@ -20,7 +20,7 @@ h1 {
 }
 
 .tab-content .code,
-.input-field .code {
+.input .code {
   height: 60vh;
 }
 
@@ -32,4 +32,11 @@ body {
 
 main {
   flex: 1 0 auto;
+}
+
+.toolbar {
+  margin-bottom: 0;
+  .col {
+    height:48px;
+  }
 }
