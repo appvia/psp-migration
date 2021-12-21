@@ -10,5 +10,5 @@ spec:
     image: nginx
   securityContext:
     sysctls:
-    - name: kernel.shm_rmid_forced
+    - name: net.ipv4.tcp_syncookies
       value: "65536"
