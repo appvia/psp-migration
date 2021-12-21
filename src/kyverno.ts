@@ -261,7 +261,7 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
       validate: {
         anyPattern: [
           { spec: securitycontext },
-          { spec: { containers: [securitycontext] } },
+          { spec: { containers: securitycontext } },
         ]
       }
     })
