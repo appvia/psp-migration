@@ -348,6 +348,8 @@ jobs:
 
   codeql:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     needs: checkout
     steps:
       - uses: actions/download-artifact@v2.1.0
@@ -358,9 +360,9 @@ jobs:
         run: tar -xf checkout.tar ./
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1.0.26
+        uses: github/codeql-action/init@v1
         with:
           languages: javascript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1.0.26
+        uses: github/codeql-action/analyze@v1
