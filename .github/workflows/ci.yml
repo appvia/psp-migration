@@ -37,34 +37,28 @@ jobs:
           name: codebase.tar
       - name: Untar files
         run: tar -xf codebase.tar ./ && ls -lash
-
-          # path: ./
-      # - uses: actions/checkout@v2.4.0
-      #   with:
-      #     submodules: true
-
       - uses: actions/setup-node@v2.5.0
         with:
           node-version-file: '.nvmrc'
-      # - run: npm install
       - run: npm run ci-test
-
       - uses: tanmen/jest-reporter@v1
         if: always()
         with:
+          name: Jest Unit Test Results
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   js-build:
     runs-on: ubuntu-latest
+    needs: js-get-deps
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/download-artifact@v2.1.0
         with:
-          submodules: true
-
+          name: codebase.tar
+      - name: Untar files
+        run: tar -xf codebase.tar ./ && ls -lash
       - uses: actions/setup-node@v2.5.0
         with:
           node-version-file: '.nvmrc'
-      - run: npm install
 
       - uses: MOZGIII/install-ldid-action@v1
         with:
