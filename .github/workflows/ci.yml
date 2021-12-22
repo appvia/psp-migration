@@ -9,13 +9,30 @@ on:
       - main
 
 jobs:
-
-  js-units:
+  js-get-deps:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.4.0
         with:
           submodules: true
+
+      - uses: actions/upload-artifact@v2.3.1
+        with:
+          name: codebase
+          path: ./
+
+
+  js-units:
+    runs-on: ubuntu-latest
+    needs: js-get-deps
+    steps:
+      - uses: actions/download-artifact@v2.1.0
+        with:
+          name: codebase
+          path: ./
+      # - uses: actions/checkout@v2.4.0
+      #   with:
+      #     submodules: true
 
       - uses: actions/setup-node@v2.5.0
         with:
