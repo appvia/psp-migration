@@ -205,7 +205,6 @@ jobs:
         uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
-          group: ${{ github.ref == 'refs/heads/master' && format('ci-master-{0}', github.sha) || format('ci-{0}', github.ref) }}
           name: Test results (${{ matrix.system }}) ${{ matrix.e2e == 'e2e' && 'end-to-end' || 'static policy'}}
           path: report.xml
           reporter: java-junit
