@@ -53,14 +53,20 @@
                 privileged-psp.yaml</option>
               <option value="https://github.com/kubernetes/website/blob/main/content/en/examples/policy/restricted-psp.yaml">
                 restricted-psp.yaml</option>
+              <option value="https://github.com/kubernetes/ingress-nginx/blob/main/docs/examples/psp/psp.yaml">
+                ingress-nginx/example/psp.yaml</option>
+              <option value="https://github.com/kubernetes-sigs/metrics-server/blob/master/charts/metrics-server/templates/psp.yaml">
+                metrics-server/templates/psp.yaml</option>
+              <option value="https://github.com/jetstack/cert-manager/blob/master/deploy/charts/cert-manager/templates/psp.yaml">
+                cert-manager/templates/psp.yaml</option>
             </select>
           </div>
-          </div>
-          <div class="row">
-            <div class="tab-content">
-              <div id="editor" class="code"> </div>
-              <div class="description center"> <i class="material-icons">arrow_upward</i>
-                PodSecurity Policy goes here<i class="material-icons">arrow_upward</i></div>
+        </div>
+        <div class="row">
+          <div class="tab-content">
+            <div id="editor" class="code"> </div>
+            <div class="description center"> <i class="material-icons">arrow_upward</i>
+              PodSecurity Policy goes here<i class="material-icons">arrow_upward</i></div>
           </div>
         </div>
       </div>
@@ -72,16 +78,16 @@
               <li class="tab col s4"><a href="#kubewarden-tab">Kubewarden</a></li>
               <li class="tab col s3"><a href="#kyverno-tab">Kyverno</a></li>
             </ul>
-            </div>
-            <div id="kyverno-tab" class="tab-content col s12">
+          </div>
+          <div id="kyverno-tab" class="tab-content col s12">
             <div class="code" id="kyverno"></div>
           </div>
-          
+
           <div id="gatekeeper-tab" class="tab-content col s12">
             <div class="code" id="gatekeeper"></div>
 
           </div>
-          
+
           <div id="kubewarden-tab" class="tab-content col s12">
             <div class="code" id="kubewarden"></div>
 
@@ -105,16 +111,17 @@
         © 2021 APPVIA. ALL RIGHTS RESERVED.
         <a class="grey-text text-lighten-4 right" href="https://www.appvia.io/privacy-policy" target="_blank">Privacy
           Policy</a>
-        </div>
-        </div>
-        </footer>
-        </body>
-        <script src="./bundle.js"></script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBYEBB95VP"></script>
-        <script>
-                                                                          ayer = window.dataLayer || [];
-          fu  taLayer.push(arguments); }
-                                                                          gtag('js', gtag('config', 'G-XBYEBB95VP');
-                                                                        </script>
+      </div>
+    </div>
+    </footer>
+    </body>
+    <script src="./bundle.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBYEBB95VP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() { dataLayer.push(arguments) }
+      gtag('js', new Date())
+      gtag('config', 'G-XBYEBB95VP')
+    </script>
 
 </html>
