@@ -179,16 +179,12 @@ jobs:
         with:
           submodules: true
 
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/download-artifact@v2.1.0
         if: matrix.e2e == 'e2e'
         with:
-          node-version-file: '.nvmrc'
+          name: psp-migration-linuxstatic-x64
 
-      - name: Node install and build
-        if: matrix.e2e == 'e2e'
-        run: |
-          npm install 
-          npm run build:tsc
+      - run: ls -lash
 
       - uses: container-tools/kind-action@v1.7.0
         timeout-minutes: 5
