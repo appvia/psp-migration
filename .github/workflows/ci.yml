@@ -15,11 +15,15 @@ jobs:
       - uses: actions/checkout@v2.4.0
         with:
           submodules: true
+      - uses: actions/setup-node@v2.5.0
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm install
 
       - uses: actions/upload-artifact@v2.3.1
         with:
-          name: codebase
-          path: ./
+          name: node_modules
+          path: node_modules
 
 
   js-units:
@@ -28,8 +32,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2.1.0
         with:
-          name: codebase
-          path: ./
+          name: node_modules
+          # path: ./
       # - uses: actions/checkout@v2.4.0
       #   with:
       #     submodules: true
@@ -37,7 +41,7 @@ jobs:
       - uses: actions/setup-node@v2.5.0
         with:
           node-version-file: '.nvmrc'
-      - run: npm install
+      # - run: npm install
       - run: npm run ci-test
 
       - uses: tanmen/jest-reporter@v1
