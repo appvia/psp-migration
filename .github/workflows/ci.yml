@@ -104,14 +104,14 @@ jobs:
           - kyverno
           - krail
           - pss
-        e2e: [false]
+        e2e: ["fixtures"]
         include:
           - system: kubewarden
-            e2e: true
+            e2e: "e2e"
           - system: gatekeeper
-            e2e: true
+            e2e: "e2e"
           - system: kyverno
-            e2e: true
+            e2e: "e2e"
 
     steps:
       - uses: actions/checkout@v2.4.0
@@ -119,12 +119,12 @@ jobs:
           submodules: true
 
       - uses: actions/setup-node@v2.5.0
-        if: matrix.e2e
+        if: matrix.e2e == 'e2e'
         with:
           node-version-file: '.nvmrc'
 
       - name: Node install and build
-        if: matrix.e2e
+        if: matrix.e2e == 'e2e'
         run: |
           npm install 
           npm run build:tsc
@@ -198,7 +198,7 @@ jobs:
         run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
-          E2E_TEST: ${{ matrix.e2e }}
+          E2E_TEST: ${{ matrix.e2e == 'e2e' }}
 
       - name: Test Report
         # continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
@@ -206,7 +206,7 @@ jobs:
         if: always()
         with:
           group: ${{ github.ref == 'refs/heads/master' && format('ci-master-{0}', github.sha) || format('ci-{0}', github.ref) }}
-          name: Test results (${{ matrix.system }}) ${{ matrix.e2e && 'end-to-end' || 'static policy'}}
+          name: Test results (${{ matrix.system }}) ${{ matrix.e2e == 'e2e' && 'end-to-end' || 'static policy'}}
           path: report.xml
           reporter: java-junit
           fail-on-error: false
