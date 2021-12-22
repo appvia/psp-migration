@@ -111,6 +111,7 @@ document.getElementById("example-select")?.addEventListener("change", () => {
     .replace("/blob/", "/")
   fetch(url)
     .then(response => response.text())
+    .then(response => response.replace(/{{.*}}/g, ""))
     .then(text => yaml.loadAll(text)
       .filter((x: any) => x.kind === 'PodSecurityPolicy')[0])
     .then(yaml.dump)
