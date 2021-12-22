@@ -93,7 +93,7 @@ jobs:
 
   policytests:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ matrix.experimental || false}}
 
     strategy:
       fail-fast: false
@@ -102,20 +102,16 @@ jobs:
           - psp
           - gatekeeper
           - kyverno
-        experimental: [false]
+          - krail
+          - pss
         e2e: [false]
         include:
           - system: kubewarden
-            experimental: true
             e2e: true
           - system: gatekeeper
             e2e: true
           - system: kyverno
             e2e: true
-          - system: krail
-            experimental: true
-          - system: pss
-            experimental: true
 
     steps:
       - uses: actions/checkout@v2.4.0
@@ -198,12 +194,14 @@ jobs:
           helm install --wait --set webhookTimeout=30 --set replicaCount=1 k-rail k-rail/k-rail --namespace k-rail
 
       - name: BATS tests
+        # continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
         run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
           E2E_TEST: ${{ matrix.e2e }}
 
       - name: Test Report
+        # continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
         uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
