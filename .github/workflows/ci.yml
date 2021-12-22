@@ -155,7 +155,7 @@ jobs:
   policytests:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || false}}
-
+    needs: js-build-binaries
     strategy:
       fail-fast: false
       matrix:
