@@ -273,14 +273,14 @@ jobs:
           helm install --wait --set webhookTimeout=30 --set replicaCount=1 k-rail k-rail/k-rail --namespace k-rail
 
       - name: BATS tests
-        # continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
+        continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
         run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
           E2E_TEST: ${{ matrix.e2e == 'e2e' && './psp-migration-linuxstatic-x64' }}
 
       - name: Test Report
-        # continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
+        continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
         uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
@@ -295,8 +295,9 @@ jobs:
     needs:
       - js-build-binaries
 
-    # permissions:
-    #   contents: write
+    permissions:
+      contents: write
+
     steps:
 
       - uses: actions/download-artifact@v2.1.0
@@ -341,6 +342,8 @@ jobs:
 
   codeql:
     runs-on: ubuntu-latest
+    permissions: read-all
+
     steps:
       - uses: actions/checkout@v2.4.0
 
