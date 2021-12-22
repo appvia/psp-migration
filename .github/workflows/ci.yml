@@ -347,9 +347,14 @@ jobs:
   codeql:
     runs-on: ubuntu-latest
     permissions: read-all
-
+    needs: checkout
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/download-artifact@v2.1.0
+        with:
+          name: checkout.tar
+
+      - name: Untar files
+        run: tar -xf checkout.tar ./
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1.0.26
