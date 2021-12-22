@@ -2,10 +2,7 @@
 
 > PodSecurityPolicy is dead, long live ???
 
-[![CodeQL](https://github.com/appvia/psp-migration/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/codeql-analysis.yml)
-[![JS build](https://github.com/appvia/psp-migration/actions/workflows/js.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/js.yml)
-[![Policy Fixture Test](https://github.com/appvia/psp-migration/actions/workflows/ci.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/ci.yml)
-[![Web UI](https://github.com/appvia/psp-migration/actions/workflows/web-ui.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/web-ui.yml)
+[![CI](https://github.com/appvia/psp-migration/actions/workflows/ci.yml/badge.svg)](https://github.com/appvia/psp-migration/actions/workflows/ci.yml)
 [![GitHub issues](https://img.shields.io/github/issues/appvia/psp-migration)](https://github.com/appvia/psp-migration/issues)
 [![GitHub forks](https://img.shields.io/github/forks/appvia/psp-migration)](https://github.com/appvia/psp-migration/network)
 [![GitHub stars](https://img.shields.io/github/stars/appvia/psp-migration)](https://github.com/appvia/psp-migration/stargazers)
