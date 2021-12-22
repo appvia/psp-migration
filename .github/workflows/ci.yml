@@ -40,6 +40,10 @@ jobs:
           node-version-file: '.nvmrc'
       - run: npm install
 
+      - uses: MOZGIII/install-ldid-action@v1
+        with:
+          tag: v2.1.5-procursus2
+
       - run: npm run build
 
       - uses: actions/upload-artifact@v2.3.1
@@ -71,16 +75,13 @@ jobs:
 
       - uses: actions/upload-artifact@v2.3.1
         with:
-          name: psp-migration-win-arm64
-          path: dist/bin/psp-migration-win-arm64
+          name: psp-migration-win-arm64.exe
+          path: dist/bin/psp-migration-win-arm64.exe
       - uses: actions/upload-artifact@v2.3.1
         with:
-          name: psp-migration-win-x64
-          path: dist/bin/psp-migration-win-x64
+          name: psp-migration-win-x64.exe
+          path: dist/bin/psp-migration-win-x64.exe
 
-      - uses: MOZGIII/install-ldid-action@v1
-        with:
-          tag: v2.1.5-procursus2
       - uses: actions/upload-artifact@v2.3.1
         with:
           name: psp-migration-macos-arm64
