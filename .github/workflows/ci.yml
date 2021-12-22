@@ -44,7 +44,7 @@ jobs:
       - uses: tanmen/jest-reporter@v1
         if: always()
         with:
-          name: Jest Unit Test Results
+          action-name: Jest Unit Test Results
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   build-web-ui:
