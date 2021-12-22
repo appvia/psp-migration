@@ -91,6 +91,8 @@ jobs:
 
   publish-web-ui:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: 
       - build-web-ui
     if: ${{ github.ref == 'refs/heads/main' }}
