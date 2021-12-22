@@ -338,3 +338,16 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: "*"
+
+  codeql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1.0.26
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1.0.26
