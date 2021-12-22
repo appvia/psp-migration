@@ -3,8 +3,9 @@
 setup() {
   local -r testcase="${BATS_TEST_NAME:5}"
 
-  if [ "${E2E_TEST}" == "true" ]; then
-    node dist/run.js --engine=${SYSTEM} < tests/${testcase}/psp.yaml > tests/${testcase}/${SYSTEM}.yaml
+
+  if [ -z ${E2E_TEST+x} ]; then
+    ${E2E_TEST} --engine=${SYSTEM} < tests/${testcase}/psp.yaml > tests/${testcase}/${SYSTEM}.yaml
   fi
   if [ -f tests/${testcase}/${SYSTEM}.yaml ]; then
     kubectl apply -f tests/${testcase}/${SYSTEM}.yaml

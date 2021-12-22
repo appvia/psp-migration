@@ -168,7 +168,6 @@ jobs:
           name: psp-migration-macos-x64
           path: dist/bin/psp-migration-macos-x64
 
-
   policytests:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || false}}
@@ -277,7 +276,7 @@ jobs:
         run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
-          E2E_TEST: ${{ matrix.e2e == 'e2e' }}
+          E2E_TEST: ${{ matrix.e2e == 'e2e' && './psp-migration-linuxstatic-x64' }}
 
       - name: Test Report
         # continue-on-error: ${{ matrix.system == 'kubewarden' || matrix.system == 'pss' || matrix.system == 'krail'}}
