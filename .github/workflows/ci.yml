@@ -348,7 +348,6 @@ jobs:
 
   codeql:
     runs-on: ubuntu-latest
-    permissions: read-all
     needs: checkout
     steps:
       - uses: actions/download-artifact@v2.1.0
