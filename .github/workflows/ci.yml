@@ -204,7 +204,7 @@ jobs:
         with:
           name: psp-migration-linuxstatic-x64
 
-      - run: ./psp-migration-linuxstatic-x64 --help
+      - run: ls -lash && chmod +x psp-migration-linuxstatic-x64 && ./psp-migration-linuxstatic-x64 --help
 
       - uses: container-tools/kind-action@v1.7.0
         timeout-minutes: 5
