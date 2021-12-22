@@ -20,10 +20,12 @@ jobs:
           node-version-file: '.nvmrc'
       - run: npm install
 
+      - name: Tar files
+        run: tar -cf node_modules.tar node_modules
       - uses: actions/upload-artifact@v2.3.1
         with:
-          name: node_modules
-          path: node_modules
+          name: node_modules.tar
+          path: node_modules.tar
 
 
   js-units:
@@ -32,7 +34,10 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2.1.0
         with:
-          name: node_modules
+          name: node_modules.tar
+      - name: Untar files
+        run: tar -xf node_modules.tar
+
           # path: ./
       # - uses: actions/checkout@v2.4.0
       #   with:
