@@ -21,11 +21,11 @@ jobs:
       - run: npm install
 
       - name: Tar files
-        run: tar -cf node_modules.tar node_modules
+        run: tar -cf codebase.tar ./
       - uses: actions/upload-artifact@v2.3.1
         with:
-          name: node_modules.tar
-          path: node_modules.tar
+          name: codebase.tar
+          path: codebase.tar
 
 
   js-units:
@@ -34,9 +34,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2.1.0
         with:
-          name: node_modules.tar
+          name: codebase.tar
       - name: Untar files
-        run: tar -xf node_modules.tar
+        run: tar -xf codebase.tar ./ && ls -lash
 
           # path: ./
       # - uses: actions/checkout@v2.4.0
