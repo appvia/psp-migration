@@ -172,7 +172,9 @@ jobs:
   policytests:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || false}}
-    needs: checkout
+    needs: 
+      - checkout
+      - js-build-binaries
     strategy:
       fail-fast: false
       matrix:
