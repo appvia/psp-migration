@@ -9,12 +9,30 @@ on:
       - main
 
 jobs:
-  js-get-deps:
+  checkout:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.4.0
         with:
           submodules: true
+      - name: Tar files
+        run: tar -cf checkout.tar ./
+      - uses: actions/upload-artifact@v2.3.1
+        with:
+          name: checkout.tar
+          path: checkout.tar
+
+  js-get-deps:
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2.1.0
+        with:
+          name: checkout.tar
+
+      - name: Untar files
+        run: tar -xf checkout.tar ./
+
       - uses: actions/setup-node@v2.5.0
         with:
           node-version-file: '.nvmrc'
@@ -26,7 +44,6 @@ jobs:
         with:
           name: codebase.tar
           path: codebase.tar
-
 
   js-units:
     runs-on: ubuntu-latest
@@ -155,7 +172,7 @@ jobs:
   policytests:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || false}}
-    needs: js-build-binaries
+    needs: checkout
     strategy:
       fail-fast: false
       matrix:
@@ -175,16 +192,19 @@ jobs:
             e2e: "e2e"
 
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/download-artifact@v2.1.0
         with:
-          submodules: true
+          name: checkout.tar
+
+      - name: Untar files
+        run: tar -xf checkout.tar ./
 
       - uses: actions/download-artifact@v2.1.0
         if: matrix.e2e == 'e2e'
         with:
           name: psp-migration-linuxstatic-x64
 
-      - run: ls -lash
+      - run: ./psp-migration-linuxstatic-x64 --help
 
       - uses: container-tools/kind-action@v1.7.0
         timeout-minutes: 5
