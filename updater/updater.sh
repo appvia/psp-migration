@@ -10,7 +10,8 @@ get_latest_tag() {
 replace_files_with_latest_tag() {
   local before=$1
   local after=$(get_latest_tag ${before})
-  local files=$(grep -RiIl ${before} )
+  # local files=$(grep -RiIl ${before} )
+  local files=$(find * -type f | xargs grep -l "${before}" )
 
   echo replacing ${before} with ${after} in $files
   echo "$files" | xargs -I@ sed -i '' "s|${before}|${after}|g" @

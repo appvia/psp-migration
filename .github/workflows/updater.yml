@@ -19,7 +19,13 @@ jobs:
           ref: main
           submodules: true
 
-      - id: updater
+      # - name: Get Dependencies
+      #   run: |
+      #     apt-get update
+      #     apt-get install -y skopeo jq
+
+
+      - id: Updater
         run: |
           ./updater/updater.sh 2>&1 | tee /tmp/log
           result_code=${PIPESTATUS[0]}
