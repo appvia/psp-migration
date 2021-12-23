@@ -1297,7 +1297,7 @@ Array [
       "name": "psp-allowedprocmounttypes",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.1",
+      "module": "registry://ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.2",
       "mutating": false,
       "rules": Array [
         Object {
@@ -2023,7 +2023,7 @@ Array [
       "name": "psp-selinux",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.2",
+      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.4",
       "mutating": true,
       "rules": Array [
         Object {

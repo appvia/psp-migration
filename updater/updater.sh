@@ -21,7 +21,7 @@ IMAGES=(
     ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
     ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v0.1.1
     ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.4
-    ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.1
+    ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.2
     ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6
     ghcr.io/kubewarden/policies/apparmor-psp:v0.1.8
     ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
@@ -37,7 +37,7 @@ IMAGES=(
     ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
     ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
     ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
-    ghcr.io/kubewarden/policies/selinux-psp:v0.1.2
+    ghcr.io/kubewarden/policies/selinux-psp:v0.1.4
     ghcr.io/jvanz/policies/seccomp-psp:issue6
     ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
 )
