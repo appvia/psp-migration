@@ -1,0 +1,33 @@
+name: Version Bumper
+
+on:
+  push:
+    branches:
+      - main
+  workflow_call:
+  schedule:
+    - cron:  '30 8 * * *'
+
+jobs:
+  bumper:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          ref: main
+
+      - id: updater
+        run: |
+          ./updater/updater.sh 2>&1 | tee /tmp/log
+          result_code=${PIPESTATUS[0]}
+          echo "::set-output name=log::$(cat /tmp/log)"
+          exit $result_code
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Bump versions
+          branch: version-bumps
+          body: ${{ steps.updater.outputs.log }}
