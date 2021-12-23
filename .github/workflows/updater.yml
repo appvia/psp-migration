@@ -17,7 +17,6 @@ jobs:
       - uses: actions/checkout@v2.4.0
         with:
           ref: main
-          submodules: true
 
       # - name: Get Dependencies
       #   run: |
@@ -30,7 +29,7 @@ jobs:
           ./updater/updater.sh 2>&1 | tee /tmp/log
           result_code=${PIPESTATUS[0]}
           echo "::set-output name=log::$(cat /tmp/log)"
-          exit $result_code
+          # exit $result_code
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
