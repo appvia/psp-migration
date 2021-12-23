@@ -3,6 +3,6 @@ resources:
 
 images:
   - name: ghcr.io/kyverno/kyverno
-    newTag: latest@sha256:51e6685255e991d22d055e932a7c9d7c0af8a0fa1b5e3895d3b4a41d9d19e452
+    newTag: 1.6-dev-latest
   - name: ghcr.io/kyverno/kyvernopre
-    newTag: latest@sha256:a4a395d272be750ac65dfb38709a609c353dfb89d96813f7d38084fe60cd6033
+    newTag: 1.6-dev-latest
