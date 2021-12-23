@@ -17,6 +17,7 @@ jobs:
       - uses: actions/checkout@v2.4.0
         with:
           ref: main
+          submodules: true
 
       - id: updater
         run: |
