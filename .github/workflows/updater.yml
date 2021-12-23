@@ -10,6 +10,7 @@ on:
 
 jobs:
   bumper:
+    name: Bump dependencies Versions
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -33,3 +34,4 @@ jobs:
           title: Bump versions
           branch: version-bumps
           body: ${{ steps.updater.outputs.log }}
+          ssh-key: ${{ secrets.LOCAL_DEPLOY_SSHKEY }}
