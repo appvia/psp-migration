@@ -14,7 +14,7 @@ replace_files_with_latest_tag() {
   local files=$(find * -type f | xargs grep -l "${before}" )
 
   echo replacing ${before} with ${after} in $files
-  echo "$files" | xargs -I@ sed -i '' "s|${before}|${after}|g" @
+  echo "$files" | xargs -I@ sed "s|${before}|${after}|g" @ -i 
 }
 
 IMAGES=(
