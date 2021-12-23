@@ -1,12 +1,6 @@
 [submodule "submodules/gatekeeper-library"]
 	path = submodules/gatekeeper-library
 	url = https://github.com/open-policy-agent/gatekeeper-library.git
-[submodule "tests/readOnlyRootFilesystem/tests/bats"]
-	path = tests/readOnlyRootFilesystem/tests/bats
-	url = https://github.com/bats-core/bats-core.git
-[submodule "tests/readOnlyRootFilesystem/submodules/bats"]
-	path = tests/readOnlyRootFilesystem/submodules/bats
-	url = https://github.com/bats-core/bats-core.git
 [submodule "submodules/bats"]
 	path = submodules/bats
 	url = https://github.com/bats-core/bats-core.git
