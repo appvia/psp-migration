@@ -12,24 +12,19 @@ jobs:
   bumper:
     runs-on: ubuntu-latest
     permissions:
-      checks: write
+      contents: write
+
     steps:
       - uses: actions/checkout@v2.4.0
         with:
           ref: main
-
-      # - name: Get Dependencies
-      #   run: |
-      #     apt-get update
-      #     apt-get install -y skopeo jq
-
 
       - id: Updater
         run: |
           ./updater/updater.sh 2>&1 | tee /tmp/log
           result_code=${PIPESTATUS[0]}
           echo "::set-output name=log::$(cat /tmp/log)"
-          # exit $result_code
+          exit $result_code
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
