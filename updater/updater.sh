@@ -18,23 +18,23 @@ replace_files_with_latest_tag() {
 
 IMAGES=(
     ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10
-    ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
+    ghcr.io/kubewarden/policies/capabilities-psp:
     ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v0.1.1
     ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.4
     ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.2
     ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6
     ghcr.io/kubewarden/policies/apparmor-psp:v0.1.8
-    ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
+    ghcr.io/kubewarden/policies/capabilities-psp:
     ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10
     ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6
     ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
     ghcr.io/kubewarden/policies/pod-privileged:v0.1.9
     ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.2
-    ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
+    ghcr.io/kubewarden/policies/capabilities-psp:
     ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
     ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
     ghcr.io/kubewarden/policies/selinux-psp:v0.1.4
