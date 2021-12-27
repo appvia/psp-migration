@@ -24,7 +24,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   )
     policies.push(mod.kubewarden_policy_helper(
       'hostnamespaces',
-      'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1',
+      'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:',
       {
         allow_host_ipc: PSP.spec?.hostIPC,
         allow_host_pid: PSP.spec?.hostPID,

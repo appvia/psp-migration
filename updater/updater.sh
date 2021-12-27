@@ -28,10 +28,10 @@ IMAGES=(
     ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10
     ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6
     ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
-    ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
+    ghcr.io/kubewarden/policies/host-namespaces-psp:
     ghcr.io/kubewarden/policies/pod-privileged:v0.1.9
     ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.2
     ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8
