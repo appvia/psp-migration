@@ -8,9 +8,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/appvia/psp-migration)](https://github.com/appvia/psp-migration/stargazers)
 ![GitHub contributors](https://img.shields.io/github/contributors/appvia/psp-migration)
 ![GitHub last commit](https://img.shields.io/github/last-commit/appvia/psp-migration)
-[![Appvia Community Slack](https://img.shields.io/badge/slack-@appvia_community-default.svg?logo=slack 
-)](https://join.slack.com/t/appvia-community/shared_invite/zt-rcqz9vif-eDDQrbD_EAZBxsem30c2bQ
-)
+[![Appvia Community Slack](https://img.shields.io/badge/slack-@appvia_community-default.svg?logo=slack)](https://join.slack.com/t/appvia-community/shared_invite/zt-rcqz9vif-eDDQrbD_EAZBxsem30c2bQ)
 [![GitHub license](https://img.shields.io/github/license/appvia/psp-migration)](https://github.com/appvia/psp-migration/blob/main/LICENSE)
 
 ## 🚨 🚧 UNDER ACTIVE DEVELOPMENT (pull requests welcome) 🚧 🚨
@@ -20,24 +18,30 @@ This project is striving to recreate common Pod Security Policy configuration in
 
 ## Installation
 
-Until a 1.0.0 release see the most recent build in github actions and grab the binary for your os+arch.
+Download the right binary for your OS and Arch from the [latest release](https://github.com/appvia/psp-migration/releases/latest)
 
-Nearer to an actual versioned release time there'll be a [krew](https://krew.sigs.k8s.io/) plugin to simplify installation.
-
-In the meantime you can **[try it now in the browser](https://appvia.github.io/psp-migration/)!**
+Or you can **[try it now in your browser](https://appvia.github.io/psp-migration/)!**
 
 ## Usage
 
-The app takes PodSecurityPolicy on `stdIn` and output your policy engine of choice on `stdOut`, you select the policy engine with the `--engine=<engine>`
-so you can do something like:
+The app takes PodSecurityPolicy on `stdIn` and output your policy engine of choice on `stdOut`, you select the policy engine with the `--engine=<engine>`:
 
 ```bash
 $ cat psp.yaml | ./psp-migration --engine=gatekeeper > output.yaml
-or
-$ kubectl get -o podsecuritypolicy | ./psp-migration -e gatekeeper | kubectl apply -f -
+# or if you're feeling brave you can pipe it back and forth to the kubernetes api
+$ kubectl get -o yaml mypodsecuritypolicy | ./psp-migration -e kubewarden | kubectl apply -f -
 ```
 
-## :warning: This table is manually updated, see the [automated test suites results](https://github.com/appvia/psp-migration/actions/workflows/ci.yml) :warning:
+## Known limitations
+
+- Generated policy will probably be pretty verbose
+- Generated policy will probably have some unintended side effects, please [create an issue](https://github.com/appvia/psp-migration/issues/new?assignees=&labels=bug%2Ctriage&template=bug.yaml&title=%5BBug%5D%3A+) when this happens
+- Only takes one PodSecurityPolicy at a time
+- Generated policy may conflict with other policies
+
+## Features
+
+### :warning: This table is manually updated, see the [automated test suites results](https://github.com/appvia/psp-migration/actions/workflows/ci.yml) :warning:
 
 > Note: ❌ Doesn't mean it doesn't work, it just means the test is currently failing, in most cases the test needs to be updated
 
