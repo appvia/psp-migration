@@ -341,7 +341,16 @@ jobs:
       - uses: actions/download-artifact@v2.1.0
         with:
           name: psp-migration-macos-x64
-
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/v${{ needs.semver.outputs.sematic_version}}',
+              sha: context.sha
+            })
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -389,13 +398,3 @@ jobs:
       - name: Semver check
         run: |
           echo "Semantic version detected: ${{ steps.semver.outputs.semantic_version }}"
-      - name: Create tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/v${{ steps.semver.outputs.semantic_version }}',
-              sha: context.sha
-            })
