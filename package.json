@@ -29,9 +29,9 @@
   "homepage": "https://github.com/appvia/psp-migration#readme",
   "devDependencies": {
     "@kubernetes/client-node": "^0.16.1",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "@types/materialize-css": "^1.0.11",
-    "@types/node": "^17.0.4",
+    "@types/node": "^17.0.5",
     "@types/yargs": "^17.0.8",
     "ace-builds": "^1.4.13",
     "copy-webpack-plugin": "^10.2.0",
@@ -45,7 +45,7 @@
     "materialize-css": "^1.0.0",
     "npm-run-all": "^4.1.5",
     "pkg": "^5.5.1",
-    "sass": "^1.45.1",
+    "sass": "^1.45.2",
     "sass-loader": "^12.4.0",
     "stream-browserify": "^3.0.0",
     "style-loader": "^3.3.1",
@@ -54,7 +54,7 @@
     "typescript": "^4.5.4",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.1"
+    "webpack-dev-server": "^4.7.2"
   },
   "pkg": {
     "targets": [
@@ -116,6 +116,6 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "yargs": "^17.3.0"
+    "yargs": "^17.3.1"
   }
 }

@@ -36,7 +36,7 @@ jobs:
       - name: Untar files
         run: tar -xf checkout.tar ./
 
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version-file: '.nvmrc'
       - run: npm install
@@ -60,7 +60,7 @@ jobs:
           name: codebase.tar
       - name: Untar files
         run: tar -xf codebase.tar ./
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version-file: '.nvmrc'
       - run: npm run ci-test
@@ -79,7 +79,7 @@ jobs:
           name: codebase.tar
       - name: Untar files
         run: tar -xf codebase.tar ./
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version-file: '.nvmrc'
       - run: "npm run build:webpack"
@@ -118,7 +118,7 @@ jobs:
           name: codebase.tar
       - name: Untar files
         run: tar -xf codebase.tar ./
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version-file: '.nvmrc'
 
