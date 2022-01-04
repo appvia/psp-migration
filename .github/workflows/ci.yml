@@ -260,7 +260,7 @@ jobs:
           helm install --wait -n \
             kubewarden kubewarden-controller kubewarden/kubewarden-controller \
             --set policyServer.replicaCount=1 \
-            --set policyServer.image.tag=latest@sha256:4d8e85e830b092f84a1005429077d0987945ca27324d97b6e90994730876605d
+            --set policyServer.image.tag=latest@sha256:6d81ddb093059bb7fd7716c41ca932cd86b611f9a9e1c4b46fcff54a2f245cb4
 
       - if: matrix.system == 'kyverno'
         name: Install kyverno
