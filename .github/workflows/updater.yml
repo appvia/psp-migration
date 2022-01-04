@@ -20,6 +20,7 @@ jobs:
       - uses: actions/checkout@v2.4.0
         with:
           ref: main
+          ssh-key: ${{ secrets.LOCAL_DEPLOY_SSHKEY }}
 
       - id: Updater
         run: |
@@ -34,4 +35,3 @@ jobs:
           title: Bump versions
           branch: version-bumps
           body: ${{ steps.updater.outputs.log }}
-          ssh-key: ${{ secrets.LOCAL_DEPLOY_SSHKEY }}
