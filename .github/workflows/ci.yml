@@ -348,14 +348,14 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/v${{ needs.semver.outputs.sematic_version}}',
+              ref: 'refs/tags/v${{ needs.semver.outputs.semantic_version}}',
               sha: context.sha
             })
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: "*"
-          tag_name: v${{ needs.semver.outputs.sematic_version}}
+          tag_name: v${{ needs.semver.outputs.semantic_version}}
 
   codeql:
     runs-on: ubuntu-latest
@@ -395,6 +395,3 @@ jobs:
         with:
           config_file: .github/semver.yaml
           repository_local: true
-      - name: Semver check
-        run: |
-          echo "Semantic version detected: ${{ steps.semver.outputs.semantic_version }}"
