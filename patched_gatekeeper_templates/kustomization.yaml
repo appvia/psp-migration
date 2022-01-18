@@ -1,2 +1,4 @@
+kind: Kustomization
+
 resources:
   - k8spspforbiddensysctls.yaml
