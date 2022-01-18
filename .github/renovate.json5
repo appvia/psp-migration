@@ -1,0 +1,61 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":semanticPrefixFixDepsChoreOthers",
+    ":autodetectPinVersions",
+    "group:recommended",
+    "workarounds:all"
+  ],
+  "automerge": true,
+  "platformAutomerge": true,
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "pinDigests": true,
+  "dependencyDashboard": false,
+  "rollbackPrs": true,
+  "assignees": [
+    "chrisns"
+  ],
+  "github-actions": {
+    "enabled": true
+  },
+  "npm": {
+    "enabled": true
+  },
+  "nvm": {
+    "enabled": true
+  },
+  "docker": {
+    "enabled": true
+  },
+  "regex": {
+    "enabled": true
+  },
+  "ignorePaths": [],
+  "git-submodules": {
+    "enabled": true
+  },
+  "regexManagers": [
+    {
+      "fileMatch": [
+        ".*kubewarden.yaml",
+        "src/kubewarden.ts",
+        "src/__tests__/__snapshots__/index.spec.ts.snap",
+      ],
+      "matchStrings": [
+        "registry://(?<depName>.*?):(?<currentValue>.*?)\\s+"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "tests/kind-config.*\\.yaml"
+      ],
+      "matchStrings": [
+        "image: (?<depName>.*?):(?<currentValue>.*?)\\s+"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
