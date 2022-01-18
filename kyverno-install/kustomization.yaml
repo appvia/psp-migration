@@ -1,3 +1,4 @@
+kind: Kustomization
 resources: 
   - github.com/kyverno/kyverno/config
 
