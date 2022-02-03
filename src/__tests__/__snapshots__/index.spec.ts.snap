@@ -1227,7 +1227,7 @@ Array [
       "name": "psp-allowedhostpaths",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.4",
+      "module": "registry://ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.5",
       "mutating": false,
       "rules": Array [
         Object {
