@@ -107,7 +107,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.allowedProcMountTypes)
     policies.push(mod.kubewarden_policy_helper(
       'allowedProcMountTypes',
-      'registry://ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.2',
+      'registry://ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.3',
       { allow_unmasked_proc_mount_type: PSP.spec.allowedProcMountTypes?.includes('Unmasked') }
     ))
 
