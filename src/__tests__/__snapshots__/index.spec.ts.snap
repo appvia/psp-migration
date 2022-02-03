@@ -1118,7 +1118,7 @@ Array [
       "name": "psp-capabilities",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8",
+      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.9",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1410,7 +1410,7 @@ Array [
       "name": "psp-capabilities",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8",
+      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.9",
       "mutating": true,
       "rules": Array [
         Object {
@@ -1827,7 +1827,7 @@ Array [
       "name": "psp-capabilities",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.8",
+      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.9",
       "mutating": false,
       "rules": Array [
         Object {
