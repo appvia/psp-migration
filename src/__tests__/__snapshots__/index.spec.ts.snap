@@ -1598,7 +1598,7 @@ Array [
       "name": "psp-hostnamespaces",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1637,7 +1637,7 @@ Array [
       "name": "psp-hostnamespaces",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1676,7 +1676,7 @@ Array [
       "name": "psp-hostnamespaces",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1715,7 +1715,7 @@ Array [
       "name": "psp-hostnamespaces",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
       "mutating": false,
       "rules": Array [
         Object {
