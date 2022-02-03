@@ -40,11 +40,20 @@
     {
       "fileMatch": [
         ".*kubewarden.yaml",
+      ],
+      "matchStrings": [
+        "registry://(?<depName>.*?):(?<currentValue>.*?)\\s+"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
         "src/kubewarden.ts",
         "src/__tests__/__snapshots__/index.spec.ts.snap",
       ],
       "matchStrings": [
-        "registry://(?<depName>.*?):(?<currentValue>.*?)\"?\\s+"
+        "registry://(?<depName>.*?):(?<currentValue>.*?)\"",
+        "registry://(?<depName>.*?):(?<currentValue>.*?)'"
       ],
       "datasourceTemplate": "docker"
     },
