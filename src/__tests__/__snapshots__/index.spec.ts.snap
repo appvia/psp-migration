@@ -1896,7 +1896,7 @@ Array [
       "name": "psp-usergroup",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.4",
+      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.5",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1975,7 +1975,7 @@ Array [
       "name": "psp-usergroup",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.4",
+      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.5",
       "mutating": false,
       "rules": Array [
         Object {
@@ -2135,7 +2135,7 @@ Array [
       "name": "psp-usergroup",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.4",
+      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.5",
       "mutating": false,
       "rules": Array [
         Object {
