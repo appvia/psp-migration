@@ -13,7 +13,7 @@
   },
   "pinDigests": true,
   "dependencyDashboard": false,
-  "rollbackPrs": true,
+  "rollbackPrs": false,
   "assignees": [
     "chrisns"
   ],
