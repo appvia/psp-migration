@@ -1198,7 +1198,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1268,7 +1268,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1527,7 +1527,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1759,7 +1759,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1867,7 +1867,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1946,7 +1946,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -2106,7 +2106,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -2183,7 +2183,7 @@ Array [
       "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
