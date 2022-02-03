@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: allowedflexvolumes
 spec:
-  module: registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v0.1.1
+  module: registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:sha256-b2e44ce617f80a335f12341651d66a200611b5bbe392694e01212a69663a79f1.sig
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]

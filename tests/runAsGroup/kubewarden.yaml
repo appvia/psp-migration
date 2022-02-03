@@ -4,7 +4,7 @@ metadata:
   name: runasgroup
 spec:
   policyServer: default
-  module: registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
+  module: registry://ghcr.io/kubewarden/policies/user-group-psp:sha256-f5fd26e3bdfd511819d7d57dae23a244a25aadfc7870d8fabd3bbfc447d4d02c.sig
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]

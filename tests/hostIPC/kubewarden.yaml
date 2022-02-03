@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: hostipc
 spec:
-  module: registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.1
+  module: registry://ghcr.io/kubewarden/policies/host-namespaces-psp:sha256-ee286061edb4e52e134c9594312a98d2aebded5569f39d419bb891761f532449.sig
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]

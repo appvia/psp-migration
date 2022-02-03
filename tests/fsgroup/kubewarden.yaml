@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: fsgroup
 spec:
-  module: registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.1
+  module: registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:sha256-c782569518aa3d31733848f24c85b42b72ea490cea451da21195297653575301.sig
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]

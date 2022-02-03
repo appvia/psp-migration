@@ -4,7 +4,7 @@ metadata:
   name: readonlyrootfilesystem
 spec:
   policyServer: default
-  module: registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.2
+  module: registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:sha256-7840099b5b21c2ec6b35d5f0603e36d8403759c3713591df7f9cb770389e6259.sig
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]

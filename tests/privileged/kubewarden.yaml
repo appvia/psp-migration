@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: privileged
 spec:
-  module: registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.9
+  module: registry://ghcr.io/kubewarden/policies/pod-privileged:sha256-6f98a566c889e1313f0f00795f3080880eaa9ed44579135bcc0e664fa6848b37.sig
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]
