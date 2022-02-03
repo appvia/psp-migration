@@ -145,7 +145,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.defaultAllowPrivilegeEscalation !== undefined || PSP.spec?.allowPrivilegeEscalation !== undefined)
     policies.push(mod.kubewarden_policy_helper(
       'defaultAllowPrivilegeEscalation',
-      'registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.10',
+      'registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.1.11',
       { default_allow_privilege_escalation: PSP.spec?.allowPrivilegeEscalation !== undefined ? PSP.spec?.allowPrivilegeEscalation : PSP.spec.defaultAllowPrivilegeEscalation },
       PSP.spec?.defaultAllowPrivilegeEscalation !== undefined && !PSP.spec?.defaultAllowPrivilegeEscalation
     ))
