@@ -1333,7 +1333,7 @@ Array [
       "name": "psp-allowedprocmounttypes",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.7",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1488,7 +1488,7 @@ Array [
       "name": "psp-allowedprocmounttypes",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.7",
       "mutating": false,
       "rules": Array [
         Object {

@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: allowedunsafesysctls
 spec:
-  module: registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.6
+  module: registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.7
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
