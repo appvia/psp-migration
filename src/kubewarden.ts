@@ -43,7 +43,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.metadata?.annotations && PSP.metadata.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames'])
     policies.push(mod.kubewarden_policy_helper(
       'apparmor',
-      'registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.8',
+      'registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.9',
       { allowed_profiles: PSP.metadata.annotations['apparmor.security.beta.kubernetes.io/allowedProfileNames'].split(",") }
     ))
 
