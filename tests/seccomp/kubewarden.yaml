@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: psp-seccomp-0c260
 spec:
-  module: registry://ghcr.io/jvanz/policies/seccomp-psp:issue6
+  module: registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.1
   rules:
     - apiGroups:
         - ""
