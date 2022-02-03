@@ -4,7 +4,7 @@ metadata:
   name: supplementalgroups
 spec:
   policyServer: default
-  module: registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.4
+  module: registry://ghcr.io/kubewarden/policies/user-group-psp:v0.1.5
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]
