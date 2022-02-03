@@ -4,7 +4,7 @@ metadata:
   name: volumes
 spec:
   policyServer: default
-  module: registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.4
+  module: registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.6
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]

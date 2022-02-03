@@ -36,7 +36,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (!PSP.spec?.volumes?.includes('*'))
     policies.push(mod.kubewarden_policy_helper(
       'volumes',
-      'registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.4',
+      'registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.6',
       { allowedTypes: PSP.spec?.volumes }
     ))
 
