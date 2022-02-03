@@ -44,7 +44,7 @@
         "src/__tests__/__snapshots__/index.spec.ts.snap",
       ],
       "matchStrings": [
-        "registry://(?<depName>.*?):(?<currentValue>.*?)\\s+"
+        "registry://(?<depName>.*?):(?<currentValue>.*?)\"?\\s+"
       ],
       "datasourceTemplate": "docker"
     },
