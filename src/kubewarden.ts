@@ -138,7 +138,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.fsGroup && PSP.spec?.fsGroup?.rule !== 'RunAsAny')
     policies.push(mod.kubewarden_policy_helper(
       'fsGroup',
-      'registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.1',
+      'registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.4',
       PSP.spec?.fsGroup
     ))
 
