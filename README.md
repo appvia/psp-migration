@@ -11,6 +11,9 @@
 [![Appvia Community Slack](https://img.shields.io/badge/slack-@appvia_community-default.svg?logo=slack)](https://join.slack.com/t/appvia-community/shared_invite/zt-rcqz9vif-eDDQrbD_EAZBxsem30c2bQ)
 [![GitHub license](https://img.shields.io/github/license/appvia/psp-migration)](https://github.com/appvia/psp-migration/blob/main/LICENSE)
 
+# Please see our blog post [PodSecurityPolicy is Dead, Long Live...?](https://www.appvia.io/blog/podsecuritypolicy-is-dead-long-live)!
+---
+
 ## 🚨 🚧 UNDER ACTIVE DEVELOPMENT (pull requests welcome) 🚧 🚨
 
 This project is striving to recreate common Pod Security Policy configuration in other common kubernetes policy engines, to better inform the consumer how to migrate before it is removed in Kubernetes 1.25
