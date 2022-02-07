@@ -189,10 +189,13 @@ jobs:
           - psp
           - gatekeeper
           - kyverno
-          - krail
-          - pss
+          - kubewarden
         e2e: ["fixtures"]
         include:
+          - system: krail
+            experimental: "true"
+          - system: pss
+            experimental: "true"
           - system: kubewarden
             e2e: "e2e"
           - system: gatekeeper
@@ -293,7 +296,7 @@ jobs:
           name: Test results (${{ matrix.system }}) ${{ matrix.e2e == 'e2e' && 'end-to-end' || 'static policy'}}
           path: report.xml
           reporter: java-junit
-          fail-on-error: false
+          fail-on-error: ${{ matrix.experimental != 'true' }}
 
   release-binaries:
     if: ${{ github.ref == 'refs/heads/main' }}
