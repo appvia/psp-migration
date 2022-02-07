@@ -176,7 +176,7 @@ jobs:
 
   policytests:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental || false}}
+    continue-on-error: ${{ matrix.experimental == 'true' }}
     needs: 
       - checkout
       - js-build-binaries
