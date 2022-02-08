@@ -2024,7 +2024,7 @@ Array [
     },
     "spec": Object {
       "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.5",
-      "mutating": true,
+      "mutating": false,
       "rules": Array [
         Object {
           "apiGroups": Array [
