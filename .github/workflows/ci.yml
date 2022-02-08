@@ -176,7 +176,6 @@ jobs:
 
   policytests:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental == 'true' }}
     needs: 
       - checkout
       - js-build-binaries
@@ -190,12 +189,10 @@ jobs:
           - gatekeeper
           - kyverno
           - kubewarden
+          - pss
+          - krail
         e2e: ["fixtures"]
         include:
-          - system: krail
-            experimental: "true"
-          - system: pss
-            experimental: "true"
           - system: kubewarden
             e2e: "e2e"
           - system: gatekeeper
