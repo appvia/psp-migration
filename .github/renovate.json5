@@ -12,7 +12,7 @@
     "enabled": true
   },
   "pinDigests": true,
-  "dependencyDashboard": false,
+  "dependencyDashboard": true,
   "rollbackPrs": false,
   "assignees": [
     "chrisns"
