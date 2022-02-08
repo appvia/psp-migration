@@ -62,7 +62,7 @@
         "tests/kind-config-*.yaml"
       ],
       "matchStrings": [
-        "image: (?<depName>.*?):(?<currentValue>.*?)\\s+"
+        "image: (?<depName>.*?):(?<currentValue>.*?)$",
       ],
       "datasourceTemplate": "docker"
     }
