@@ -3,8 +3,7 @@
 setup() {
   local -r testcase="${BATS_TEST_NAME:5}"
 
-
-  if [ -z ${E2E_TEST+x} ]; then
+  if [ "${E2E_TEST}" != "" ]; then
     ${E2E_TEST} --engine=${SYSTEM} < tests/${testcase}/psp.yaml > tests/${testcase}/${SYSTEM}.yaml
   fi
   if [ -f tests/${testcase}/${SYSTEM}.yaml ]; then
