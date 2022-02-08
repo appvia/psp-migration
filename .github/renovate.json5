@@ -59,7 +59,7 @@
     },
     {
       "fileMatch": [
-        "tests/kind-config.*\\.yaml"
+        "tests/kind-config*\\.yaml"
       ],
       "matchStrings": [
         "image: (?<depName>.*?):(?<currentValue>.*?)\\s+"
