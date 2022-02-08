@@ -283,7 +283,7 @@ jobs:
           helm install --wait --set webhookTimeout=30 --set replicaCount=1 k-rail k-rail/k-rail --namespace k-rail
 
       - name: BATS tests
-        continue-on-error: true
+        continue-on-error: false
         run: submodules/bats/bin/bats --report-formatter junit tests
         env:
           SYSTEM: ${{ matrix.system }}
@@ -296,7 +296,7 @@ jobs:
           name: Test results (${{ matrix.system }}) ${{ matrix.e2e == 'e2e' && 'end-to-end' || 'static policy'}}
           path: report.xml
           reporter: java-junit
-          fail-on-error: ${{ matrix.experimental != 'true' }}
+          fail-on-error: true
 
   release-binaries:
     if: ${{ github.ref == 'refs/heads/main' }}
