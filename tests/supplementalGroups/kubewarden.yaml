@@ -19,7 +19,3 @@ spec:
       ranges:
         - min: 100
           max: 200
-    run_as_user:
-      rule: "RunAsAny"
-    run_as_group:
-      rule: "RunAsAny"
