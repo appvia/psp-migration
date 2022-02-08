@@ -336,22 +336,11 @@ export function transform_kyverno(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
 
   if (PSP.spec?.supplementalGroups && PSP.spec?.supplementalGroups?.rule !== 'RunAsAny') {
     let policy = new ClusterPolicy('supplementalGroups')
-    let ranges = PSP.spec?.supplementalGroups?.ranges?.map(range => Array.from({ length: range.max - range.min + 1 }, (v, k) => k + range.min)).flat()
-    policy.addRule({
-      validate: {
-        foreach: [{
-          list: "request.object.spec.securityContext", deny: {
-            conditions: {
-              any: [{
-                key: "{{ element.supplementalGroups }}",
-                operator: "AnyNotIn",
-                value: ranges
-              }]
-            }
-          }
-        }]
-      }
-    })
+    let ranges = PSP.spec?.supplementalGroups?.ranges?.map(range => `${range.min}-${range.max}`).flat().join(" | ")
+    policy.addRule(wrap_validate_spec({
+      "=(securityContext)": { "=(supplementalGroups)": ranges },
+      ...optional_ephemeral_init_container_copy({ "=(securityContext)": { "=(supplementalGroups)": ranges } })
+    }))
     policies.push(policy)
   }
 
