@@ -1,9 +1,0 @@
-kind: Kustomization
-resources: 
-  - github.com/kyverno/kyverno/config
-
-images:
-  - name: ghcr.io/kyverno/kyverno
-    newTag: 1.6-dev-latest
-  - name: ghcr.io/kyverno/kyvernopre
-    newTag: 1.6-dev-latest
