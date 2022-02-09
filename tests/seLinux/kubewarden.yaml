@@ -12,7 +12,7 @@ spec:
     operations:
     - CREATE
     - UPDATE
-  mutating: false
+  mutating: true
   settings:
     rule: MustRunAs
     user: system_u
