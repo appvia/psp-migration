@@ -264,8 +264,7 @@ jobs:
       - if: matrix.system == 'kyverno'
         name: Install kyverno
         run: |
-          kubectl apply --wait -k kyverno-install
-          # kubectl apply --wait -k github.com/kyverno/kyverno/config
+          kubectl apply --wait -k github.com/kyverno/kyverno/config
           kubectl wait --for=condition=available --timeout=600s  -n kyverno \
             deployment/kyverno
           kubectl cordon kind-control-plane
