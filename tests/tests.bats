@@ -26,8 +26,8 @@ setup() {
       kubectl -n k-rail rollout status deployment k-rail
     fi
   fi
-  kubectl apply -f tests/${testcase}/allowed.yaml 
-  ! kubectl apply -f tests/${testcase}/disallowed.yaml 
+  kubectl apply -f tests/${testcase}/allowed.yaml
+  ! kubectl apply -f tests/${testcase}/disallowed.yaml
 }
 
 teardown() {
