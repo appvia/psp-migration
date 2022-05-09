@@ -23,3 +23,9 @@ spec:
       rule: "RunAsAny"
     supplemental_groups: 
       rule: "RunAsAny"
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

@@ -16,3 +16,9 @@ spec:
   settings:
     allowed_profiles:
       - runtime/default
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

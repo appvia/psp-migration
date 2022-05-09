@@ -12,3 +12,9 @@ spec:
     - CREATE
     - UPDATE
   mutating: false
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

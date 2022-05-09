@@ -18,3 +18,9 @@ spec:
       - something
     allowed_capabilities:
       - something
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

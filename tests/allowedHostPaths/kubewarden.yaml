@@ -17,3 +17,9 @@ spec:
     allowedHostPaths:
       - pathPrefix: "/foo"
         readOnly: true
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

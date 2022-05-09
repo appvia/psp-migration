@@ -16,3 +16,9 @@ spec:
     allowedFlexVolumes:
       - driver: "example/lvm"
       - driver: "example/cifs"
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

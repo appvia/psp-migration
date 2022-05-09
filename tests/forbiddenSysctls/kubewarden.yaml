@@ -18,3 +18,9 @@ spec:
   settings:
     forbiddenSysctls:
       - kernel.m*
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden
