@@ -15,3 +15,9 @@ spec:
   mutating: false
   settings:
     allow_unmasked_proc_mount_type: false
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

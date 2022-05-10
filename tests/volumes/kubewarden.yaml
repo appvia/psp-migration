@@ -22,3 +22,9 @@ spec:
     - downwardAPI
     - persistentVolumeClaim
     - flexVolume 
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

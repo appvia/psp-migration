@@ -22,3 +22,9 @@ spec:
     profile_types:
       - RuntimeDefault
     localhost_profiles: []
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

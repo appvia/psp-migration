@@ -259,7 +259,9 @@ jobs:
           helm install --create-namespace -n kubewarden kubewarden-crds kubewarden/kubewarden-crds
           helm install --wait -n \
             kubewarden kubewarden-controller kubewarden/kubewarden-controller \
-            --set policyServer.replicaCount=1
+            --set telemetry.enabled=False
+          helm install --wait -n kubewarden kubewarden-defaults kubewarden/kubewarden-defaults \
+            --set policyServer.telemetry.enabled=False
 
       - if: matrix.system == 'kyverno'
         name: Install kyverno

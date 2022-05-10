@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: privileged
 spec:
-  module: registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10
+  module: registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.11
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]
@@ -12,3 +12,9 @@ spec:
     - CREATE
     - UPDATE
   mutating: false
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

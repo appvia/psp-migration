@@ -19,3 +19,9 @@ spec:
     role: object_r
     type: svirt_sandbox_file_t
     level: s0:c123,c456
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

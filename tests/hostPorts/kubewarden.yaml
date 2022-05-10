@@ -16,3 +16,9 @@ spec:
     allow_host_ports:
     - min: 80
       max: 9000
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

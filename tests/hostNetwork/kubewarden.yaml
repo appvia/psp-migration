@@ -14,3 +14,9 @@ spec:
   mutating: false
   settings:
     allow_host_network: false
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

@@ -16,3 +16,9 @@ spec:
   settings:
     required_drop_capabilities:
       - something
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

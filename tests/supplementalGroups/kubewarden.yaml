@@ -19,3 +19,9 @@ spec:
       ranges:
         - min: 100
           max: 200
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden

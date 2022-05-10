@@ -15,4 +15,9 @@ spec:
   mutating: false
   settings:
     default_allow_privilege_escalation: false
-
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: NotIn
+      values:
+      - kubewarden
