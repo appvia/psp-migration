@@ -17,6 +17,8 @@ setup() {
     fi
     if [ "${SYSTEM}" == "kubewarden" ]; then
       kubectl wait --for=condition=PolicyActive --timeout=60s -f tests/${testcase}/${SYSTEM}.yaml
+      kubectl -n kubewarden rollout status deployment policy-server-default
+      while [[ $(kubectl -n kubewarden get po -l app=kubewarden-policy-server-default | grep "Terminating") ]]; do sleep 1; done
     fi
     if [ "${SYSTEM}" == "pss" ]; then
       kubectl config set-context --current --namespace=test
@@ -38,6 +40,9 @@ teardown() {
     kubectl delete --wait -f tests/${testcase}/${SYSTEM}.yaml
     if [ -f tests/${testcase}/${SYSTEM}-helper.yaml ]; then
       kubectl delete -f tests/${testcase}/${SYSTEM}-helper.yaml
+    fi
+    if [ "${SYSTEM}" == "kubewarden" ]; then
+      kubectl -n kubewarden rollout status deployment policy-server-default
     fi
     if [ "${SYSTEM}" == "kyverno" ]; then
       while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') == "true" ]]; do sleep 1; done
