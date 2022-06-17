@@ -2,7 +2,7 @@
 
 setup() {
   local -r testcase="${BATS_TEST_NAME:5}"
-  
+
   if  [ "${E2E_TEST:-false}" != 'false' ] ; then
     ${E2E_TEST} --engine=${SYSTEM} < tests/${testcase}/psp.yaml > tests/${testcase}/${SYSTEM}.yaml
   fi
@@ -13,7 +13,7 @@ setup() {
     fi
 
     if [ "${SYSTEM}" == "kyverno" ]; then
-      while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') != "true" ]]; do sleep 1; done
+      while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') != *"true"* ]]; do sleep 1; done
     fi
     if [ "${SYSTEM}" == "kubewarden" ]; then
       kubectl wait --for=condition=PolicyActive --timeout=60s -f tests/${testcase}/${SYSTEM}.yaml
@@ -34,7 +34,7 @@ setup() {
 
 teardown() {
   local -r testcase="${BATS_TEST_NAME:5}"
-  kubectl delete -f tests/${testcase}/allowed.yaml 
+  kubectl delete -f tests/${testcase}/allowed.yaml
   ! kubectl delete -f tests/${testcase}/disallowed.yaml
   if [ -f tests/${testcase}/${SYSTEM}.yaml ]; then
     kubectl delete --wait -f tests/${testcase}/${SYSTEM}.yaml
@@ -45,7 +45,7 @@ teardown() {
       kubectl -n kubewarden rollout status deployment policy-server-default
     fi
     if [ "${SYSTEM}" == "kyverno" ]; then
-      while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') == "true" ]]; do sleep 1; done
+      while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') == *"true"* ]]; do sleep 1; done
     fi
     if [ "${SYSTEM}" == "pss" ]; then
       kubectl config set-context --current --namespace=default
@@ -57,24 +57,24 @@ teardown() {
 @test "privileged" {}
 @test "hostPID" {}
 @test "hostIPC" {}
-@test "hostNetwork" {} 
+@test "hostNetwork" {}
 @test "hostPorts" {}
 @test "volumes" {}
-@test "allowedHostPaths" {} 
-@test "allowedFlexVolumes" {} 
-@test "readOnlyRootFilesystem" {} 
-@test "runAsUser" {} 
-@test "runAsGroup" {} 
-@test "supplementalGroups" {} 
-@test "fsgroup" {} 
+@test "allowedHostPaths" {}
+@test "allowedFlexVolumes" {}
+@test "readOnlyRootFilesystem" {}
+@test "runAsUser" {}
+@test "runAsGroup" {}
+@test "supplementalGroups" {}
+@test "fsgroup" {}
 @test "allowPrivilegeEscalation" {}
-@test "defaultAllowPrivilegeEscalation" {}  
+@test "defaultAllowPrivilegeEscalation" {}
 @test "allowedCapabilities" {}
-@test "defaultAddCapabilities" {} 
-@test "requiredDropCapabilities" {}  
-@test "seLinux" {} 
+@test "defaultAddCapabilities" {}
+@test "requiredDropCapabilities" {}
+@test "seLinux" {}
 @test "allowedProcMountTypes" {}
 @test "apparmor" {}
 @test "seccomp" {}
-@test "forbiddenSysctls" {} 
-@test "allowedUnsafeSysctls" {} 
+@test "forbiddenSysctls" {}
+@test "allowedUnsafeSysctls" {}
