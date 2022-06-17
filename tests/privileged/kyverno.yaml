@@ -5,7 +5,7 @@ metadata:
 spec:
   validationFailureAction: enforce
   rules:
-    - name: priviledged-containers
+    - name: privileged-containers
       match:
         resources:
           kinds:
