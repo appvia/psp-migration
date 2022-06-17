@@ -241,7 +241,6 @@ jobs:
           do
             sleep 1
           done
-          kubectl cordon kind-control-plane
 
       - if: matrix.system == 'kubewarden'
         name: Install kubewarden
