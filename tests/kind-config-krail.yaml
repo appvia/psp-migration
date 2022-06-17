@@ -5,4 +5,4 @@ featureGates:
   SeccompDefault: true
 nodes:
   - role: control-plane
-    image: kindest/node:v1.23.5
+    image: kindest/node:v1.24.1
