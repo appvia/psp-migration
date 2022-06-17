@@ -181,6 +181,7 @@ jobs:
       - js-build-binaries
     permissions:
       checks: write
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
