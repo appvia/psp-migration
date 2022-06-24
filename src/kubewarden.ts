@@ -5,7 +5,7 @@ import * as mod from './kubewarden'
 export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[] {
   const policies = []
 
-  if (PSP.spec?.privileged === false)
+  if ( !PSP.spec?.privileged)
     policies.push(mod.kubewarden_policy_helper(
       'privileged',
       'registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10',
@@ -17,21 +17,16 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
       'registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.3',
     ))
 
-  if (PSP.spec?.hostIPC === false ||
-    PSP.spec?.hostPID === false ||
-    PSP.spec?.hostPorts ||
-    PSP.spec?.hostNetwork === false
-  )
-    policies.push(mod.kubewarden_policy_helper(
-      'hostnamespaces',
-      'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2',
-      {
-        allow_host_ipc: PSP.spec?.hostIPC,
-        allow_host_pid: PSP.spec?.hostPID,
-        allow_host_ports: PSP.spec?.hostPorts,
-        allow_host_network: PSP.spec?.hostNetwork,
-      }
-    ))
+  policies.push(mod.kubewarden_policy_helper(
+    'hostnamespaces',
+    'registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2',
+    {
+      allow_host_ipc: PSP.spec?.hostIPC ? PSP.spec.hostIPC : false,
+      allow_host_pid: PSP.spec?.hostPID ? PSP.spec.hostPID : false,
+      allow_host_ports: PSP.spec?.hostPorts,
+      allow_host_network: PSP.spec?.hostNetwork ? PSP.spec.hostNetwork : false,
+    }
+  ))
 
   if (!PSP.spec?.volumes?.includes('*'))
     policies.push(mod.kubewarden_policy_helper(
