@@ -6,4 +6,4 @@ featureGates:
   PodSecurity: true
 nodes:
   - role: control-plane
-    image: kindest/node:v1.24.1
+    image: kindest/node:v1.24.2
