@@ -1076,7 +1076,7 @@ Array [
 exports[`transform_kubewarden allowPrivilegeEscalation 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1105,7 +1105,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1139,7 +1139,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-defaultallowprivilegeescalation",
@@ -1175,7 +1175,7 @@ Array [
 exports[`transform_kubewarden allowedCapabilities 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1204,7 +1204,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1238,7 +1238,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-capabilities",
@@ -1278,7 +1278,7 @@ Array [
 exports[`transform_kubewarden allowedFlexVolumes 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1307,7 +1307,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1341,7 +1341,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-allowedflexvolumes",
@@ -1381,7 +1381,7 @@ Array [
 exports[`transform_kubewarden allowedHostPaths 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1410,7 +1410,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1444,7 +1444,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-allowedhostpaths",
@@ -1485,7 +1485,7 @@ Array [
 exports[`transform_kubewarden allowedProcMountTypes 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1514,7 +1514,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1548,7 +1548,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-allowedprocmounttypes",
@@ -1584,7 +1584,7 @@ Array [
 exports[`transform_kubewarden allowedUnsafeSysctls 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1613,7 +1613,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1647,7 +1647,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-allowedprocmounttypes",
@@ -1686,7 +1686,7 @@ Array [
 exports[`transform_kubewarden apparmor 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1715,7 +1715,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1749,7 +1749,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-apparmor",
@@ -1787,7 +1787,7 @@ Array [
 exports[`transform_kubewarden defaultAddCapabilities 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1816,7 +1816,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1850,7 +1850,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-capabilities",
@@ -1892,7 +1892,7 @@ Array [
 exports[`transform_kubewarden defaultAllowPrivilegeEscalation 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -1921,7 +1921,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -1955,7 +1955,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-defaultallowprivilegeescalation",
@@ -1991,7 +1991,7 @@ Array [
 exports[`transform_kubewarden forbiddenSysctls 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2020,7 +2020,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2054,7 +2054,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-allowedprocmounttypes",
@@ -2093,7 +2093,7 @@ Array [
 exports[`transform_kubewarden fsgroup 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2122,7 +2122,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2156,7 +2156,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-fsgroup",
@@ -2198,7 +2198,7 @@ Array [
 exports[`transform_kubewarden hostIPC 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2227,7 +2227,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2266,7 +2266,7 @@ Array [
 exports[`transform_kubewarden hostNetwork 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2295,7 +2295,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2334,7 +2334,7 @@ Array [
 exports[`transform_kubewarden hostPID 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2363,7 +2363,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2402,7 +2402,7 @@ Array [
 exports[`transform_kubewarden hostPorts 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2431,7 +2431,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2475,7 +2475,7 @@ Array [
 exports[`transform_kubewarden privileged 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2504,7 +2504,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2543,7 +2543,7 @@ Array [
 exports[`transform_kubewarden readOnlyRootFilesystem 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2572,7 +2572,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-readonlyrootfilesystem",
@@ -2601,7 +2601,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2640,7 +2640,7 @@ Array [
 exports[`transform_kubewarden requiredDropCapabilities 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2669,7 +2669,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2703,7 +2703,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-capabilities",
@@ -2743,7 +2743,7 @@ Array [
 exports[`transform_kubewarden runAsGroup 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2772,7 +2772,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2806,7 +2806,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-usergroup",
@@ -2856,7 +2856,7 @@ Array [
 exports[`transform_kubewarden runAsUser 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2885,7 +2885,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -2919,7 +2919,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-usergroup",
@@ -2967,7 +2967,7 @@ Array [
 exports[`transform_kubewarden seLinux 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -2996,7 +2996,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -3030,7 +3030,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-selinux",
@@ -3070,7 +3070,7 @@ Array [
 exports[`transform_kubewarden seccomp 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -3099,7 +3099,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -3133,7 +3133,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-seccomp",
@@ -3176,7 +3176,7 @@ Array [
 exports[`transform_kubewarden supplementalGroups 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -3205,7 +3205,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -3239,7 +3239,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-usergroup",
@@ -3287,7 +3287,7 @@ Array [
 exports[`transform_kubewarden volumes 1`] = `
 Array [
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-privileged",
@@ -3316,7 +3316,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-hostnamespaces",
@@ -3350,7 +3350,7 @@ Array [
     },
   },
   Object {
-    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
       "name": "psp-volumes",
