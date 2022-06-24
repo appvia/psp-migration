@@ -1079,6 +1079,69 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-defaultallowprivilegeescalation",
     },
     "spec": Object {
@@ -1111,6 +1174,69 @@ Array [
 
 exports[`transform_kubewarden allowedCapabilities 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1151,6 +1277,69 @@ Array [
 
 exports[`transform_kubewarden allowedFlexVolumes 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1218,6 +1407,40 @@ Array [
         },
       ],
       "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
     },
   },
   Object {
@@ -1294,6 +1517,40 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-allowedprocmounttypes",
     },
     "spec": Object {
@@ -1326,6 +1583,69 @@ Array [
 
 exports[`transform_kubewarden allowedUnsafeSysctls 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1369,6 +1689,69 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-apparmor",
     },
     "spec": Object {
@@ -1403,6 +1786,69 @@ Array [
 
 exports[`transform_kubewarden defaultAddCapabilities 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1449,6 +1895,69 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-defaultallowprivilegeescalation",
     },
     "spec": Object {
@@ -1481,6 +1990,69 @@ Array [
 
 exports[`transform_kubewarden forbiddenSysctls 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1553,6 +2125,40 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-fsgroup",
     },
     "spec": Object {
@@ -1595,6 +2201,35 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-hostnamespaces",
     },
     "spec": Object {
@@ -1619,8 +2254,8 @@ Array [
       ],
       "settings": Object {
         "allow_host_ipc": false,
-        "allow_host_network": undefined,
-        "allow_host_pid": undefined,
+        "allow_host_network": false,
+        "allow_host_pid": false,
         "allow_host_ports": undefined,
       },
     },
@@ -1634,10 +2269,10 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
-      "name": "psp-hostnamespaces",
+      "name": "psp-privileged",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
@@ -1656,19 +2291,9 @@ Array [
           ],
         },
       ],
-      "settings": Object {
-        "allow_host_ipc": undefined,
-        "allow_host_network": false,
-        "allow_host_pid": undefined,
-        "allow_host_ports": undefined,
-      },
+      "settings": null,
     },
   },
-]
-`;
-
-exports[`transform_kubewarden hostPID 1`] = `
-Array [
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1696,8 +2321,76 @@ Array [
         },
       ],
       "settings": Object {
-        "allow_host_ipc": undefined,
-        "allow_host_network": undefined,
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+]
+`;
+
+exports[`transform_kubewarden hostPID 1`] = `
+Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
         "allow_host_pid": false,
         "allow_host_ports": undefined,
       },
@@ -1712,6 +2405,35 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-hostnamespaces",
     },
     "spec": Object {
@@ -1735,9 +2457,9 @@ Array [
         },
       ],
       "settings": Object {
-        "allow_host_ipc": undefined,
+        "allow_host_ipc": false,
         "allow_host_network": false,
-        "allow_host_pid": undefined,
+        "allow_host_pid": false,
         "allow_host_ports": Array [
           Object {
             "max": 9000,
@@ -1781,11 +2503,74 @@ Array [
       "settings": null,
     },
   },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
 ]
 `;
 
 exports[`transform_kubewarden readOnlyRootFilesystem 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1815,11 +2600,108 @@ Array [
       "settings": null,
     },
   },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
 ]
 `;
 
 exports[`transform_kubewarden requiredDropCapabilities 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -1887,6 +2769,40 @@ Array [
         },
       ],
       "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
     },
   },
   Object {
@@ -1972,6 +2888,40 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-usergroup",
     },
     "spec": Object {
@@ -2020,6 +2970,69 @@ Array [
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
     "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
       "name": "psp-selinux",
     },
     "spec": Object {
@@ -2056,6 +3069,69 @@ Array [
 
 exports[`transform_kubewarden seccomp 1`] = `
 Array [
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-privileged",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
+    },
+  },
   Object {
     "apiVersion": "policies.kubewarden.io/v1alpha2",
     "kind": "ClusterAdmissionPolicy",
@@ -2126,6 +3202,40 @@ Array [
         },
       ],
       "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
     },
   },
   Object {
@@ -2203,6 +3313,40 @@ Array [
         },
       ],
       "settings": null,
+    },
+  },
+  Object {
+    "apiVersion": "policies.kubewarden.io/v1alpha2",
+    "kind": "ClusterAdmissionPolicy",
+    "metadata": Object {
+      "name": "psp-hostnamespaces",
+    },
+    "spec": Object {
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2",
+      "mutating": false,
+      "rules": Array [
+        Object {
+          "apiGroups": Array [
+            "",
+          ],
+          "apiVersions": Array [
+            "v1",
+          ],
+          "operations": Array [
+            "CREATE",
+            "UPDATE",
+          ],
+          "resources": Array [
+            "pods",
+          ],
+        },
+      ],
+      "settings": Object {
+        "allow_host_ipc": false,
+        "allow_host_network": false,
+        "allow_host_pid": false,
+        "allow_host_ports": undefined,
+      },
     },
   },
   Object {
