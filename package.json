@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "jest",
+    "updatetestsnapshot": "jest --updateSnapshot",
     "ci-test": "jest --json --outputFile=result.json --testLocationInResults",
     "build": "npm-run-all build:**",
     "build:tsc": "tsc",

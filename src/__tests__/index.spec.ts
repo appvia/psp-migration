@@ -23,6 +23,8 @@ spec:
 `
 const fixturePSPJSON = `{ "apiVersion": "policy/v1beta1", "kind": "PodSecurityPolicy", "metadata": { "name": "policy" }, "spec": { "runAsUser": { "rule": "RunAsAny" }, "seLinux": { "rule": "RunAsAny" }, "fsGroup": { "rule": "RunAsAny" }, "supplementalGroups": { "rule": "RunAsAny" }, "volumes": ["*"] } }`
 const fixturePSPObject = { "apiVersion": "policy/v1beta1", "kind": "PodSecurityPolicy", "metadata": { "name": "policy" }, "spec": { "runAsUser": { "rule": "RunAsAny" }, "seLinux": { "rule": "RunAsAny" }, "fsGroup": { "rule": "RunAsAny" }, "supplementalGroups": { "rule": "RunAsAny" }, "volumes": ["*"] } }
+const defaultKubewardenPolicies = [{"apiVersion": "policies.kubewarden.io/v1alpha2", "kind": "ClusterAdmissionPolicy", "metadata": { "name": "psp-privileged" }, "spec": { "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.1.10", "mutating": false, "rules": [ { "apiGroups": [""], "apiVersions": [ "v1" ], "operations": ["CREATE", "UPDATE"],"resources": ["pods"]}],"settings": null}}, { "apiVersion": "policies.kubewarden.io/v1alpha2", "kind": "ClusterAdmissionPolicy", "metadata": { "name": "psp-hostnamespaces"}, "spec": { "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.2", "mutating": false, "rules": [ { "apiGroups": [""], "apiVersions": [ "v1"], "operations": [ "CREATE", "UPDATE"], "resources": [ "pods"]}], "settings": { "allow_host_ipc": false, "allow_host_network": false, "allow_host_pid": false, "allow_host_ports": undefined }}}]
+
 
 describe('parse', () => {
 
@@ -86,7 +88,7 @@ describe('transform_kyverno', () => {
 })
 
 describe('transform_kubewarden', () => {
-  it('should do an empty PSP', () => expect(kubewarden.transform_kubewarden(fixturePSPObject)).toStrictEqual([]))
+  it('should have some default policies', () => expect(kubewarden.transform_kubewarden(fixturePSPObject)).toStrictEqual(defaultKubewardenPolicies))
   test.each(pspFields)('%s', (field) =>
     expect(kubewarden.transform_kubewarden(help_load_psp(field))).toMatchSnapshot()
   )
