@@ -151,7 +151,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
 
 export function kubewarden_policy_helper(name: string, module: string, settings: any = null, mutating: boolean = false) {
   return {
-    apiVersion: "policies.kubewarden.io/v1alpha2",
+    apiVersion: "policies.kubewarden.io/v1",
     kind: "ClusterAdmissionPolicy",
     metadata: {
       name: `psp-${name.toLowerCase()}`,
