@@ -259,7 +259,8 @@ jobs:
             kubewarden kubewarden-controller kubewarden/kubewarden-controller \
             --set telemetry.enabled=False
           helm install --wait -n kubewarden kubewarden-defaults kubewarden/kubewarden-defaults \
-            --set policyServer.telemetry.enabled=False
+            --set policyServer.telemetry.enabled=False \
+            --set recommendedPolicies.skipNamespaces=\{kube-system,kubewarden\}
 
       - if: matrix.system == 'kyverno'
         name: Install kyverno
