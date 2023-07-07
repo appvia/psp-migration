@@ -73,7 +73,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.allowedCapabilities || PSP.spec?.requiredDropCapabilities || PSP.spec?.defaultAddCapabilities)
     policies.push(mod.kubewarden_policy_helper(
       'capabilities',
-      'registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.9',
+      'registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.13',
       {
         allowed_capabilities: [
           ...(PSP.spec?.allowedCapabilities || []),
