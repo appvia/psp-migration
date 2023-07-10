@@ -1347,7 +1347,7 @@ Array [
       "name": "psp-allowedflexvolumes",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v0.1.2",
+      "module": "registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v0.1.7",
       "mutating": false,
       "rules": Array [
         Object {
