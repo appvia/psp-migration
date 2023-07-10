@@ -1755,7 +1755,7 @@ Array [
       "name": "psp-apparmor",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.9",
+      "module": "registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.13",
       "mutating": false,
       "rules": Array [
         Object {
