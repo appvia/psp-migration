@@ -3139,7 +3139,7 @@ Array [
       "name": "psp-seccomp",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.1",
+      "module": "registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.4",
       "mutating": false,
       "rules": Array [
         Object {
