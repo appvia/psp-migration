@@ -2162,7 +2162,7 @@ Array [
       "name": "psp-fsgroup",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.4",
+      "module": "registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.10",
       "mutating": false,
       "rules": Array [
         Object {
