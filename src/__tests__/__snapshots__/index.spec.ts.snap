@@ -2578,7 +2578,7 @@ Array [
       "name": "psp-readonlyrootfilesystem",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.3",
+      "module": "registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.6",
       "mutating": false,
       "rules": Array [
         Object {
