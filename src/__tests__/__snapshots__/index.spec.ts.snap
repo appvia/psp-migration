@@ -3036,7 +3036,7 @@ Array [
       "name": "psp-selinux",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.5",
+      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.12",
       "mutating": true,
       "rules": Array [
         Object {
