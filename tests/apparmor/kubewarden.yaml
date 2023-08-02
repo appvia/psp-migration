@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: apparmor
 spec:
-  module: registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.9
+  module: registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.13
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
