@@ -5,6 +5,13 @@ metadata:
   labels:
     owner: me.agilebank.demo
 spec:
+  initContainers:
+    - name: initnginx
+      image: nginx
+      securityContext:
+        capabilities:
+          add: ["something"]
+
   containers:
     - name: nginx
       image: nginx
