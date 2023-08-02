@@ -20,7 +20,7 @@ export class ClusterPolicy {
     if (mutate)
       this.spec.schemaValidation = false
     else
-      this.spec.validationFailureAction = "enforce"
+      this.spec.validationFailureAction = "Enforce"
 
   }
 
