@@ -222,7 +222,7 @@ jobs:
         with:
           config: tests/kind-config-${{matrix.system}}.yaml
 
-      - uses: azure/setup-helm@20d2b4f98d41febe2bbca46408499dbb535b6258 # tag=v3.0
+      - uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3.5
         with:
           version: 'v3.7.1'
 
