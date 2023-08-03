@@ -217,7 +217,7 @@ jobs:
       - if: matrix.e2e == 'e2e'
         run: chmod +x psp-migration-linuxstatic-x64
 
-      - uses: helm/kind-action@d08cf6ff1575077dee99962540d77ce91c62387d # renovate: tag=v1.3.0
+      - uses: helm/kind-action@dda0770415bac9fc20092cacbc54aa298604d140 # v1.8.0
         timeout-minutes: 5
         with:
           config: tests/kind-config-${{matrix.system}}.yaml
