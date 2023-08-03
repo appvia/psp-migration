@@ -65,7 +65,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - run: npm run ci-test
-      - uses: tanmen/jest-reporter@3216c80e8bc9370133df330696754aca95749eaf # renovate: tag=v1
+      - uses: tanmen/jest-reporter@40415c4070fff13c080ce295929c7ff89cc656b8 # v1
         if: always()
         with:
           action-name: Jest Unit Test Results
