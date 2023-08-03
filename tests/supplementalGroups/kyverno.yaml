@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-supplementalgroups
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: psp-supplementalgroup
     match:

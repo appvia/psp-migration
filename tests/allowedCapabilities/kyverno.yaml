@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-allowedcapabilities
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   # Checks initContainers to ensure they don't add anything other than what is permitted.
   - name: psp-allowedcapabilities-initcontainers

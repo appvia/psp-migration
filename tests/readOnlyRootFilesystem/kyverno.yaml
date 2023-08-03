@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-readonlyrootfilesystem
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: psp-readonlyrootfilesystem
       match:

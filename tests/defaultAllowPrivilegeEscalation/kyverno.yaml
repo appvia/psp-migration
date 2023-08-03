@@ -21,7 +21,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-allowprivilegeescalation
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: psp-allowprivilegeescalation
     match:

@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-hostports
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: host-ports
       match:
