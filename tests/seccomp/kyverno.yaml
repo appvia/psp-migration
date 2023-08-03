@@ -4,7 +4,7 @@ metadata:
   name: psp-seccomp
 spec:
   background: true
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: restrict-seccomp
     match:
