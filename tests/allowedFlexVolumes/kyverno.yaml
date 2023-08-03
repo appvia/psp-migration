@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-allowedflexvolumes
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: psp-allowedflexvolumes
       match:

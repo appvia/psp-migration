@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-fsgroup
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: psp-fsgroup
       match:

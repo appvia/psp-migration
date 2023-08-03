@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-runasgroup
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: psp-runasgroup
       match:
