@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-apparmor
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: app-armor
       match:

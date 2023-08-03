@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-host-namespace
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: host-namespaces
       match:

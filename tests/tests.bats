@@ -16,7 +16,7 @@ setup() {
       while [[ $(kubectl get -f tests/${testcase}/${SYSTEM}.yaml -o 'jsonpath={..status.ready}') != *"true"* ]]; do sleep 1; done
     fi
     if [ "${SYSTEM}" == "kubewarden" ]; then
-      kubectl wait --for=condition=PolicyActive --timeout=60s -f tests/${testcase}/${SYSTEM}.yaml
+      kubectl wait --for=condition=PolicyActive --timeout=120s -f tests/${testcase}/${SYSTEM}.yaml
       kubectl -n kubewarden rollout status deployment policy-server-default
       while [[ $(kubectl -n kubewarden get po -l app=kubewarden-policy-server-default | grep "Terminating") ]]; do sleep 1; done
     fi

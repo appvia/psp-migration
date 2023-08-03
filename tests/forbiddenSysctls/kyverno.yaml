@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-forbiddensysctls
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: sysctls

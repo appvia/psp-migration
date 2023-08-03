@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: psp-volumes
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: false
   rules:
   - name: allowed-vols

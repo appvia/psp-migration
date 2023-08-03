@@ -229,7 +229,7 @@ jobs:
       - if: matrix.system == 'gatekeeper'
         name: Install gatekeeper
         run: |
-          kubectl apply --wait -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.7/deploy/gatekeeper.yaml
+          kubectl apply --wait -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.12/deploy/gatekeeper.yaml
           kubectl wait --for=condition=available --timeout=600s  -n gatekeeper-system \
             deployment/gatekeeper-audit \
             deployment/gatekeeper-controller-manager
@@ -264,9 +264,11 @@ jobs:
       - if: matrix.system == 'kyverno'
         name: Install kyverno
         run: |
-          kubectl apply --wait -k github.com/kyverno/kyverno/config
+          helm repo add kyverno https://kyverno.github.io/kyverno/
+          helm repo update
+          helm install kyverno kyverno/kyverno -n kyverno --create-namespace
           kubectl wait --for=condition=available --timeout=600s -n kyverno \
-            deployment/kyverno
+            deployment/kyverno-admission-controller
 
       - if: matrix.system == 'krail'
         name: Install k-rail
@@ -285,7 +287,7 @@ jobs:
           E2E_TEST: ${{ matrix.e2e == 'e2e' && './psp-migration-linuxstatic-x64' }}
 
       - name: Test Report
-        uses: dorny/test-reporter@0d00bb14cb0cc2c9b8985df6e81dd333188224e1 # renovate: tag=v1.5.0
+        uses: dorny/test-reporter@c9b3d0e2bd2a4e96aaf424dbaa31c46b42318226 # v1.6.0
         if: always()
         with:
           name: Test results (${{ matrix.system }}) ${{ matrix.e2e == 'e2e' && 'end-to-end' || 'static policy'}}
@@ -381,7 +383,7 @@ jobs:
           fetch-depth: '0'
       - name: Semver run
         id: semver
-        uses: lukaszraczylo/semver-generator@58151695a343d0e676138cbcc8836801c79b21be # tag=1.4.18
+        uses: lukaszraczylo/semver-generator@403b3f115fc9371ff4bf5a64e1328d2ba99260b4 # 1.10.143
         with:
           config_file: .github/semver.yaml
           repository_local: true

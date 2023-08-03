@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: pspallowedprocmounttypes
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
     - name: check-proc-mount
       match:
