@@ -3356,7 +3356,7 @@ Array [
       "name": "psp-volumes",
     },
     "spec": Object {
-      "module": "registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.10",
+      "module": "registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.11",
       "mutating": false,
       "rules": Array [
         Object {
