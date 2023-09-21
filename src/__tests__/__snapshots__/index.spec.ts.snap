@@ -1,26 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parse should parse a json object 1`] = `
-Object {
+{
   "apiVersion": "policy/v1beta1",
   "kind": "PodSecurityPolicy",
-  "metadata": Object {
+  "metadata": {
     "name": "policy",
   },
-  "spec": Object {
-    "fsGroup": Object {
+  "spec": {
+    "fsGroup": {
       "rule": "RunAsAny",
     },
-    "runAsUser": Object {
+    "runAsUser": {
       "rule": "RunAsAny",
     },
-    "seLinux": Object {
+    "seLinux": {
       "rule": "RunAsAny",
     },
-    "supplementalGroups": Object {
+    "supplementalGroups": {
       "rule": "RunAsAny",
     },
-    "volumes": Array [
+    "volumes": [
       "*",
     ],
   },
@@ -28,26 +28,26 @@ Object {
 `;
 
 exports[`parse should parse a yaml object 1`] = `
-Object {
+{
   "apiVersion": "policy/v1beta1",
   "kind": "PodSecurityPolicy",
-  "metadata": Object {
+  "metadata": {
     "name": "policy",
   },
-  "spec": Object {
-    "fsGroup": Object {
+  "spec": {
+    "fsGroup": {
       "rule": "RunAsAny",
     },
-    "runAsUser": Object {
+    "runAsUser": {
       "rule": "RunAsAny",
     },
-    "seLinux": Object {
+    "seLinux": {
       "rule": "RunAsAny",
     },
-    "supplementalGroups": Object {
+    "supplementalGroups": {
       "rule": "RunAsAny",
     },
-    "volumes": Array [
+    "volumes": [
       "*",
     ],
   },
@@ -55,21 +55,21 @@ Object {
 `;
 
 exports[`transform_gatekeeper allowPrivilegeEscalation 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAllowPrivilegeEscalationContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspallowprivilegeescalationcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -82,31 +82,31 @@ Array [
 `;
 
 exports[`transform_gatekeeper allowedCapabilities 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPCapabilities",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspcapabilities",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedCapabilities": Array [
+      "parameters": {
+        "allowedCapabilities": [
           "something",
         ],
-        "requiredDropCapabilities": Array [],
+        "requiredDropCapabilities": [],
       },
     },
   },
@@ -114,29 +114,29 @@ Array [
 `;
 
 exports[`transform_gatekeeper allowedFlexVolumes 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPFlexVolumes",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspflexvolumes",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedFlexVolumes": Array [
-          Object {
+      "parameters": {
+        "allowedFlexVolumes": [
+          {
             "driver": "example/lvm",
           },
         ],
@@ -147,21 +147,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper allowedHostPaths 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -170,28 +170,28 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPHostFilesystem",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spsphostfilesystem",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedHostPaths": Array [
-          Object {
+      "parameters": {
+        "allowedHostPaths": [
+          {
             "pathPrefix": "/foo",
             "readOnly": true,
           },
@@ -203,21 +203,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper allowedProcMountTypes 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -226,26 +226,26 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPProcMount",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprocmount",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
+      "parameters": {
         "procMount": "Default",
       },
     },
@@ -254,28 +254,28 @@ Array [
 `;
 
 exports[`transform_gatekeeper allowedUnsafeSysctls 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPForbiddenSysctls",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspforbiddensysctls",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedSysctls": Array [
+      "parameters": {
+        "allowedSysctls": [
           "kernel.msgmax",
         ],
         "forbiddenSysctls": null,
@@ -286,28 +286,28 @@ Array [
 `;
 
 exports[`transform_gatekeeper apparmor 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAppArmor",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspapparmor",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedProfiles": Array [
+      "parameters": {
+        "allowedProfiles": [
           "runtime/default",
         ],
       },
@@ -317,44 +317,44 @@ Array [
 `;
 
 exports[`transform_gatekeeper defaultAddCapabilities 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "mutations.gatekeeper.sh/v1beta1",
     "kind": "ModifySet",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspdefaultaddcapabilities",
     },
-    "spec": Object {
-      "applyTo": Array [
-        Object {
-          "groups": Array [
+    "spec": {
+      "applyTo": [
+        {
+          "groups": [
             "",
           ],
-          "kinds": Array [
+          "kinds": [
             "Pod",
           ],
-          "versions": Array [
+          "versions": [
             "v1",
           ],
         },
       ],
       "location": "spec.containers[name:*].securityContext.capabilities.add",
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "*",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
         "scope": "Namespaced",
       },
-      "parameters": Object {
-        "values": Object {
-          "fromList": Array [
+      "parameters": {
+        "values": {
+          "fromList": [
             "something",
           ],
         },
@@ -365,21 +365,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper defaultAllowPrivilegeEscalation 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAllowPrivilegeEscalationContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspallowprivilegeescalationcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -388,33 +388,33 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "mutations.gatekeeper.sh/v1beta1",
     "kind": "Assign",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspdefaultallowprivilegeescalation",
     },
-    "spec": Object {
-      "applyTo": Array [
-        Object {
-          "groups": Array [
+    "spec": {
+      "applyTo": [
+        {
+          "groups": [
             "",
           ],
-          "kinds": Array [
+          "kinds": [
             "Pod",
           ],
-          "versions": Array [
+          "versions": [
             "v1",
           ],
         },
       ],
       "location": "spec.containers[name:*].securityContext.allowPrivilegeEscalation",
-      "parameters": Object {
-        "assign": Object {
+      "parameters": {
+        "assign": {
           "value": false,
         },
-        "pathTests": Array [
-          Object {
+        "pathTests": [
+          {
             "condition": "MustNotExist",
             "subPath": "spec.containers[name:*].securityContext.allowPrivilegeEscalation",
           },
@@ -422,33 +422,33 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "mutations.gatekeeper.sh/v1beta1",
     "kind": "Assign",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspdefaultallowprivilegeescalation-init",
     },
-    "spec": Object {
-      "applyTo": Array [
-        Object {
-          "groups": Array [
+    "spec": {
+      "applyTo": [
+        {
+          "groups": [
             "",
           ],
-          "kinds": Array [
+          "kinds": [
             "Pod",
           ],
-          "versions": Array [
+          "versions": [
             "v1",
           ],
         },
       ],
       "location": "spec.initContainers[name:*].securityContext.allowPrivilegeEscalation",
-      "parameters": Object {
-        "assign": Object {
+      "parameters": {
+        "assign": {
           "value": false,
         },
-        "pathTests": Array [
-          Object {
+        "pathTests": [
+          {
             "condition": "MustNotExist",
             "subPath": "spec.initContainers[name:*].securityContext.allowPrivilegeEscalation",
           },
@@ -460,29 +460,29 @@ Array [
 `;
 
 exports[`transform_gatekeeper forbiddenSysctls 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPForbiddenSysctls",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspforbiddensysctls",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
+      "parameters": {
         "allowedSysctls": null,
-        "forbiddenSysctls": Array [
+        "forbiddenSysctls": [
           "kernel.m*",
         ],
       },
@@ -492,21 +492,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper fsgroup 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -515,29 +515,29 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAllowedUsers",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspallowedusers",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "fsGroup": Object {
-          "ranges": Array [
-            Object {
+      "parameters": {
+        "fsGroup": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
@@ -551,21 +551,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper hostIPC 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPHostNamespace",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spsphostnamespace",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -578,27 +578,27 @@ Array [
 `;
 
 exports[`transform_gatekeeper hostNetwork 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPHostNetworkingPorts",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spsphostnetworkingports",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
+      "parameters": {
         "hostNetwork": false,
       },
     },
@@ -607,21 +607,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper hostPID 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPHostNamespace",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spsphostnamespace",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -634,53 +634,53 @@ Array [
 `;
 
 exports[`transform_gatekeeper hostPorts 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPHostNetworkingPorts",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spsphostnetworkingports",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
+      "parameters": {
         "hostNetwork": true,
         "max": 9000,
         "min": 80,
       },
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPHostNetworkingPorts",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spsphostnetworkingports",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
+      "parameters": {
         "hostNetwork": false,
       },
     },
@@ -689,21 +689,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper privileged 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -716,21 +716,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper readOnlyRootFilesystem 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPReadOnlyRootFilesystem",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspreadonlyrootfilesystem",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -743,29 +743,29 @@ Array [
 `;
 
 exports[`transform_gatekeeper requiredDropCapabilities 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPCapabilities",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspcapabilities",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedCapabilities": Array [],
-        "requiredDropCapabilities": Array [
+      "parameters": {
+        "allowedCapabilities": [],
+        "requiredDropCapabilities": [
           "something",
         ],
       },
@@ -775,21 +775,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper runAsGroup 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -798,29 +798,29 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAllowedUsers",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspallowedusers",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "runAsGroup": Object {
-          "ranges": Array [
-            Object {
+      "parameters": {
+        "runAsGroup": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
@@ -834,21 +834,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper runAsUser 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -857,29 +857,29 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAllowedUsers",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspallowedusers",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "runAsUser": Object {
-          "ranges": Array [
-            Object {
+      "parameters": {
+        "runAsUser": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
@@ -893,29 +893,29 @@ Array [
 `;
 
 exports[`transform_gatekeeper seLinux 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPSELinuxV2",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspselinuxv2",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedSELinuxOptions": Array [
-          Object {
+      "parameters": {
+        "allowedSELinuxOptions": [
+          {
             "level": "s0:c123,c456",
             "role": "object_r",
             "type": "svirt_sandbox_file_t",
@@ -929,28 +929,28 @@ Array [
 `;
 
 exports[`transform_gatekeeper seccomp 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPSeccomp",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspseccomp",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "allowedProfiles": Array [
+      "parameters": {
+        "allowedProfiles": [
           "runtime/default",
           "docker/default",
         ],
@@ -961,21 +961,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper supplementalGroups 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -984,29 +984,29 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPAllowedUsers",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspallowedusers",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "supplementalGroups": Object {
-          "ranges": Array [
-            Object {
+      "parameters": {
+        "supplementalGroups": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
@@ -1020,21 +1020,21 @@ Array [
 `;
 
 exports[`transform_gatekeeper volumes 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPPrivilegedContainer",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspprivilegedcontainer",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
@@ -1043,27 +1043,27 @@ Array [
       "parameters": null,
     },
   },
-  Object {
+  {
     "apiVersion": "constraints.gatekeeper.sh/v1beta1",
     "kind": "K8sPSPVolumeTypes",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-k8spspvolumetypes",
     },
-    "spec": Object {
-      "match": Object {
-        "kinds": Array [
-          Object {
-            "apiGroups": Array [
+    "spec": {
+      "match": {
+        "kinds": [
+          {
+            "apiGroups": [
               "",
             ],
-            "kinds": Array [
+            "kinds": [
               "Pod",
             ],
           },
         ],
       },
-      "parameters": Object {
-        "volumes": Array [
+      "parameters": {
+        "volumes": [
           "projected",
           "emptyDir",
         ],
@@ -1074,29 +1074,29 @@ Array [
 `;
 
 exports[`transform_kubewarden allowPrivilegeEscalation 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1104,33 +1104,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1138,33 +1138,33 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-defaultallowprivilegeescalation",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.2.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "default_allow_privilege_escalation": false,
       },
     },
@@ -1173,29 +1173,29 @@ Array [
 `;
 
 exports[`transform_kubewarden allowedCapabilities 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1203,33 +1203,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1237,34 +1237,34 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-capabilities",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.13",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowed_capabilities": Array [
+      "settings": {
+        "allowed_capabilities": [
           "something",
         ],
         "default_add_capabilities": undefined,
@@ -1276,29 +1276,29 @@ Array [
 `;
 
 exports[`transform_kubewarden allowedFlexVolumes 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1306,33 +1306,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1340,35 +1340,35 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedflexvolumes",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v0.1.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowedFlexVolumes": Array [
-          Object {
+      "settings": {
+        "allowedFlexVolumes": [
+          {
             "driver": "example/lvm",
           },
         ],
@@ -1379,29 +1379,29 @@ Array [
 `;
 
 exports[`transform_kubewarden allowedHostPaths 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1409,33 +1409,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1443,35 +1443,35 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedhostpaths",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.9",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowedHostPaths": Array [
-          Object {
+      "settings": {
+        "allowedHostPaths": [
+          {
             "pathPrefix": "/foo",
             "readOnly": true,
           },
@@ -1483,29 +1483,29 @@ Array [
 `;
 
 exports[`transform_kubewarden allowedProcMountTypes 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1513,33 +1513,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1547,33 +1547,33 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedprocmounttypes",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/allowed-proc-mount-types-psp:v0.1.9",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_unmasked_proc_mount_type": false,
       },
     },
@@ -1582,29 +1582,29 @@ Array [
 `;
 
 exports[`transform_kubewarden allowedUnsafeSysctls 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1612,33 +1612,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1646,34 +1646,34 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedprocmounttypes",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.11",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowedUnsafeSysctls": Array [
+      "settings": {
+        "allowedUnsafeSysctls": [
           "kernel.msgmax",
         ],
         "forbiddenSysctls": undefined,
@@ -1684,29 +1684,29 @@ Array [
 `;
 
 exports[`transform_kubewarden apparmor 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1714,33 +1714,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1748,34 +1748,34 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-apparmor",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/apparmor-psp:v0.1.13",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowed_profiles": Array [
+      "settings": {
+        "allowed_profiles": [
           "runtime/default",
         ],
       },
@@ -1785,29 +1785,29 @@ Array [
 `;
 
 exports[`transform_kubewarden defaultAddCapabilities 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1815,33 +1815,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1849,37 +1849,37 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-capabilities",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.13",
       "mutating": true,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowed_capabilities": Array [
+      "settings": {
+        "allowed_capabilities": [
           "something",
         ],
-        "default_add_capabilities": Array [
+        "default_add_capabilities": [
           "something",
         ],
         "required_drop_capabilities": undefined,
@@ -1890,29 +1890,29 @@ Array [
 `;
 
 exports[`transform_kubewarden defaultAllowPrivilegeEscalation 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -1920,33 +1920,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -1954,33 +1954,33 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-defaultallowprivilegeescalation",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.2.6",
       "mutating": true,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "default_allow_privilege_escalation": false,
       },
     },
@@ -1989,29 +1989,29 @@ Array [
 `;
 
 exports[`transform_kubewarden forbiddenSysctls 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2019,33 +2019,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2053,35 +2053,35 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedprocmounttypes",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v0.1.11",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allowedUnsafeSysctls": undefined,
-        "forbiddenSysctls": Array [
+        "forbiddenSysctls": [
           "kernel.m*",
         ],
       },
@@ -2091,29 +2091,29 @@ Array [
 `;
 
 exports[`transform_kubewarden fsgroup 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2121,33 +2121,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2155,35 +2155,35 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-fsgroup",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v0.1.10",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "ranges": Array [
-          Object {
+      "settings": {
+        "ranges": [
+          {
             "max": 200,
             "min": 100,
           },
@@ -2196,29 +2196,29 @@ Array [
 `;
 
 exports[`transform_kubewarden hostIPC 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2226,33 +2226,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2264,29 +2264,29 @@ Array [
 `;
 
 exports[`transform_kubewarden hostNetwork 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2294,33 +2294,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2332,29 +2332,29 @@ Array [
 `;
 
 exports[`transform_kubewarden hostPID 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2362,33 +2362,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2400,29 +2400,29 @@ Array [
 `;
 
 exports[`transform_kubewarden hostPorts 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2430,38 +2430,38 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
-        "allow_host_ports": Array [
-          Object {
+        "allow_host_ports": [
+          {
             "max": 9000,
             "min": 80,
           },
@@ -2473,29 +2473,29 @@ Array [
 `;
 
 exports[`transform_kubewarden privileged 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2503,33 +2503,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2541,29 +2541,29 @@ Array [
 `;
 
 exports[`transform_kubewarden readOnlyRootFilesystem 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2571,28 +2571,28 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-readonlyrootfilesystem",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2600,33 +2600,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2638,29 +2638,29 @@ Array [
 `;
 
 exports[`transform_kubewarden requiredDropCapabilities 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2668,33 +2668,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2702,36 +2702,36 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-capabilities",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.13",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowed_capabilities": Array [],
+      "settings": {
+        "allowed_capabilities": [],
         "default_add_capabilities": undefined,
-        "required_drop_capabilities": Array [
+        "required_drop_capabilities": [
           "something",
         ],
       },
@@ -2741,29 +2741,29 @@ Array [
 `;
 
 exports[`transform_kubewarden runAsGroup 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2771,33 +2771,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2805,46 +2805,46 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-usergroup",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.4.9",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "run_as_group": Object {
-          "ranges": Array [
-            Object {
+      "settings": {
+        "run_as_group": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
           ],
           "rule": "MustRunAs",
         },
-        "run_as_user": Object {
+        "run_as_user": {
           "rule": "RunAsAny",
         },
-        "supplemental_groups": Object {
+        "supplemental_groups": {
           "rule": "RunAsAny",
         },
       },
@@ -2854,29 +2854,29 @@ Array [
 `;
 
 exports[`transform_kubewarden runAsUser 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2884,33 +2884,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -2918,44 +2918,44 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-usergroup",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.4.9",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "run_as_group": undefined,
-        "run_as_user": Object {
-          "ranges": Array [
-            Object {
+        "run_as_user": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
           ],
           "rule": "MustRunAs",
         },
-        "supplemental_groups": Object {
+        "supplemental_groups": {
           "rule": "RunAsAny",
         },
       },
@@ -2965,29 +2965,29 @@ Array [
 `;
 
 exports[`transform_kubewarden seLinux 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -2995,33 +2995,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -3029,33 +3029,33 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-selinux",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.12",
       "mutating": true,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "level": "s0:c123,c456",
         "role": "object_r",
         "rule": "MustRunAs",
@@ -3068,29 +3068,29 @@ Array [
 `;
 
 exports[`transform_kubewarden seccomp 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -3098,33 +3098,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -3132,39 +3132,39 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-seccomp",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.4",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowed_profiles": Array [
+      "settings": {
+        "allowed_profiles": [
           "runtime/default",
           "docker/default",
         ],
-        "localhost_profiles": Array [],
-        "profile_types": Array [
+        "localhost_profiles": [],
+        "profile_types": [
           "RuntimeDefault",
         ],
       },
@@ -3174,29 +3174,29 @@ Array [
 `;
 
 exports[`transform_kubewarden supplementalGroups 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -3204,33 +3204,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -3238,40 +3238,40 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-usergroup",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.4.9",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "run_as_group": undefined,
-        "run_as_user": Object {
+        "run_as_user": {
           "rule": "RunAsAny",
         },
-        "supplemental_groups": Object {
-          "ranges": Array [
-            Object {
+        "supplemental_groups": {
+          "ranges": [
+            {
               "max": 200,
               "min": 100,
             },
@@ -3285,29 +3285,29 @@ Array [
 `;
 
 exports[`transform_kubewarden volumes 1`] = `
-Array [
-  Object {
+[
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/pod-privileged:v0.2.7",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
@@ -3315,33 +3315,33 @@ Array [
       "settings": null,
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnamespaces",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
+      "settings": {
         "allow_host_ipc": false,
         "allow_host_network": false,
         "allow_host_pid": false,
@@ -3349,34 +3349,34 @@ Array [
       },
     },
   },
-  Object {
+  {
     "apiVersion": "policies.kubewarden.io/v1",
     "kind": "ClusterAdmissionPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-volumes",
     },
-    "spec": Object {
+    "spec": {
       "module": "registry://ghcr.io/kubewarden/policies/volumes-psp:v0.1.11",
       "mutating": false,
-      "rules": Array [
-        Object {
-          "apiGroups": Array [
+      "rules": [
+        {
+          "apiGroups": [
             "",
           ],
-          "apiVersions": Array [
+          "apiVersions": [
             "v1",
           ],
-          "operations": Array [
+          "operations": [
             "CREATE",
             "UPDATE",
           ],
-          "resources": Array [
+          "resources": [
             "pods",
           ],
         },
       ],
-      "settings": Object {
-        "allowedTypes": Array [
+      "settings": {
+        "allowedTypes": [
           "projected",
           "emptyDir",
         ],
@@ -3387,45 +3387,45 @@ Array [
 `;
 
 exports[`transform_kyverno allowPrivilegeEscalation 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowprivilegeescalation",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowprivilegeescalation-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-allowprivilegeescalation-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(allowPrivilegeEscalation)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(allowPrivilegeEscalation)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(allowPrivilegeEscalation)": false,
                     },
                   },
@@ -3442,43 +3442,43 @@ Array [
 `;
 
 exports[`transform_kyverno allowedCapabilities 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedcapabilities",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowedcapabilities-0",
-          "preconditions": Object {
-            "all": Array [
-              Object {
+          "preconditions": {
+            "all": [
+              {
                 "key": "{{ request.object.spec.initContainers[] | length(@) }}",
                 "operator": "GreaterThanOrEquals",
                 "value": 1,
               },
             ],
           },
-          "validate": Object {
-            "foreach": Array [
-              Object {
-                "deny": Object {
-                  "conditions": Object {
-                    "any": Array [
-                      Object {
+          "validate": {
+            "foreach": [
+              {
+                "deny": {
+                  "conditions": {
+                    "any": [
+                      {
                         "key": "{{ element.add }}",
                         "operator": "AnyNotIn",
-                        "value": Array [
+                        "value": [
                           "something",
                         ],
                       },
@@ -3491,25 +3491,25 @@ Array [
             "message": "Rejected by psp-allowedcapabilities-0 rule",
           },
         },
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowedcapabilities-1",
-          "validate": Object {
-            "foreach": Array [
-              Object {
-                "deny": Object {
-                  "conditions": Object {
-                    "any": Array [
-                      Object {
+          "validate": {
+            "foreach": [
+              {
+                "deny": {
+                  "conditions": {
+                    "any": [
+                      {
                         "key": "{{ element.add }}",
                         "operator": "AnyNotIn",
-                        "value": Array [
+                        "value": [
                           "something",
                         ],
                       },
@@ -3530,31 +3530,31 @@ Array [
 `;
 
 exports[`transform_kyverno allowedFlexVolumes 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedflexvolumes",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowedflexvolumes-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-allowedflexvolumes-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(volumes)": Array [
-                  Object {
-                    "=(flexVolume)": Object {
+            "pattern": {
+              "spec": {
+                "=(volumes)": [
+                  {
+                    "=(flexVolume)": {
                       "driver": "example/lvm",
                     },
                   },
@@ -3571,45 +3571,45 @@ Array [
 `;
 
 exports[`transform_kyverno allowedHostPaths 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -3625,35 +3625,35 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedhostpaths",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowedhostpaths-0",
-          "preconditions": Object {
-            "all": Array [
-              Object {
+          "preconditions": {
+            "all": [
+              {
                 "key": "{{ request.object.spec.volumes[?hostPath] | length(@) }}",
                 "operator": "GreaterThanOrEquals",
                 "value": 1,
               },
             ],
           },
-          "validate": Object {
-            "foreach": Array [
-              Object {
-                "deny": Object {
-                  "conditions": Array [
-                    Object {
+          "validate": {
+            "foreach": [
+              {
+                "deny": {
+                  "conditions": [
+                    {
                       "key": "{{ element.path  | to_string(@) | split(@, '/') | [1] }}",
                       "operator": "NotEquals",
                       "value": "foo",
@@ -3674,45 +3674,45 @@ Array [
 `;
 
 exports[`transform_kyverno allowedProcMountTypes 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -3728,41 +3728,41 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedprocmounttypes",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowedprocmounttypes-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-allowedprocmounttypes-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(procMount)": "Default",
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(procMount)": "Default",
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(procMount)": "Default",
                     },
                   },
@@ -3779,44 +3779,44 @@ Array [
 `;
 
 exports[`transform_kyverno allowedUnsafeSysctls 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowedunsafesysctls",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowedunsafesysctls-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "=(securityContext)": Object {
-                    "=(sysctls)": Array [
-                      Object {
+          "validate": {
+            "anyPattern": [
+              {
+                "spec": {
+                  "=(securityContext)": {
+                    "=(sysctls)": [
+                      {
                         "name": "kernel.msgmax",
                       },
                     ],
                   },
                 },
               },
-              Object {
-                "spec": Object {
-                  "containers": Object {
-                    "securitycontext": Object {
-                      "=(securityContext)": Object {
-                        "=(sysctls)": Array [
-                          Object {
+              {
+                "spec": {
+                  "containers": {
+                    "securitycontext": {
+                      "=(securityContext)": {
+                        "=(sysctls)": [
+                          {
                             "name": "kernel.msgmax",
                           },
                         ],
@@ -3837,29 +3837,29 @@ Array [
 `;
 
 exports[`transform_kyverno apparmor 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-apparmor",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-apparmor-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-apparmor-0 rule",
-            "pattern": Object {
-              "metadata": Object {
-                "=(annotations)": Object {
+            "pattern": {
+              "metadata": {
+                "=(annotations)": {
                   "=(container.apparmor.security.beta.kubernetes.io/*)": "runtime/default",
                 },
               },
@@ -3874,27 +3874,27 @@ Array [
 `;
 
 exports[`transform_kyverno defaultAddCapabilities 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-defaultaddcapabilities",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
-          "mutate": Object {
+          "mutate": {
             "patchesJson6902": "
 - op: add
-  path: \\"/spec/securityContext/capabilities/add/-\\"
+  path: "/spec/securityContext/capabilities/add/-"
   value: something",
           },
           "name": "psp-defaultaddcapabilities-0",
@@ -3907,45 +3907,45 @@ Array [
 `;
 
 exports[`transform_kyverno defaultAllowPrivilegeEscalation 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-allowprivilegeescalation",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-allowprivilegeescalation-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-allowprivilegeescalation-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(allowPrivilegeEscalation)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(allowPrivilegeEscalation)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(allowPrivilegeEscalation)": false,
                     },
                   },
@@ -3961,23 +3961,23 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-defaultallowprivilegeescalation",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
-          "mutate": Object {
+          "mutate": {
             "patchesJson6902": "
 - op: add
-  path: \\"/spec/securityContext/allowPrivilegeEscalation\\"
+  path: "/spec/securityContext/allowPrivilegeEscalation"
   value: false",
           },
           "name": "psp-defaultallowprivilegeescalation-0",
@@ -3990,43 +3990,43 @@ Array [
 `;
 
 exports[`transform_kyverno forbiddenSysctls 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-forbiddensysctls",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-forbiddensysctls-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "=(securityContext)": Object {
-                    "=(sysctls)": Array [
-                      Object {
+          "validate": {
+            "anyPattern": [
+              {
+                "spec": {
+                  "=(securityContext)": {
+                    "=(sysctls)": [
+                      {
                         "name": "!kernel.m*",
                       },
                     ],
                   },
                 },
               },
-              Object {
-                "spec": Object {
-                  "containers": Object {
-                    "=(securityContext)": Object {
-                      "=(sysctls)": Array [
-                        Object {
+              {
+                "spec": {
+                  "containers": {
+                    "=(securityContext)": {
+                      "=(sysctls)": [
+                        {
                           "name": "!kernel.m*",
                         },
                       ],
@@ -4046,45 +4046,45 @@ Array [
 `;
 
 exports[`transform_kyverno fsgroup 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -4100,51 +4100,51 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-fsgroup",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-fsgroup-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "securityContext": Object {
+          "validate": {
+            "anyPattern": [
+              {
+                "spec": {
+                  "securityContext": {
                     "fsGroup": ">=100 & <=200",
                   },
                 },
               },
-              Object {
-                "spec": Object {
-                  "=(ephemeralContainers)": Array [
-                    Object {
-                      "securityContext": Object {
+              {
+                "spec": {
+                  "=(ephemeralContainers)": [
+                    {
+                      "securityContext": {
                         "fsGroup": ">=100 & <=200",
                       },
                     },
                   ],
-                  "=(initContainers)": Array [
-                    Object {
-                      "securityContext": Object {
+                  "=(initContainers)": [
+                    {
+                      "securityContext": {
                         "fsGroup": ">=100 & <=200",
                       },
                     },
                   ],
-                  "=(securityContext)": Object {
+                  "=(securityContext)": {
                     "=(fsGroup)": ">=100 & <=200",
                   },
-                  "containers": Array [
-                    Object {
-                      "securityContext": Object {
+                  "containers": [
+                    {
+                      "securityContext": {
                         "fsGroup": ">=100 & <=200",
                       },
                     },
@@ -4163,28 +4163,28 @@ Array [
 `;
 
 exports[`transform_kyverno hostIPC 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostipc",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-hostipc-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-hostipc-0 rule",
-            "pattern": Object {
-              "spec": Object {
+            "pattern": {
+              "spec": {
                 "=(hostIPC)": false,
               },
             },
@@ -4198,28 +4198,28 @@ Array [
 `;
 
 exports[`transform_kyverno hostNetwork 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnetwork",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-hostnetwork-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-hostnetwork-0 rule",
-            "pattern": Object {
-              "spec": Object {
+            "pattern": {
+              "spec": {
                 "=(hostNetwork)": false,
               },
             },
@@ -4233,28 +4233,28 @@ Array [
 `;
 
 exports[`transform_kyverno hostPID 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostpid",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-hostpid-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-hostpid-0 rule",
-            "pattern": Object {
-              "spec": Object {
+            "pattern": {
+              "spec": {
                 "=(hostPID)": false,
               },
             },
@@ -4268,50 +4268,50 @@ Array [
 `;
 
 exports[`transform_kyverno hostPorts 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostports",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-hostports-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-hostports-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(ports)": Array [
-                      Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(ports)": [
+                      {
                         "=(hostPort)": ">=80 & <=9000",
                       },
                     ],
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(ports)": Array [
-                      Object {
+                "=(initContainers)": [
+                  {
+                    "=(ports)": [
+                      {
                         "=(hostPort)": ">=80 & <=9000",
                       },
                     ],
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(ports)": Array [
-                      Object {
+                "containers": [
+                  {
+                    "=(ports)": [
+                      {
                         "=(hostPort)": ">=80 & <=9000",
                       },
                     ],
@@ -4328,24 +4328,24 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-hostnetwork",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-hostnetwork-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-hostnetwork-0 rule",
-            "pattern": Object {
-              "spec": Object {
+            "pattern": {
+              "spec": {
                 "=(hostNetwork)": false,
               },
             },
@@ -4359,45 +4359,45 @@ Array [
 `;
 
 exports[`transform_kyverno privileged 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -4414,45 +4414,45 @@ Array [
 `;
 
 exports[`transform_kyverno readOnlyRootFilesystem 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-readonlyrootfilesystem",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-readonlyrootfilesystem-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-readonlyrootfilesystem-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(readOnlyRootFilesystem)": true,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(readOnlyRootFilesystem)": true,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(readOnlyRootFilesystem)": true,
                     },
                   },
@@ -4469,55 +4469,55 @@ Array [
 `;
 
 exports[`transform_kyverno requiredDropCapabilities 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-requireddropcapabilities",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-requireddropcapabilities-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-requireddropcapabilities-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "securityContext": Object {
-                      "capabilities": Object {
-                        "drop": Array [
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "securityContext": {
+                      "capabilities": {
+                        "drop": [
                           "something",
                         ],
                       },
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "securityContext": Object {
-                      "capabilities": Object {
-                        "drop": Array [
+                "=(initContainers)": [
+                  {
+                    "securityContext": {
+                      "capabilities": {
+                        "drop": [
                           "something",
                         ],
                       },
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "securityContext": Object {
-                      "capabilities": Object {
-                        "drop": Array [
+                "containers": [
+                  {
+                    "securityContext": {
+                      "capabilities": {
+                        "drop": [
                           "something",
                         ],
                       },
@@ -4536,45 +4536,45 @@ Array [
 `;
 
 exports[`transform_kyverno runAsGroup 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -4590,51 +4590,51 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-runasgroup",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-runasgroup-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "securityContext": Object {
+          "validate": {
+            "anyPattern": [
+              {
+                "spec": {
+                  "securityContext": {
                     "runAsGroup": ">=100 & <=200",
                   },
                 },
               },
-              Object {
-                "spec": Object {
-                  "=(ephemeralContainers)": Array [
-                    Object {
-                      "securityContext": Object {
+              {
+                "spec": {
+                  "=(ephemeralContainers)": [
+                    {
+                      "securityContext": {
                         "runAsGroup": ">=100 & <=200",
                       },
                     },
                   ],
-                  "=(initContainers)": Array [
-                    Object {
-                      "securityContext": Object {
+                  "=(initContainers)": [
+                    {
+                      "securityContext": {
                         "runAsGroup": ">=100 & <=200",
                       },
                     },
                   ],
-                  "=(securityContext)": Object {
+                  "=(securityContext)": {
                     "=(runAsGroup)": ">=100 & <=200",
                   },
-                  "containers": Array [
-                    Object {
-                      "securityContext": Object {
+                  "containers": [
+                    {
+                      "securityContext": {
                         "runAsGroup": ">=100 & <=200",
                       },
                     },
@@ -4653,45 +4653,45 @@ Array [
 `;
 
 exports[`transform_kyverno runAsUser 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -4707,51 +4707,51 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-runasuser",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-runasuser-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "securityContext": Object {
+          "validate": {
+            "anyPattern": [
+              {
+                "spec": {
+                  "securityContext": {
                     "runAsUser": ">=100 & <=200",
                   },
                 },
               },
-              Object {
-                "spec": Object {
-                  "=(ephemeralContainers)": Array [
-                    Object {
-                      "securityContext": Object {
+              {
+                "spec": {
+                  "=(ephemeralContainers)": [
+                    {
+                      "securityContext": {
                         "runAsUser": ">=100 & <=200",
                       },
                     },
                   ],
-                  "=(initContainers)": Array [
-                    Object {
-                      "securityContext": Object {
+                  "=(initContainers)": [
+                    {
+                      "securityContext": {
                         "runAsUser": ">=100 & <=200",
                       },
                     },
                   ],
-                  "=(securityContext)": Object {
+                  "=(securityContext)": {
                     "=(runAsUser)": ">=100 & <=200",
                   },
-                  "containers": Array [
-                    Object {
-                      "securityContext": Object {
+                  "containers": [
+                    {
+                      "securityContext": {
                         "runAsUser": ">=100 & <=200",
                       },
                     },
@@ -4770,30 +4770,30 @@ Array [
 `;
 
 exports[`transform_kyverno seLinux 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-selinux",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-selinux-0",
-          "validate": Object {
-            "anyPattern": Array [
-              Object {
-                "spec": Object {
-                  "securityContext": Object {
-                    "seLinuxOptions": Object {
+          "validate": {
+            "anyPattern": [
+              {
+                "spec": {
+                  "securityContext": {
+                    "seLinuxOptions": {
                       "level": "s0:c123,c456",
                       "role": "object_r",
                       "type": "svirt_sandbox_file_t",
@@ -4802,12 +4802,12 @@ Array [
                   },
                 },
               },
-              Object {
-                "spec": Object {
-                  "=(initContainers)": Array [
-                    Object {
-                      "securityContext": Object {
-                        "seLinuxOptions": Object {
+              {
+                "spec": {
+                  "=(initContainers)": [
+                    {
+                      "securityContext": {
+                        "seLinuxOptions": {
                           "level": "s0:c123,c456",
                           "role": "object_r",
                           "type": "svirt_sandbox_file_t",
@@ -4816,18 +4816,18 @@ Array [
                       },
                     },
                   ],
-                  "=(securityContext)": Object {
-                    "=(seLinuxOptions)": Object {
+                  "=(securityContext)": {
+                    "=(seLinuxOptions)": {
                       "level": "s0:c123,c456",
                       "role": "object_r",
                       "type": "svirt_sandbox_file_t",
                       "user": "system_u",
                     },
                   },
-                  "containers": Array [
-                    Object {
-                      "securityContext": Object {
-                        "seLinuxOptions": Object {
+                  "containers": [
+                    {
+                      "securityContext": {
+                        "seLinuxOptions": {
                           "level": "s0:c123,c456",
                           "role": "object_r",
                           "type": "svirt_sandbox_file_t",
@@ -4850,55 +4850,55 @@ Array [
 `;
 
 exports[`transform_kyverno seccomp 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-seccomp",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-seccomp-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-seccomp-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
-                      "=(seccompProfile)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
+                      "=(seccompProfile)": {
                         "type": "RuntimeDefault",
                       },
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
-                      "=(seccompProfile)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
+                      "=(seccompProfile)": {
                         "type": "RuntimeDefault",
                       },
                     },
                   },
                 ],
-                "=(securityContext)": Object {
-                  "=(seccompProfile)": Object {
+                "=(securityContext)": {
+                  "=(seccompProfile)": {
                     "type": "RuntimeDefault",
                   },
                 },
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
-                      "=(seccompProfile)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
+                      "=(seccompProfile)": {
                         "type": "RuntimeDefault",
                       },
                     },
@@ -4916,45 +4916,45 @@ Array [
 `;
 
 exports[`transform_kyverno supplementalGroups 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -4970,44 +4970,44 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-supplementalgroups",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-supplementalgroups-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-supplementalgroups-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(supplementalGroups)": "100-200",
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(supplementalGroups)": "100-200",
                     },
                   },
                 ],
-                "=(securityContext)": Object {
+                "=(securityContext)": {
                   "=(supplementalGroups)": "100-200",
                 },
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(supplementalGroups)": "100-200",
                     },
                   },
@@ -5024,45 +5024,45 @@ Array [
 `;
 
 exports[`transform_kyverno volumes 1`] = `
-Array [
+[
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-privileged",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-privileged-0",
-          "validate": Object {
+          "validate": {
             "message": "Rejected by psp-privileged-0 rule",
-            "pattern": Object {
-              "spec": Object {
-                "=(ephemeralContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+            "pattern": {
+              "spec": {
+                "=(ephemeralContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "=(initContainers)": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "=(initContainers)": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
                 ],
-                "containers": Array [
-                  Object {
-                    "=(securityContext)": Object {
+                "containers": [
+                  {
+                    "=(securityContext)": {
                       "=(privileged)": false,
                     },
                   },
@@ -5078,37 +5078,37 @@ Array [
   ClusterPolicy {
     "apiVersion": "kyverno.io/v1",
     "kind": "ClusterPolicy",
-    "metadata": Object {
+    "metadata": {
       "name": "psp-volumes",
     },
-    "spec": Object {
-      "rules": Array [
-        Object {
-          "match": Object {
-            "resources": Object {
-              "kinds": Array [
+    "spec": {
+      "rules": [
+        {
+          "match": {
+            "resources": {
+              "kinds": [
                 "Pod",
               ],
             },
           },
           "name": "psp-volumes-0",
-          "preconditions": Object {
-            "all": Array [
-              Object {
+          "preconditions": {
+            "all": [
+              {
                 "key": "{{ request.object.spec.volumes[].keys(@)[] | length(@) }}",
                 "operator": "GreaterThan",
                 "value": 0,
               },
             ],
           },
-          "validate": Object {
-            "deny": Object {
-              "conditions": Object {
-                "all": Array [
-                  Object {
+          "validate": {
+            "deny": {
+              "conditions": {
+                "all": [
+                  {
                     "key": "{{ request.object.spec.volumes[].keys(@)[] }}",
                     "operator": "AnyNotIn",
-                    "value": Array [
+                    "value": [
                       "name",
                       "projected",
                       "emptyDir",
