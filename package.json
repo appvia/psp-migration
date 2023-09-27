@@ -31,7 +31,7 @@
   "devDependencies": {
     "@kubernetes/client-node": "0.17.0",
     "@types/jest": "29.5.5",
-    "@types/materialize-css": "1.0.11",
+    "@types/materialize-css": "1.0.12",
     "@types/node": "18.18.0",
     "@types/yargs": "17.0.25",
     "ace-builds": "1.28.0",
