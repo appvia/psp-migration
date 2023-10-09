@@ -287,7 +287,7 @@ jobs:
           E2E_TEST: ${{ matrix.e2e == 'e2e' && './psp-migration-linuxstatic-x64' }}
 
       - name: Test Report
-        uses: dorny/test-reporter@c9b3d0e2bd2a4e96aaf424dbaa31c46b42318226 # v1.6.0
+        uses: dorny/test-reporter@afe6793191b75b608954023a46831a3fe10048d4 # v1.7.0
         if: always()
         with:
           name: Test results (${{ matrix.system }}) ${{ matrix.e2e == 'e2e' && 'end-to-end' || 'static policy'}}
