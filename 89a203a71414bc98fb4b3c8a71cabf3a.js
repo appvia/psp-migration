@@ -1092,827 +1092,712 @@ exports.HtmlHighlightRules = HtmlHighlightRules;
 
 });
 
-ace.define("ace/mode/markdown_highlight_rules",["require","exports","module","ace/config","ace/lib/oop","ace/lib/lang","ace/mode/text_highlight_rules","ace/mode/html_highlight_rules"], function(require, exports, module){"use strict";
-var modes = require("../config").$modes;
+ace.define("ace/mode/ruby_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module){"use strict";
 var oop = require("../lib/oop");
-var lang = require("../lib/lang");
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-var HtmlHighlightRules = require("./html_highlight_rules").HtmlHighlightRules;
-var escaped = function (ch) {
-    return "(?:[^" + lang.escapeRegExp(ch) + "\\\\]|\\\\.)*";
+var constantOtherSymbol = exports.constantOtherSymbol = {
+    token: "constant.other.symbol.ruby",
+    regex: "[:](?:[A-Za-z_]|[@$](?=[a-zA-Z0-9_]))[a-zA-Z0-9_]*[!=?]?"
 };
-var MarkdownHighlightRules = function () {
-    HtmlHighlightRules.call(this);
-    var codeBlockStartRule = {
-        token: "support.function",
-        regex: /^\s*(```+[^`]*|~~~+[^~]*)$/,
-        onMatch: function (value, state, stack, line) {
-            var m = value.match(/^(\s*)([`~]+)(.*)/);
-            var language = /[\w-]+|$/.exec(m[3])[0];
-            if (!modes[language])
-                language = "";
-            stack.unshift("githubblock", [], [m[1], m[2], language], state);
-            return this.token;
-        },
-        next: "githubblock"
+exports.qString = {
+    token: "string",
+    regex: "['](?:(?:\\\\.)|(?:[^'\\\\]))*?[']"
+};
+exports.qqString = {
+    token: "string",
+    regex: '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
+};
+exports.tString = {
+    token: "string",
+    regex: "[`](?:(?:\\\\.)|(?:[^'\\\\]))*?[`]"
+};
+var constantNumericHex = exports.constantNumericHex = {
+    token: "constant.numeric",
+    regex: "0[xX][0-9a-fA-F](?:[0-9a-fA-F]|_(?=[0-9a-fA-F]))*\\b"
+};
+var constantNumericBinary = exports.constantNumericBinary = {
+    token: "constant.numeric",
+    regex: /\b(0[bB][01](?:[01]|_(?=[01]))*)\b/
+};
+var constantNumericDecimal = exports.constantNumericDecimal = {
+    token: "constant.numeric",
+    regex: /\b(0[dD](?:[1-9](?:[\d]|_(?=[\d]))*|0))\b/
+};
+var constantNumericOctal = exports.constantNumericDecimal = {
+    token: "constant.numeric",
+    regex: /\b(0[oO]?(?:[1-7](?:[0-7]|_(?=[0-7]))*|0))\b/
+};
+var constantNumericRational = exports.constantNumericRational = {
+    token: "constant.numeric",
+    regex: /\b([\d]+(?:[./][\d]+)?ri?)\b/
+};
+var constantNumericComplex = exports.constantNumericComplex = {
+    token: "constant.numeric",
+    regex: /\b([\d]i)\b/
+};
+var constantNumericFloat = exports.constantNumericFloat = {
+    token: "constant.numeric",
+    regex: "[+-]?\\d(?:\\d|_(?=\\d))*(?:(?:\\.\\d(?:\\d|_(?=\\d))*)?(?:[eE][+-]?\\d+)?)?i?\\b"
+};
+var instanceVariable = exports.instanceVariable = {
+    token: "variable.instance",
+    regex: "@{1,2}[a-zA-Z_\\d]+"
+};
+var RubyHighlightRules = function () {
+    var builtinFunctions = ("abort|Array|assert|assert_equal|assert_not_equal|assert_same|assert_not_same|" +
+        "assert_nil|assert_not_nil|assert_match|assert_no_match|assert_in_delta|assert_throws|" +
+        "assert_raise|assert_nothing_raised|assert_instance_of|assert_kind_of|assert_respond_to|" +
+        "assert_operator|assert_send|assert_difference|assert_no_difference|assert_recognizes|" +
+        "assert_generates|assert_response|assert_redirected_to|assert_template|assert_select|" +
+        "assert_select_email|assert_select_rjs|assert_select_encoded|css_select|at_exit|" +
+        "attr|attr_writer|attr_reader|attr_accessor|attr_accessible|autoload|binding|block_given?|callcc|" +
+        "caller|catch|chomp|chomp!|chop|chop!|defined?|delete_via_redirect|eval|exec|exit|" +
+        "exit!|fail|Float|flunk|follow_redirect!|fork|form_for|form_tag|format|gets|global_variables|gsub|" +
+        "gsub!|get_via_redirect|host!|https?|https!|include|Integer|lambda|link_to|" +
+        "link_to_unless_current|link_to_function|link_to_remote|load|local_variables|loop|open|open_session|" +
+        "p|print|printf|proc|putc|puts|post_via_redirect|put_via_redirect|raise|rand|" +
+        "raw|readline|readlines|redirect?|request_via_redirect|require|scan|select|" +
+        "set_trace_func|sleep|split|sprintf|srand|String|stylesheet_link_tag|syscall|system|sub|sub!|test|" +
+        "throw|trace_var|trap|untrace_var|atan2|cos|exp|frexp|ldexp|log|log10|sin|sqrt|tan|" +
+        "render|javascript_include_tag|csrf_meta_tag|label_tag|text_field_tag|submit_tag|check_box_tag|" +
+        "content_tag|radio_button_tag|text_area_tag|password_field_tag|hidden_field_tag|" +
+        "fields_for|select_tag|options_for_select|options_from_collection_for_select|collection_select|" +
+        "time_zone_select|select_date|select_time|select_datetime|date_select|time_select|datetime_select|" +
+        "select_year|select_month|select_day|select_hour|select_minute|select_second|file_field_tag|" +
+        "file_field|respond_to|skip_before_filter|around_filter|after_filter|verify|" +
+        "protect_from_forgery|rescue_from|helper_method|redirect_to|before_filter|" +
+        "send_data|send_file|validates_presence_of|validates_uniqueness_of|validates_length_of|" +
+        "validates_format_of|validates_acceptance_of|validates_associated|validates_exclusion_of|" +
+        "validates_inclusion_of|validates_numericality_of|validates_with|validates_each|" +
+        "authenticate_or_request_with_http_basic|authenticate_or_request_with_http_digest|" +
+        "filter_parameter_logging|match|get|post|resources|redirect|scope|assert_routing|" +
+        "translate|localize|extract_locale_from_tld|caches_page|expire_page|caches_action|expire_action|" +
+        "cache|expire_fragment|expire_cache_for|observe|cache_sweeper|" +
+        "has_many|has_one|belongs_to|has_and_belongs_to_many|p|warn|refine|using|module_function|extend|alias_method|" +
+        "private_class_method|remove_method|undef_method");
+    var keywords = ("alias|and|BEGIN|begin|break|case|class|def|defined|do|else|elsif|END|end|ensure|" +
+        "__FILE__|finally|for|gem|if|in|__LINE__|module|next|not|or|private|protected|public|" +
+        "redo|rescue|retry|return|super|then|undef|unless|until|when|while|yield|__ENCODING__|prepend");
+    var buildinConstants = ("true|TRUE|false|FALSE|nil|NIL|ARGF|ARGV|DATA|ENV|RUBY_PLATFORM|RUBY_RELEASE_DATE|" +
+        "RUBY_VERSION|STDERR|STDIN|STDOUT|TOPLEVEL_BINDING|RUBY_PATCHLEVEL|RUBY_REVISION|RUBY_COPYRIGHT|RUBY_ENGINE|RUBY_ENGINE_VERSION|RUBY_DESCRIPTION");
+    var builtinVariables = ("$DEBUG|$defout|$FILENAME|$LOAD_PATH|$SAFE|$stdin|$stdout|$stderr|$VERBOSE|" +
+        "$!|root_url|flash|session|cookies|params|request|response|logger|self");
+    var keywordMapper = this.$keywords = this.createKeywordMapper({
+        "keyword": keywords,
+        "constant.language": buildinConstants,
+        "variable.language": builtinVariables,
+        "support.function": builtinFunctions,
+        "invalid.deprecated": "debugger" // TODO is this a remnant from js mode?
+    }, "identifier");
+    var escapedChars = "\\\\(?:n(?:[1-7][0-7]{0,2}|0)|[nsrtvfbae'\"\\\\]|c(?:\\\\M-)?.|M-(?:\\\\C-|\\\\c)?.|C-(?:\\\\M-)?.|[0-7]{3}|x[\\da-fA-F]{2}|u[\\da-fA-F]{4}|u{[\\da-fA-F]{1,6}(?:\\s[\\da-fA-F]{1,6})*})";
+    var closeParen = {
+        "(": ")",
+        "[": "]",
+        "{": "}",
+        "<": ">",
+        "^": "^",
+        "|": "|",
+        "%": "%"
     };
-    var codeBlockRules = [{
-            token: "support.function",
-            regex: ".*",
-            onMatch: function (value, state, stack, line) {
-                var embedState = stack[1];
-                var indent = stack[2][0];
-                var endMarker = stack[2][1];
-                var language = stack[2][2];
-                var m = /^(\s*)(`+|~+)\s*$/.exec(value);
-                if (m && m[1].length < indent.length + 3
-                    && m[2].length >= endMarker.length && m[2][0] == endMarker[0]) {
-                    stack.splice(0, 3);
-                    this.next = stack.shift();
+    this.$rules = {
+        "start": [
+            {
+                token: "comment",
+                regex: "#.*$"
+            }, {
+                token: "comment.multiline",
+                regex: "^=begin(?=$|\\s.*$)",
+                next: "comment"
+            }, {
+                token: "string.regexp",
+                regex: /[/](?=.*\/)/,
+                next: "regex"
+            },
+            [{
+                    token: ["constant.other.symbol.ruby", "string.start"],
+                    regex: /(:)?(")/,
+                    push: [{
+                            token: "constant.language.escape",
+                            regex: escapedChars
+                        }, {
+                            token: "paren.start",
+                            regex: /#{/,
+                            push: "start"
+                        }, {
+                            token: "string.end",
+                            regex: /"/,
+                            next: "pop"
+                        }, {
+                            defaultToken: "string"
+                        }]
+                }, {
+                    token: "string.start",
+                    regex: /`/,
+                    push: [{
+                            token: "constant.language.escape",
+                            regex: escapedChars
+                        }, {
+                            token: "paren.start",
+                            regex: /#{/,
+                            push: "start"
+                        }, {
+                            token: "string.end",
+                            regex: /`/,
+                            next: "pop"
+                        }, {
+                            defaultToken: "string"
+                        }]
+                }, {
+                    token: ["constant.other.symbol.ruby", "string.start"],
+                    regex: /(:)?(')/,
+                    push: [{
+                            token: "constant.language.escape",
+                            regex: /\\['\\]/
+                        }, {
+                            token: "string.end",
+                            regex: /'/,
+                            next: "pop"
+                        }, {
+                            defaultToken: "string"
+                        }]
+                }, {
+                    token: "string.start",
+                    regex: /%[qwx]([(\[<{^|%])/, onMatch: function (val, state, stack) {
+                        if (stack.length)
+                            stack = [];
+                        var paren = val[val.length - 1];
+                        stack.unshift(paren, state);
+                        this.next = "qStateWithoutInterpolation";
+                        return this.token;
+                    }
+                }, {
+                    token: "string.start",
+                    regex: /%[QWX]?([(\[<{^|%])/, onMatch: function (val, state, stack) {
+                        if (stack.length)
+                            stack = [];
+                        var paren = val[val.length - 1];
+                        stack.unshift(paren, state);
+                        this.next = "qStateWithInterpolation";
+                        return this.token;
+                    }
+                }, {
+                    token: "constant.other.symbol.ruby",
+                    regex: /%[si]([(\[<{^|%])/, onMatch: function (val, state, stack) {
+                        if (stack.length)
+                            stack = [];
+                        var paren = val[val.length - 1];
+                        stack.unshift(paren, state);
+                        this.next = "sStateWithoutInterpolation";
+                        return this.token;
+                    }
+                }, {
+                    token: "constant.other.symbol.ruby",
+                    regex: /%[SI]([(\[<{^|%])/, onMatch: function (val, state, stack) {
+                        if (stack.length)
+                            stack = [];
+                        var paren = val[val.length - 1];
+                        stack.unshift(paren, state);
+                        this.next = "sStateWithInterpolation";
+                        return this.token;
+                    }
+                }, {
+                    token: "string.regexp",
+                    regex: /%[r]([(\[<{^|%])/, onMatch: function (val, state, stack) {
+                        if (stack.length)
+                            stack = [];
+                        var paren = val[val.length - 1];
+                        stack.unshift(paren, state);
+                        this.next = "rState";
+                        return this.token;
+                    }
+                }],
+            {
+                token: "punctuation",
+                regex: "::"
+            },
+            instanceVariable,
+            {
+                token: "variable.global",
+                regex: "[$][a-zA-Z_\\d]+"
+            }, {
+                token: "support.class",
+                regex: "[A-Z][a-zA-Z_\\d]*"
+            }, {
+                token: ["punctuation.operator", "support.function"],
+                regex: /(\.)([a-zA-Z_\d]+)(?=\()/
+            }, {
+                token: ["punctuation.operator", "identifier"],
+                regex: /(\.)([a-zA-Z_][a-zA-Z_\d]*)/
+            }, {
+                token: "string.character",
+                regex: "\\B\\?(?:" + escapedChars + "|\\S)"
+            }, {
+                token: "punctuation.operator",
+                regex: /\?(?=.+:)/
+            },
+            constantNumericRational,
+            constantNumericComplex,
+            constantOtherSymbol,
+            constantNumericHex,
+            constantNumericFloat,
+            constantNumericBinary,
+            constantNumericDecimal,
+            constantNumericOctal,
+            {
+                token: "constant.language.boolean",
+                regex: "(?:true|false)\\b"
+            }, {
+                token: keywordMapper,
+                regex: "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
+            }, {
+                token: "punctuation.separator.key-value",
+                regex: "=>"
+            }, {
+                stateName: "heredoc",
+                onMatch: function (value, currentState, stack) {
+                    var next = (value[2] == '-' || value[2] == '~') ? "indentedHeredoc" : "heredoc";
+                    var tokens = value.split(this.splitRegex);
+                    stack.push(next, tokens[3]);
+                    return [
+                        { type: "constant", value: tokens[1] },
+                        { type: "string", value: tokens[2] },
+                        { type: "support.class", value: tokens[3] },
+                        { type: "string", value: tokens[4] }
+                    ];
+                },
+                regex: "(<<[-~]?)(['\"`]?)([\\w]+)(['\"`]?)",
+                rules: {
+                    heredoc: [{
+                            onMatch: function (value, currentState, stack) {
+                                if (value === stack[1]) {
+                                    stack.shift();
+                                    stack.shift();
+                                    this.next = stack[0] || "start";
+                                    return "support.class";
+                                }
+                                this.next = "";
+                                return "string";
+                            },
+                            regex: ".*$",
+                            next: "start"
+                        }],
+                    indentedHeredoc: [{
+                            token: "string",
+                            regex: "^ +"
+                        }, {
+                            onMatch: function (value, currentState, stack) {
+                                if (value === stack[1]) {
+                                    stack.shift();
+                                    stack.shift();
+                                    this.next = stack[0] || "start";
+                                    return "support.class";
+                                }
+                                this.next = "";
+                                return "string";
+                            },
+                            regex: ".*$",
+                            next: "start"
+                        }]
+                }
+            }, {
+                regex: "$",
+                token: "empty",
+                next: function (currentState, stack) {
+                    if (stack[0] === "heredoc" || stack[0] === "indentedHeredoc")
+                        return stack[0];
+                    return currentState;
+                }
+            }, {
+                token: "keyword.operator",
+                regex: "!|\\$|%|&|\\*|/|\\-\\-|\\-|\\+\\+|\\+|~|===|==|=|!=|!==|<=|>=|<<=|>>=|>>>=|<>|<|>|!|&&|\\|\\||\\?\\:|\\*=|%=|\\+=|\\-=|&=|\\^=|\\||\\b(?:in|instanceof|new|delete|typeof|void)"
+            }, {
+                token: "paren.lparen",
+                regex: "[[({]"
+            }, {
+                token: "paren.rparen",
+                regex: "[\\])}]",
+                onMatch: function (value, currentState, stack) {
+                    this.next = '';
+                    if (value == "}" && stack.length > 1 && stack[1] != "start") {
+                        stack.shift();
+                        this.next = stack.shift();
+                    }
                     return this.token;
                 }
-                this.next = "";
-                if (language && modes[language]) {
-                    var data = modes[language].getTokenizer().getLineTokens(value, embedState.slice(0));
-                    stack[1] = data.state;
-                    return data.tokens;
-                }
-                return this.token;
+            }, {
+                token: "text",
+                regex: "\\s+"
+            }, {
+                token: "punctuation.operator",
+                regex: /[?:,;.]/
             }
-        }];
-    this.$rules["start"].unshift({
-        token: "empty_line",
-        regex: '^$',
-        next: "allowBlock"
-    }, {
-        token: "markup.heading.1",
-        regex: "^=+(?=\\s*$)"
-    }, {
-        token: "markup.heading.2",
-        regex: "^\\-+(?=\\s*$)"
-    }, {
-        token: function (value) {
-            return "markup.heading." + value.length;
-        },
-        regex: /^#{1,6}(?=\s|$)/,
-        next: "header"
-    }, codeBlockStartRule, {
-        token: "string.blockquote",
-        regex: "^\\s*>\\s*(?:[*+-]|\\d+\\.)?\\s+",
-        next: "blockquote"
-    }, {
-        token: "constant",
-        regex: "^ {0,3}(?:(?:\\* ?){3,}|(?:\\- ?){3,}|(?:\\_ ?){3,})\\s*$",
-        next: "allowBlock"
-    }, {
-        token: "markup.list",
-        regex: "^\\s{0,3}(?:[*+-]|\\d+\\.)\\s+",
-        next: "listblock-start"
-    }, {
-        include: "basic"
-    });
-    this.addRules({
-        "basic": [{
-                token: "constant.language.escape",
-                regex: /\\[\\`*_{}\[\]()#+\-.!]/
-            }, {
-                token: "support.function",
-                regex: "(`+)(.*?[^`])(\\1)"
-            }, {
-                token: ["text", "constant", "text", "url", "string", "text"],
-                regex: "^([ ]{0,3}\\[)([^\\]]+)(\\]:\\s*)([^ ]+)(\\s*(?:[\"][^\"]+[\"])?(\\s*))$"
-            }, {
-                token: ["text", "string", "text", "constant", "text"],
-                regex: "(\\[)(" + escaped("]") + ")(\\]\\s*\\[)(" + escaped("]") + ")(\\])"
-            }, {
-                token: ["text", "string", "text", "markup.underline", "string", "text"],
-                regex: "(\\!?\\[)(" + // [
-                    escaped("]") + // link text or alt text
-                    ")(\\]\\()" + // ](
-                    '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' + // href or image
-                    '(\\s*"' + escaped('"') + '"\\s*)?' + // "title"
-                    "(\\))" // )
-            }, {
-                token: "string.strong",
-                regex: "([*]{2}|[_]{2}(?=\\S))(.*?\\S[*_]*)(\\1)"
-            }, {
-                token: "string.emphasis",
-                regex: "([*]|[_](?=\\S))(.*?\\S[*_]*)(\\1)"
-            }, {
-                token: ["text", "url", "text"],
-                regex: "(<)(" +
-                    "(?:https?|ftp|dict):[^'\">\\s]+" +
-                    "|" +
-                    "(?:mailto:)?[-.\\w]+\\@[-a-z0-9]+(?:\\.[-a-z0-9]+)*\\.[a-z]+" +
-                    ")(>)"
-            }],
-        "allowBlock": [
-            { token: "support.function", regex: "^ {4}.+", next: "allowBlock" },
-            { token: "empty_line", regex: '^$', next: "allowBlock" },
-            { token: "empty", regex: "", next: "start" }
         ],
-        "header": [{
-                regex: "$",
+        "comment": [
+            {
+                token: "comment.multiline",
+                regex: "^=end(?=$|\\s.*$)",
                 next: "start"
             }, {
-                include: "basic"
+                token: "comment",
+                regex: ".+"
+            }
+        ],
+        "qStateWithInterpolation": [{
+                token: "string.start",
+                regex: /[(\[<{]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === stack[0]) {
+                        stack.unshift(val, state);
+                        return this.token;
+                    }
+                    return "string";
+                }
             }, {
-                defaultToken: "heading"
+                token: "constant.language.escape",
+                regex: escapedChars
+            }, {
+                token: "constant.language.escape",
+                regex: /\\./
+            }, {
+                token: "paren.start",
+                regex: /#{/,
+                push: "start"
+            }, {
+                token: "string.end",
+                regex: /[)\]>}^|%]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === closeParen[stack[0]]) {
+                        stack.shift();
+                        this.next = stack.shift();
+                        return this.token;
+                    }
+                    this.next = '';
+                    return "string";
+                }
+            }, {
+                defaultToken: "string"
             }],
-        "listblock-start": [{
-                token: "support.variable",
-                regex: /(?:\[[ x]\])?/,
-                next: "listblock"
+        "qStateWithoutInterpolation": [{
+                token: "string.start",
+                regex: /[(\[<{]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === stack[0]) {
+                        stack.unshift(val, state);
+                        return this.token;
+                    }
+                    return "string";
+                }
+            }, {
+                token: "constant.language.escape",
+                regex: /\\['\\]/
+            }, {
+                token: "constant.language.escape",
+                regex: /\\./
+            }, {
+                token: "string.end",
+                regex: /[)\]>}^|%]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === closeParen[stack[0]]) {
+                        stack.shift();
+                        this.next = stack.shift();
+                        return this.token;
+                    }
+                    this.next = '';
+                    return "string";
+                }
+            }, {
+                defaultToken: "string"
             }],
-        "listblock": [{
-                token: "empty_line",
+        "sStateWithoutInterpolation": [{
+                token: "constant.other.symbol.ruby",
+                regex: /[(\[<{]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === stack[0]) {
+                        stack.unshift(val, state);
+                        return this.token;
+                    }
+                    return "constant.other.symbol.ruby";
+                }
+            }, {
+                token: "constant.other.symbol.ruby",
+                regex: /[)\]>}^|%]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === closeParen[stack[0]]) {
+                        stack.shift();
+                        this.next = stack.shift();
+                        return this.token;
+                    }
+                    this.next = '';
+                    return "constant.other.symbol.ruby";
+                }
+            }, {
+                defaultToken: "constant.other.symbol.ruby"
+            }],
+        "sStateWithInterpolation": [{
+                token: "constant.other.symbol.ruby",
+                regex: /[(\[<{]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === stack[0]) {
+                        stack.unshift(val, state);
+                        return this.token;
+                    }
+                    return "constant.other.symbol.ruby";
+                }
+            }, {
+                token: "constant.language.escape",
+                regex: escapedChars
+            }, {
+                token: "constant.language.escape",
+                regex: /\\./
+            }, {
+                token: "paren.start",
+                regex: /#{/,
+                push: "start"
+            }, {
+                token: "constant.other.symbol.ruby",
+                regex: /[)\]>}^|%]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === closeParen[stack[0]]) {
+                        stack.shift();
+                        this.next = stack.shift();
+                        return this.token;
+                    }
+                    this.next = '';
+                    return "constant.other.symbol.ruby";
+                }
+            }, {
+                defaultToken: "constant.other.symbol.ruby"
+            }],
+        "rState": [{
+                token: "string.regexp",
+                regex: /[(\[<{]/, onMatch: function (val, state, stack) {
+                    if (stack.length && val === stack[0]) {
+                        stack.unshift(val, state);
+                        return this.token;
+                    }
+                    return "constant.language.escape";
+                }
+            }, {
+                token: "paren.start",
+                regex: /#{/,
+                push: "start"
+            }, {
+                token: "string.regexp",
+                regex: /\//
+            }, {
+                token: "string.regexp",
+                regex: /[)\]>}^|%][imxouesn]*/, onMatch: function (val, state, stack) {
+                    if (stack.length && val[0] === closeParen[stack[0]]) {
+                        stack.shift();
+                        this.next = stack.shift();
+                        return this.token;
+                    }
+                    this.next = '';
+                    return "constant.language.escape";
+                }
+            },
+            { include: "regex" },
+            {
+                defaultToken: "string.regexp"
+            }],
+        "regex": [
+            {
+                token: "regexp.keyword",
+                regex: /\\[wWdDhHsS]/
+            }, {
+                token: "constant.language.escape",
+                regex: /\\[AGbBzZ]/
+            }, {
+                token: "constant.language.escape",
+                regex: /\\g<[a-zA-Z0-9]*>/
+            }, {
+                token: ["constant.language.escape", "regexp.keyword", "constant.language.escape"],
+                regex: /(\\p{\^?)(Alnum|Alpha|Blank|Cntrl|Digit|Graph|Lower|Print|Punct|Space|Upper|XDigit|Word|ASCII|Any|Assigned|Arabic|Armenian|Balinese|Bengali|Bopomofo|Braille|Buginese|Buhid|Canadian_Aboriginal|Carian|Cham|Cherokee|Common|Coptic|Cuneiform|Cypriot|Cyrillic|Deseret|Devanagari|Ethiopic|Georgian|Glagolitic|Gothic|Greek|Gujarati|Gurmukhi|Han|Hangul|Hanunoo|Hebrew|Hiragana|Inherited|Kannada|Katakana|Kayah_Li|Kharoshthi|Khmer|Lao|Latin|Lepcha|Limbu|Linear_B|Lycian|Lydian|Malayalam|Mongolian|Myanmar|New_Tai_Lue|Nko|Ogham|Ol_Chiki|Old_Italic|Old_Persian|Oriya|Osmanya|Phags_Pa|Phoenician|Rejang|Runic|Saurashtra|Shavian|Sinhala|Sundanese|Syloti_Nagri|Syriac|Tagalog|Tagbanwa|Tai_Le|Tamil|Telugu|Thaana|Thai|Tibetan|Tifinagh|Ugaritic|Vai|Yi|Ll|Lm|Lt|Lu|Lo|Mn|Mc|Me|Nd|Nl|Pc|Pd|Ps|Pe|Pi|Pf|Po|No|Sm|Sc|Sk|So|Zs|Zl|Zp|Cc|Cf|Cn|Co|Cs|N|L|M|P|S|Z|C)(})/
+            }, {
+                token: ["constant.language.escape", "invalid", "constant.language.escape"],
+                regex: /(\\p{\^?)([^/]*)(})/
+            }, {
+                token: "regexp.keyword.operator",
+                regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
+            }, {
+                token: "string.regexp",
+                regex: /[/][imxouesn]*/,
+                next: "start"
+            }, {
+                token: "invalid",
+                regex: /\{\d+\b,?\d*\}[+*]|[+*$^?][+*]|[$^][?]|\?{3,}/
+            }, {
+                token: "constant.language.escape",
+                regex: /\(\?(?:[:=!>]|<'?[a-zA-Z]*'?>|<[=!])|\)|\{\d+\b,?\d*\}|[+*]\?|[()$^+*?.]/
+            }, {
+                token: "constant.language.delimiter",
+                regex: /\|/
+            }, {
+                token: "regexp.keyword",
+                regex: /\[\[:(?:alnum|alpha|blank|cntrl|digit|graph|lower|print|punct|space|upper|xdigit|word|ascii):\]\]/
+            }, {
+                token: "constant.language.escape",
+                regex: /\[\^?/,
+                push: "regex_character_class"
+            }, {
+                defaultToken: "string.regexp"
+            }
+        ],
+        "regex_character_class": [
+            {
+                token: "regexp.keyword",
+                regex: /\\[wWdDhHsS]/
+            }, {
+                token: "regexp.charclass.keyword.operator",
+                regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
+            }, {
+                token: "constant.language.escape",
+                regex: /&?&?\[\^?/,
+                push: "regex_character_class"
+            }, {
+                token: "constant.language.escape",
+                regex: "]",
+                next: "pop"
+            }, {
+                token: "constant.language.escape",
+                regex: "-"
+            }, {
+                defaultToken: "string.regexp.characterclass"
+            }
+        ]
+    };
+    this.normalizeRules();
+};
+oop.inherits(RubyHighlightRules, TextHighlightRules);
+exports.RubyHighlightRules = RubyHighlightRules;
+
+});
+
+ace.define("ace/mode/haml_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/html_highlight_rules","ace/mode/ruby_highlight_rules"], function(require, exports, module){"use strict";
+var oop = require("../lib/oop");
+var HtmlHighlightRules = require("./html_highlight_rules").HtmlHighlightRules;
+var RubyExports = require("./ruby_highlight_rules");
+var RubyHighlightRules = RubyExports.RubyHighlightRules;
+var HamlHighlightRules = function () {
+    HtmlHighlightRules.call(this);
+    this.$rules = {
+        "start": [
+            {
+                token: "comment.block",
+                regex: /^\/$/,
+                next: "comment"
+            },
+            {
+                token: "comment.block",
+                regex: /^\-#$/,
+                next: "comment"
+            },
+            {
+                token: "comment.line",
+                regex: /\/\s*.*/
+            },
+            {
+                token: "comment.line",
+                regex: /-#\s*.*/
+            },
+            {
+                token: "keyword.other.doctype",
+                regex: "^!!!\\s*(?:[a-zA-Z0-9-_]+)?"
+            },
+            RubyExports.qString,
+            RubyExports.qqString,
+            RubyExports.tString,
+            {
+                token: "meta.tag.haml",
+                regex: /(%[\w:\-]+)/
+            },
+            {
+                token: "keyword.attribute-name.class.haml",
+                regex: /\.[\w-]+/
+            },
+            {
+                token: "keyword.attribute-name.id.haml",
+                regex: /#[\w-]+/,
+                next: "element_class"
+            },
+            RubyExports.constantNumericHex,
+            RubyExports.constantNumericFloat,
+            RubyExports.constantOtherSymbol,
+            {
+                token: "text",
+                regex: /=|-|~/,
+                next: "embedded_ruby"
+            }
+        ],
+        "element_class": [
+            {
+                token: "keyword.attribute-name.class.haml",
+                regex: /\.[\w-]+/
+            },
+            {
+                token: "punctuation.section",
+                regex: /\{/,
+                next: "element_attributes"
+            },
+            RubyExports.constantOtherSymbol,
+            {
+                token: "empty",
+                regex: "$|(?!\\.|#|\\{|\\[|=|-|~|\\/])",
+                next: "start"
+            }
+        ],
+        "element_attributes": [
+            RubyExports.constantOtherSymbol,
+            RubyExports.qString,
+            RubyExports.qqString,
+            RubyExports.tString,
+            RubyExports.constantNumericHex,
+            RubyExports.constantNumericFloat,
+            {
+                token: "punctuation.section",
+                regex: /$|\}/,
+                next: "start"
+            }
+        ],
+        "embedded_ruby": [
+            RubyExports.constantNumericHex,
+            RubyExports.constantNumericFloat,
+            RubyExports.instanceVariable,
+            RubyExports.qString,
+            RubyExports.qqString,
+            RubyExports.tString,
+            {
+                token: "support.class",
+                regex: "[A-Z][a-zA-Z_\\d]+"
+            },
+            {
+                token: new RubyHighlightRules().getKeywords(),
+                regex: "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
+            },
+            {
+                token: ["keyword", "text", "text"],
+                regex: "(?:do|\\{)(?: \\|[^|]+\\|)?$",
+                next: "start"
+            },
+            {
+                token: ["text"],
                 regex: "^$",
                 next: "start"
-            }, {
-                token: "markup.list",
-                regex: "^\\s{0,3}(?:[*+-]|\\d+\\.)\\s+",
-                next: "listblock-start"
-            }, {
-                include: "basic", noEscape: true
             },
-            codeBlockStartRule,
             {
-                defaultToken: "list" //do not use markup.list to allow stling leading `*` differntly
-            }],
-        "blockquote": [{
-                token: "empty_line",
-                regex: "^\\s*$",
+                token: ["text"],
+                regex: "^(?!.*\\|\\s*$)",
                 next: "start"
-            }, {
-                token: "string.blockquote",
-                regex: "^\\s*>\\s*(?:[*+-]|\\d+\\.)?\\s+",
-                next: "blockquote"
-            }, {
-                include: "basic", noEscape: true
-            }, {
-                defaultToken: "string.blockquote"
-            }],
-        "githubblock": codeBlockRules
-    });
-    this.normalizeRules();
-};
-oop.inherits(MarkdownHighlightRules, TextHighlightRules);
-exports.MarkdownHighlightRules = MarkdownHighlightRules;
-
-});
-
-ace.define("ace/mode/scss_highlight_rules",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/mode/text_highlight_rules","ace/mode/css_highlight_rules"], function(require, exports, module){"use strict";
-var oop = require("../lib/oop");
-var lang = require("../lib/lang");
-var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-var CssHighlightRules = require("./css_highlight_rules");
-var ScssHighlightRules = function () {
-    var properties = lang.arrayToMap(CssHighlightRules.supportType.split("|"));
-    var functions = lang.arrayToMap(("hsl|hsla|rgb|rgba|url|attr|counter|counters|abs|adjust_color|adjust_hue|" +
-        "alpha|join|blue|ceil|change_color|comparable|complement|darken|desaturate|" +
-        "floor|grayscale|green|hue|if|invert|join|length|lighten|lightness|mix|" +
-        "nth|opacify|opacity|percentage|quote|red|round|saturate|saturation|" +
-        "scale_color|transparentize|type_of|unit|unitless|unquote").split("|"));
-    var constants = lang.arrayToMap(CssHighlightRules.supportConstant.split("|"));
-    var colors = lang.arrayToMap(CssHighlightRules.supportConstantColor.split("|"));
-    var keywords = lang.arrayToMap(("@mixin|@extend|@include|@import|@media|@debug|@warn|@if|@for|@each|@while|@else|@font-face|@-webkit-keyframes|if|and|!default|module|def|end|declare").split("|"));
-    var tags = lang.arrayToMap(("a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdo|" +
-        "big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|" +
-        "command|datalist|dd|del|details|dfn|dir|div|dl|dt|em|embed|fieldset|" +
-        "figcaption|figure|font|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|" +
-        "header|hgroup|hr|html|i|iframe|img|input|ins|keygen|kbd|label|legend|li|" +
-        "link|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|" +
-        "option|output|p|param|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|" +
-        "small|source|span|strike|strong|style|sub|summary|sup|table|tbody|td|" +
-        "textarea|tfoot|th|thead|time|title|tr|tt|u|ul|var|video|wbr|xmp").split("|"));
-    var numRe = "\\-?(?:(?:[0-9]+)|(?:[0-9]*\\.[0-9]+))";
-    this.$rules = {
-        "start": [
-            {
-                token: "comment",
-                regex: "\\/\\/.*$"
-            },
-            {
-                token: "comment",
-                regex: "\\/\\*",
-                next: "comment"
-            }, {
-                token: "string",
-                regex: '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
-            }, {
-                token: "string",
-                regex: '["].*\\\\$',
-                next: "qqstring"
-            }, {
-                token: "string",
-                regex: "['](?:(?:\\\\.)|(?:[^'\\\\]))*?[']"
-            }, {
-                token: "string",
-                regex: "['].*\\\\$",
-                next: "qstring"
-            }, {
-                token: "constant.numeric",
-                regex: numRe + "(?:ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vmax|vmin|vm|vw|%)"
-            }, {
-                token: "constant.numeric",
-                regex: "#[a-f0-9]{6}"
-            }, {
-                token: "constant.numeric",
-                regex: "#[a-f0-9]{3}"
-            }, {
-                token: "constant.numeric",
-                regex: numRe
-            }, {
-                token: ["support.function", "string", "support.function"],
-                regex: "(url\\()(.*)(\\))"
-            }, {
-                token: function (value) {
-                    if (properties.hasOwnProperty(value.toLowerCase()))
-                        return "support.type";
-                    if (keywords.hasOwnProperty(value))
-                        return "keyword";
-                    else if (constants.hasOwnProperty(value))
-                        return "constant.language";
-                    else if (functions.hasOwnProperty(value))
-                        return "support.function";
-                    else if (colors.hasOwnProperty(value.toLowerCase()))
-                        return "support.constant.color";
-                    else if (tags.hasOwnProperty(value.toLowerCase()))
-                        return "variable.language";
-                    else
-                        return "text";
-                },
-                regex: "\\-?[@a-z_][@a-z0-9_\\-]*"
-            }, {
-                token: "variable",
-                regex: "[a-z_\\-$][a-z0-9_\\-$]*\\b"
-            }, {
-                token: "variable.language",
-                regex: "#[a-z0-9-_]+"
-            }, {
-                token: "variable.language",
-                regex: "\\.[a-z0-9-_]+"
-            }, {
-                token: "variable.language",
-                regex: ":[a-z0-9-_]+"
-            }, {
-                token: "constant",
-                regex: "[a-z0-9-_]+"
-            }, {
-                token: "keyword.operator",
-                regex: "<|>|<=|>=|==|!=|-|%|#|\\+|\\$|\\+|\\*"
-            }, {
-                token: "paren.lparen",
-                regex: "[[({]"
-            }, {
-                token: "paren.rparen",
-                regex: "[\\])}]"
-            }, {
-                token: "text",
-                regex: "\\s+"
-            }, {
-                caseInsensitive: true
             }
         ],
         "comment": [
             {
-                token: "comment",
-                regex: "\\*\\/",
+                token: "comment.block",
+                regex: /^$/,
                 next: "start"
-            }, {
-                defaultToken: "comment"
-            }
-        ],
-        "qqstring": [
-            {
-                token: "string",
-                regex: '(?:(?:\\\\.)|(?:[^"\\\\]))*?"',
-                next: "start"
-            }, {
-                token: "string",
-                regex: '.+'
-            }
-        ],
-        "qstring": [
-            {
-                token: "string",
-                regex: "(?:(?:\\\\.)|(?:[^'\\\\]))*?'",
-                next: "start"
-            }, {
-                token: "string",
-                regex: '.+'
-            }
-        ]
-    };
-};
-oop.inherits(ScssHighlightRules, TextHighlightRules);
-exports.ScssHighlightRules = ScssHighlightRules;
-
-});
-
-ace.define("ace/mode/less_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules","ace/mode/css_highlight_rules"], function(require, exports, module){"use strict";
-var oop = require("../lib/oop");
-var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-var CssHighlightRules = require('./css_highlight_rules');
-var LessHighlightRules = function () {
-    var keywordList = "@import|@media|@font-face|@keyframes|@-webkit-keyframes|@supports|" +
-        "@charset|@plugin|@namespace|@document|@page|@viewport|@-ms-viewport|" +
-        "or|and|when|not";
-    var keywords = keywordList.split('|');
-    var properties = CssHighlightRules.supportType.split('|');
-    var keywordMapper = this.createKeywordMapper({
-        "support.constant": CssHighlightRules.supportConstant,
-        "keyword": keywordList,
-        "support.constant.color": CssHighlightRules.supportConstantColor,
-        "support.constant.fonts": CssHighlightRules.supportConstantFonts
-    }, "identifier", true);
-    var numRe = "\\-?(?:(?:[0-9]+)|(?:[0-9]*\\.[0-9]+))";
-    this.$rules = {
-        "start": [
-            {
-                token: "comment",
-                regex: "\\/\\/.*$"
             },
             {
-                token: "comment",
-                regex: "\\/\\*",
-                next: "comment"
-            }, {
-                token: "string",
-                regex: '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
-            }, {
-                token: "string",
-                regex: "['](?:(?:\\\\.)|(?:[^'\\\\]))*?[']"
-            }, {
-                token: ["constant.numeric", "keyword"],
-                regex: "(" + numRe + ")(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vw|%)"
-            }, {
-                token: "constant.numeric",
-                regex: "#[a-f0-9]{6}"
-            }, {
-                token: "constant.numeric",
-                regex: "#[a-f0-9]{3}"
-            }, {
-                token: "constant.numeric",
-                regex: numRe
-            }, {
-                token: ["support.function", "paren.lparen", "string", "paren.rparen"],
-                regex: "(url)(\\()(.*)(\\))"
-            }, {
-                token: ["support.function", "paren.lparen"],
-                regex: "(:extend|[a-z0-9_\\-]+)(\\()"
-            }, {
-                token: function (value) {
-                    if (keywords.indexOf(value.toLowerCase()) > -1)
-                        return "keyword";
-                    else
-                        return "variable";
-                },
-                regex: "[@\\$][a-z0-9_\\-@\\$]*\\b"
-            }, {
-                token: "variable",
-                regex: "[@\\$]\\{[a-z0-9_\\-@\\$]*\\}"
-            }, {
-                token: function (first, second) {
-                    if (properties.indexOf(first.toLowerCase()) > -1) {
-                        return ["support.type.property", "text"];
-                    }
-                    else {
-                        return ["support.type.unknownProperty", "text"];
-                    }
-                },
-                regex: "([a-z0-9-_]+)(\\s*:)"
-            }, {
-                token: "keyword",
-                regex: "&" // special case - always treat as keyword
-            }, {
-                token: keywordMapper,
-                regex: "\\-?[@a-z_][@a-z0-9_\\-]*"
-            }, {
-                token: "variable.language",
-                regex: "#[a-z0-9-_]+"
-            }, {
-                token: "variable.language",
-                regex: "\\.[a-z0-9-_]+"
-            }, {
-                token: "variable.language",
-                regex: ":[a-z_][a-z0-9-_]*"
-            }, {
-                token: "constant",
-                regex: "[a-z0-9-_]+"
-            }, {
-                token: "keyword.operator",
-                regex: "<|>|<=|>=|=|!=|-|%|\\+|\\*"
-            }, {
-                token: "paren.lparen",
-                regex: "[[({]"
-            }, {
-                token: "paren.rparen",
-                regex: "[\\])}]"
-            }, {
-                token: "text",
-                regex: "\\s+"
-            }, {
-                caseInsensitive: true
-            }
-        ],
-        "comment": [
-            {
-                token: "comment",
-                regex: "\\*\\/",
-                next: "start"
-            }, {
-                defaultToken: "comment"
+                token: "comment.block",
+                regex: /\s+.*/
             }
         ]
     };
     this.normalizeRules();
 };
-oop.inherits(LessHighlightRules, TextHighlightRules);
-exports.LessHighlightRules = LessHighlightRules;
-
-});
-
-ace.define("ace/mode/coffee_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(require, exports, module){"use strict";
-var oop = require("../lib/oop");
-var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-oop.inherits(CoffeeHighlightRules, TextHighlightRules);
-function CoffeeHighlightRules() {
-    var identifier = "[$A-Za-z_\\x7f-\\uffff][$\\w\\x7f-\\uffff]*";
-    var keywords = ("this|throw|then|try|typeof|super|switch|return|break|by|continue|" +
-        "catch|class|in|instanceof|is|isnt|if|else|extends|for|own|" +
-        "finally|function|while|when|new|no|not|delete|debugger|do|loop|of|off|" +
-        "or|on|unless|until|and|yes|yield|export|import|default");
-    var langConstant = ("true|false|null|undefined|NaN|Infinity");
-    var illegal = ("case|const|function|var|void|with|enum|implements|" +
-        "interface|let|package|private|protected|public|static");
-    var supportClass = ("Array|Boolean|Date|Function|Number|Object|RegExp|ReferenceError|String|" +
-        "Error|EvalError|InternalError|RangeError|ReferenceError|StopIteration|" +
-        "SyntaxError|TypeError|URIError|" +
-        "ArrayBuffer|Float32Array|Float64Array|Int16Array|Int32Array|Int8Array|" +
-        "Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray");
-    var supportFunction = ("Math|JSON|isNaN|isFinite|parseInt|parseFloat|encodeURI|" +
-        "encodeURIComponent|decodeURI|decodeURIComponent|String|");
-    var variableLanguage = ("window|arguments|prototype|document");
-    var keywordMapper = this.createKeywordMapper({
-        "keyword": keywords,
-        "constant.language": langConstant,
-        "invalid.illegal": illegal,
-        "language.support.class": supportClass,
-        "language.support.function": supportFunction,
-        "variable.language": variableLanguage
-    }, "identifier");
-    var functionRule = {
-        token: ["paren.lparen", "variable.parameter", "paren.rparen", "text", "storage.type"],
-        regex: /(?:(\()((?:"[^")]*?"|'[^')]*?'|\/[^\/)]*?\/|[^()"'\/])*?)(\))(\s*))?([\-=]>)/.source
-    };
-    var stringEscape = /\\(?:x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)/;
-    this.$rules = {
-        start: [
-            {
-                token: "constant.numeric",
-                regex: "(?:0x[\\da-fA-F]+|(?:\\d+(?:\\.\\d+)?|\\.\\d+)(?:[eE][+-]?\\d+)?)"
-            }, {
-                stateName: "qdoc",
-                token: "string", regex: "'''", next: [
-                    { token: "string", regex: "'''", next: "start" },
-                    { token: "constant.language.escape", regex: stringEscape },
-                    { defaultToken: "string" }
-                ]
-            }, {
-                stateName: "qqdoc",
-                token: "string",
-                regex: '"""',
-                next: [
-                    { token: "string", regex: '"""', next: "start" },
-                    { token: "paren.string", regex: '#{', push: "start" },
-                    { token: "constant.language.escape", regex: stringEscape },
-                    { defaultToken: "string" }
-                ]
-            }, {
-                stateName: "qstring",
-                token: "string", regex: "'", next: [
-                    { token: "string", regex: "'", next: "start" },
-                    { token: "constant.language.escape", regex: stringEscape },
-                    { defaultToken: "string" }
-                ]
-            }, {
-                stateName: "qqstring",
-                token: "string.start", regex: '"', next: [
-                    { token: "string.end", regex: '"', next: "start" },
-                    { token: "paren.string", regex: '#{', push: "start" },
-                    { token: "constant.language.escape", regex: stringEscape },
-                    { defaultToken: "string" }
-                ]
-            }, {
-                stateName: "js",
-                token: "string", regex: "`", next: [
-                    { token: "string", regex: "`", next: "start" },
-                    { token: "constant.language.escape", regex: stringEscape },
-                    { defaultToken: "string" }
-                ]
-            }, {
-                regex: "[{}]", onMatch: function (val, state, stack) {
-                    this.next = "";
-                    if (val == "{" && stack.length) {
-                        stack.unshift("start", state);
-                        return "paren";
-                    }
-                    if (val == "}" && stack.length) {
-                        stack.shift();
-                        this.next = stack.shift() || "";
-                        if (this.next.indexOf("string") != -1)
-                            return "paren.string";
-                    }
-                    return "paren";
-                }
-            }, {
-                token: "string.regex",
-                regex: "///",
-                next: "heregex"
-            }, {
-                token: "string.regex",
-                regex: /(?:\/(?![\s=])[^[\/\n\\]*(?:(?:\\[\s\S]|\[[^\]\n\\]*(?:\\[\s\S][^\]\n\\]*)*])[^[\/\n\\]*)*\/)(?:[imgy]{0,4})(?!\w)/
-            }, {
-                token: "comment",
-                regex: "###(?!#)",
-                next: "comment"
-            }, {
-                token: "comment",
-                regex: "#.*"
-            }, {
-                token: ["punctuation.operator", "text", "identifier"],
-                regex: "(\\.)(\\s*)(" + illegal + ")"
-            }, {
-                token: "punctuation.operator",
-                regex: "\\.{1,3}"
-            }, {
-                token: ["keyword", "text", "language.support.class",
-                    "text", "keyword", "text", "language.support.class"],
-                regex: "(class)(\\s+)(" + identifier + ")(?:(\\s+)(extends)(\\s+)(" + identifier + "))?"
-            }, {
-                token: ["entity.name.function", "text", "keyword.operator", "text"].concat(functionRule.token),
-                regex: "(" + identifier + ")(\\s*)([=:])(\\s*)" + functionRule.regex
-            },
-            functionRule,
-            {
-                token: "variable",
-                regex: "@(?:" + identifier + ")?"
-            }, {
-                token: keywordMapper,
-                regex: identifier
-            }, {
-                token: "punctuation.operator",
-                regex: "\\,|\\."
-            }, {
-                token: "storage.type",
-                regex: "[\\-=]>"
-            }, {
-                token: "keyword.operator",
-                regex: "(?:[-+*/%<>&|^!?=]=|>>>=?|\\-\\-|\\+\\+|::|&&=|\\|\\|=|<<=|>>=|\\?\\.|\\.{2,3}|[!*+-=><])"
-            }, {
-                token: "paren.lparen",
-                regex: "[({[]"
-            }, {
-                token: "paren.rparen",
-                regex: "[\\]})]"
-            }, {
-                token: "text",
-                regex: "\\s+"
-            }
-        ],
-        heregex: [{
-                token: "string.regex",
-                regex: '.*?///[imgy]{0,4}',
-                next: "start"
-            }, {
-                token: "comment.regex",
-                regex: "\\s+(?:#.*)?"
-            }, {
-                token: "string.regex",
-                regex: "\\S+"
-            }],
-        comment: [{
-                token: "comment",
-                regex: '###',
-                next: "start"
-            }, {
-                defaultToken: "comment"
-            }]
-    };
-    this.normalizeRules();
-}
-exports.CoffeeHighlightRules = CoffeeHighlightRules;
-
-});
-
-ace.define("ace/mode/jade_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules","ace/mode/markdown_highlight_rules","ace/mode/scss_highlight_rules","ace/mode/less_highlight_rules","ace/mode/coffee_highlight_rules","ace/mode/javascript_highlight_rules"], function(require, exports, module){/*
-  THIS FILE WAS AUTOGENERATED BY mode_highlight_rules.tmpl.js (UUID: C5B73B98-5F2A-42E3-9F0E-028A74A9FE4B)
-*/
-"use strict";
-var oop = require("../lib/oop");
-var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-var MarkdownHighlightRules = require("./markdown_highlight_rules").MarkdownHighlightRules;
-var SassHighlightRules = require("./scss_highlight_rules").ScssHighlightRules;
-var LessHighlightRules = require("./less_highlight_rules").LessHighlightRules;
-var CoffeeHighlightRules = require("./coffee_highlight_rules").CoffeeHighlightRules;
-var JavaScriptHighlightRules = require("./javascript_highlight_rules").JavaScriptHighlightRules;
-function mixin_embed(tag, prefix) {
-    return {
-        token: "entity.name.function.jade",
-        regex: "^\\s*\\:" + tag,
-        next: prefix + "start"
-    };
-}
-var JadeHighlightRules = function () {
-    var escapedRe = "\\\\(?:x[0-9a-fA-F]{2}|" + // hex
-        "u[0-9a-fA-F]{4}|" + // unicode
-        "[0-2][0-7]{0,2}|" + // oct
-        "3[0-6][0-7]?|" + // oct
-        "37[0-7]?|" + // oct
-        "[4-7][0-7]?|" + //oct
-        ".)";
-    this.$rules =
-        {
-            "start": [
-                {
-                    token: "keyword.control.import.include.jade",
-                    regex: "\\s*\\binclude\\b"
-                },
-                {
-                    token: "keyword.other.doctype.jade",
-                    regex: "^!!!\\s*(?:[a-zA-Z0-9-_]+)?"
-                },
-                {
-                    onMatch: function (value, currentState, stack) {
-                        stack.unshift(this.next, value.length - 2, currentState);
-                        return "comment";
-                    },
-                    regex: /^\s*\/\//,
-                    next: "comment_block"
-                },
-                mixin_embed("markdown", "markdown-"),
-                mixin_embed("sass", "sass-"),
-                mixin_embed("less", "less-"),
-                mixin_embed("coffee", "coffee-"),
-                {
-                    token: ["storage.type.function.jade",
-                        "entity.name.function.jade",
-                        "punctuation.definition.parameters.begin.jade",
-                        "variable.parameter.function.jade",
-                        "punctuation.definition.parameters.end.jade"
-                    ],
-                    regex: "^(\\s*mixin)( [\\w\\-]+)(\\s*\\()(.*?)(\\))"
-                },
-                {
-                    token: ["storage.type.function.jade", "entity.name.function.jade"],
-                    regex: "^(\\s*mixin)( [\\w\\-]+)"
-                },
-                {
-                    token: "source.js.embedded.jade",
-                    regex: "^\\s*(?:-|=|!=)",
-                    next: "js-start"
-                },
-                {
-                    token: "string.interpolated.jade",
-                    regex: "[#!]\\{[^\\}]+\\}"
-                },
-                {
-                    token: "meta.tag.any.jade",
-                    regex: /^\s*(?!\w+:)(?:[\w-]+|(?=\.|#)])/,
-                    next: "tag_single"
-                },
-                {
-                    token: "suport.type.attribute.id.jade",
-                    regex: "#\\w+"
-                },
-                {
-                    token: "suport.type.attribute.class.jade",
-                    regex: "\\.\\w+"
-                },
-                {
-                    token: "punctuation",
-                    regex: "\\s*(?:\\()",
-                    next: "tag_attributes"
-                }
-            ],
-            "comment_block": [
-                { regex: /^\s*(?:\/\/)?/, onMatch: function (value, currentState, stack) {
-                        if (value.length <= stack[1]) {
-                            if (value.slice(-1) == "/") {
-                                stack[1] = value.length - 2;
-                                this.next = "";
-                                return "comment";
-                            }
-                            stack.shift();
-                            stack.shift();
-                            this.next = stack.shift();
-                            return "text";
-                        }
-                        else {
-                            this.next = "";
-                            return "comment";
-                        }
-                    }, next: "start" },
-                { defaultToken: "comment" }
-            ],
-            "tag_single": [
-                {
-                    token: "entity.other.attribute-name.class.jade",
-                    regex: "\\.[\\w-]+"
-                },
-                {
-                    token: "entity.other.attribute-name.id.jade",
-                    regex: "#[\\w-]+"
-                },
-                {
-                    token: ["text", "punctuation"],
-                    regex: "($)|((?!\\.|#|=|-))",
-                    next: "start"
-                }
-            ],
-            "tag_attributes": [
-                {
-                    token: "string",
-                    regex: "'(?=.)",
-                    next: "qstring"
-                },
-                {
-                    token: "string",
-                    regex: '"(?=.)',
-                    next: "qqstring"
-                },
-                {
-                    token: ["entity.other.attribute-name.jade", "punctuation"],
-                    regex: "([a-zA-Z:\\.-]+)(=)?",
-                    next: "attribute_strings"
-                },
-                {
-                    token: "punctuation",
-                    regex: "\\)",
-                    next: "start"
-                }
-            ],
-            "attribute_strings": [
-                {
-                    token: "string",
-                    regex: "'(?=.)",
-                    next: "qstring"
-                },
-                {
-                    token: "string",
-                    regex: '"(?=.)',
-                    next: "qqstring"
-                },
-                {
-                    token: "string",
-                    regex: '(?=\\S)',
-                    next: "tag_attributes"
-                }
-            ],
-            "qqstring": [
-                {
-                    token: "constant.language.escape",
-                    regex: escapedRe
-                }, {
-                    token: "string",
-                    regex: '[^"\\\\]+'
-                }, {
-                    token: "string",
-                    regex: "\\\\$",
-                    next: "qqstring"
-                }, {
-                    token: "string",
-                    regex: '"|$',
-                    next: "tag_attributes"
-                }
-            ],
-            "qstring": [
-                {
-                    token: "constant.language.escape",
-                    regex: escapedRe
-                }, {
-                    token: "string",
-                    regex: "[^'\\\\]+"
-                }, {
-                    token: "string",
-                    regex: "\\\\$",
-                    next: "qstring"
-                }, {
-                    token: "string",
-                    regex: "'|$",
-                    next: "tag_attributes"
-                }
-            ]
-        };
-    this.embedRules(JavaScriptHighlightRules, "js-", [{
-            token: "text",
-            regex: ".$",
-            next: "start"
-        }]);
-};
-oop.inherits(JadeHighlightRules, TextHighlightRules);
-exports.JadeHighlightRules = JadeHighlightRules;
+oop.inherits(HamlHighlightRules, HtmlHighlightRules);
+exports.HamlHighlightRules = HamlHighlightRules;
 
 });
 
@@ -1923,10 +1808,7 @@ var Range = require("../../range").Range;
 var FoldMode = exports.FoldMode = function () { };
 oop.inherits(FoldMode, BaseFoldMode);
 (function () {
-    this.getFoldWidgetRange = function (session, foldStyle, row) {
-        var range = this.indentationBlock(session, row);
-        if (range)
-            return range;
+    this.commentBlock = function (session, row) {
         var re = /\S/;
         var line = session.getLine(row);
         var startLevel = line.search(re);
@@ -1949,6 +1831,14 @@ oop.inherits(FoldMode, BaseFoldMode);
             var endColumn = session.getLine(endRow).length;
             return new Range(startRow, startColumn, endRow, endColumn);
         }
+    };
+    this.getFoldWidgetRange = function (session, foldStyle, row) {
+        var range = this.indentationBlock(session, row);
+        if (range)
+            return range;
+        range = this.commentBlock(session, row);
+        if (range)
+            return range;
     };
     this.getFoldWidget = function (session, foldStyle, row) {
         var line = session.getLine(row);
@@ -1988,25 +1878,29 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 });
 
-ace.define("ace/mode/jade",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/jade_highlight_rules","ace/mode/folding/coffee"], function(require, exports, module){"use strict";
+ace.define("ace/mode/haml",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/haml_highlight_rules","ace/mode/folding/coffee"], function(require, exports, module){/*
+  THIS FILE WAS AUTOGENERATED BY mode.tmpl.js
+*/
+"use strict";
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
-var JadeHighlightRules = require("./jade_highlight_rules").JadeHighlightRules;
+var HamlHighlightRules = require("./haml_highlight_rules").HamlHighlightRules;
 var FoldMode = require("./folding/coffee").FoldMode;
 var Mode = function () {
-    this.HighlightRules = JadeHighlightRules;
+    this.HighlightRules = HamlHighlightRules;
     this.foldingRules = new FoldMode();
     this.$behaviour = this.$defaultBehaviour;
 };
 oop.inherits(Mode, TextMode);
 (function () {
     this.lineCommentStart = "//";
-    this.$id = "ace/mode/jade";
+    this.$id = "ace/mode/haml";
+    this.snippetFileId = "ace/snippets/haml";
 }).call(Mode.prototype);
 exports.Mode = Mode;
 
 });                (function() {
-                    ace.require(["ace/mode/jade"], function(m) {
+                    ace.require(["ace/mode/haml"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
                         }

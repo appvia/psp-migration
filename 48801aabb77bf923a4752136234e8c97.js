@@ -1,344 +1,3 @@
-ace.define("ace/autocomplete/popup",["require","exports","module","ace/virtual_renderer","ace/editor","ace/range","ace/lib/event","ace/lib/lang","ace/lib/dom","ace/config"], function(require, exports, module){"use strict";
-var Renderer = require("../virtual_renderer").VirtualRenderer;
-var Editor = require("../editor").Editor;
-var Range = require("../range").Range;
-var event = require("../lib/event");
-var lang = require("../lib/lang");
-var dom = require("../lib/dom");
-var nls = require("../config").nls;
-var getAriaId = function (index) {
-    return "suggest-aria-id:".concat(index);
-};
-var $singleLineEditor = function (el) {
-    var renderer = new Renderer(el);
-    renderer.$maxLines = 4;
-    var editor = new Editor(renderer);
-    editor.setHighlightActiveLine(false);
-    editor.setShowPrintMargin(false);
-    editor.renderer.setShowGutter(false);
-    editor.renderer.setHighlightGutterLine(false);
-    editor.$mouseHandler.$focusTimeout = 0;
-    editor.$highlightTagPending = true;
-    return editor;
-};
-var AcePopup = /** @class */ (function () {
-    function AcePopup(parentNode) {
-        var el = dom.createElement("div");
-        var popup = new $singleLineEditor(el);
-        if (parentNode) {
-            parentNode.appendChild(el);
-        }
-        el.style.display = "none";
-        popup.renderer.content.style.cursor = "default";
-        popup.renderer.setStyle("ace_autocomplete");
-        popup.renderer.$textLayer.element.setAttribute("role", "listbox");
-        popup.renderer.$textLayer.element.setAttribute("aria-label", nls("Autocomplete suggestions"));
-        popup.renderer.textarea.setAttribute("aria-hidden", "true");
-        popup.setOption("displayIndentGuides", false);
-        popup.setOption("dragDelay", 150);
-        var noop = function () { };
-        popup.focus = noop;
-        popup.$isFocused = true;
-        popup.renderer.$cursorLayer.restartTimer = noop;
-        popup.renderer.$cursorLayer.element.style.opacity = 0;
-        popup.renderer.$maxLines = 8;
-        popup.renderer.$keepTextAreaAtCursor = false;
-        popup.setHighlightActiveLine(false);
-        popup.session.highlight("");
-        popup.session.$searchHighlight.clazz = "ace_highlight-marker";
-        popup.on("mousedown", function (e) {
-            var pos = e.getDocumentPosition();
-            popup.selection.moveToPosition(pos);
-            selectionMarker.start.row = selectionMarker.end.row = pos.row;
-            e.stop();
-        });
-        var lastMouseEvent;
-        var hoverMarker = new Range(-1, 0, -1, Infinity);
-        var selectionMarker = new Range(-1, 0, -1, Infinity);
-        selectionMarker.id = popup.session.addMarker(selectionMarker, "ace_active-line", "fullLine");
-        popup.setSelectOnHover = function (val) {
-            if (!val) {
-                hoverMarker.id = popup.session.addMarker(hoverMarker, "ace_line-hover", "fullLine");
-            }
-            else if (hoverMarker.id) {
-                popup.session.removeMarker(hoverMarker.id);
-                hoverMarker.id = null;
-            }
-        };
-        popup.setSelectOnHover(false);
-        popup.on("mousemove", function (e) {
-            if (!lastMouseEvent) {
-                lastMouseEvent = e;
-                return;
-            }
-            if (lastMouseEvent.x == e.x && lastMouseEvent.y == e.y) {
-                return;
-            }
-            lastMouseEvent = e;
-            lastMouseEvent.scrollTop = popup.renderer.scrollTop;
-            popup.isMouseOver = true;
-            var row = lastMouseEvent.getDocumentPosition().row;
-            if (hoverMarker.start.row != row) {
-                if (!hoverMarker.id)
-                    popup.setRow(row);
-                setHoverMarker(row);
-            }
-        });
-        popup.renderer.on("beforeRender", function () {
-            if (lastMouseEvent && hoverMarker.start.row != -1) {
-                lastMouseEvent.$pos = null;
-                var row = lastMouseEvent.getDocumentPosition().row;
-                if (!hoverMarker.id)
-                    popup.setRow(row);
-                setHoverMarker(row, true);
-            }
-        });
-        popup.renderer.on("afterRender", function () {
-            var row = popup.getRow();
-            var t = popup.renderer.$textLayer;
-            var selected = t.element.childNodes[row - t.config.firstRow];
-            var el = document.activeElement; // Active element is textarea of main editor
-            if (selected !== t.selectedNode && t.selectedNode) {
-                dom.removeCssClass(t.selectedNode, "ace_selected");
-                el.removeAttribute("aria-activedescendant");
-                t.selectedNode.removeAttribute("id");
-            }
-            t.selectedNode = selected;
-            if (selected) {
-                dom.addCssClass(selected, "ace_selected");
-                var ariaId = getAriaId(row);
-                selected.id = ariaId;
-                t.element.setAttribute("aria-activedescendant", ariaId);
-                el.setAttribute("aria-activedescendant", ariaId);
-                selected.setAttribute("role", "option");
-                selected.setAttribute("aria-label", popup.getData(row).value);
-                selected.setAttribute("aria-setsize", popup.data.length);
-                selected.setAttribute("aria-posinset", row + 1);
-                selected.setAttribute("aria-describedby", "doc-tooltip");
-            }
-        });
-        var hideHoverMarker = function () { setHoverMarker(-1); };
-        var setHoverMarker = function (row, suppressRedraw) {
-            if (row !== hoverMarker.start.row) {
-                hoverMarker.start.row = hoverMarker.end.row = row;
-                if (!suppressRedraw)
-                    popup.session._emit("changeBackMarker");
-                popup._emit("changeHoverMarker");
-            }
-        };
-        popup.getHoveredRow = function () {
-            return hoverMarker.start.row;
-        };
-        event.addListener(popup.container, "mouseout", function () {
-            popup.isMouseOver = false;
-            hideHoverMarker();
-        });
-        popup.on("hide", hideHoverMarker);
-        popup.on("changeSelection", hideHoverMarker);
-        popup.session.doc.getLength = function () {
-            return popup.data.length;
-        };
-        popup.session.doc.getLine = function (i) {
-            var data = popup.data[i];
-            if (typeof data == "string")
-                return data;
-            return (data && data.value) || "";
-        };
-        var bgTokenizer = popup.session.bgTokenizer;
-        bgTokenizer.$tokenizeRow = function (row) {
-            var data = popup.data[row];
-            var tokens = [];
-            if (!data)
-                return tokens;
-            if (typeof data == "string")
-                data = { value: data };
-            var caption = data.caption || data.value || data.name;
-            function addToken(value, className) {
-                value && tokens.push({
-                    type: (data.className || "") + (className || ""),
-                    value: value
-                });
-            }
-            var lower = caption.toLowerCase();
-            var filterText = (popup.filterText || "").toLowerCase();
-            var lastIndex = 0;
-            var lastI = 0;
-            for (var i = 0; i <= filterText.length; i++) {
-                if (i != lastI && (data.matchMask & (1 << i) || i == filterText.length)) {
-                    var sub = filterText.slice(lastI, i);
-                    lastI = i;
-                    var index = lower.indexOf(sub, lastIndex);
-                    if (index == -1)
-                        continue;
-                    addToken(caption.slice(lastIndex, index), "");
-                    lastIndex = index + sub.length;
-                    addToken(caption.slice(index, lastIndex), "completion-highlight");
-                }
-            }
-            addToken(caption.slice(lastIndex, caption.length), "");
-            tokens.push({ type: "completion-spacer", value: " " });
-            if (data.meta)
-                tokens.push({ type: "completion-meta", value: data.meta });
-            if (data.message)
-                tokens.push({ type: "completion-message", value: data.message });
-            return tokens;
-        };
-        bgTokenizer.$updateOnChange = noop;
-        bgTokenizer.start = noop;
-        popup.session.$computeWidth = function () {
-            return this.screenWidth = 0;
-        };
-        popup.isOpen = false;
-        popup.isTopdown = false;
-        popup.autoSelect = true;
-        popup.filterText = "";
-        popup.isMouseOver = false;
-        popup.data = [];
-        popup.setData = function (list, filterText) {
-            popup.filterText = filterText || "";
-            popup.setValue(lang.stringRepeat("\n", list.length), -1);
-            popup.data = list || [];
-            popup.setRow(0);
-        };
-        popup.getData = function (row) {
-            return popup.data[row];
-        };
-        popup.getRow = function () {
-            return selectionMarker.start.row;
-        };
-        popup.setRow = function (line) {
-            line = Math.max(this.autoSelect ? 0 : -1, Math.min(this.data.length - 1, line));
-            if (selectionMarker.start.row != line) {
-                popup.selection.clearSelection();
-                selectionMarker.start.row = selectionMarker.end.row = line || 0;
-                popup.session._emit("changeBackMarker");
-                popup.moveCursorTo(line || 0, 0);
-                if (popup.isOpen)
-                    popup._signal("select");
-            }
-        };
-        popup.on("changeSelection", function () {
-            if (popup.isOpen)
-                popup.setRow(popup.selection.lead.row);
-            popup.renderer.scrollCursorIntoView();
-        });
-        popup.hide = function () {
-            this.container.style.display = "none";
-            popup.anchorPos = null;
-            popup.anchor = null;
-            if (popup.isOpen) {
-                popup.isOpen = false;
-                this._signal("hide");
-            }
-        };
-        popup.tryShow = function (pos, lineHeight, anchor, forceShow) {
-            if (!forceShow && popup.isOpen && popup.anchorPos && popup.anchor &&
-                popup.anchorPos.top === pos.top && popup.anchorPos.left === pos.left &&
-                popup.anchor === anchor) {
-                return true;
-            }
-            var el = this.container;
-            var screenHeight = window.innerHeight;
-            var screenWidth = window.innerWidth;
-            var renderer = this.renderer;
-            var maxH = renderer.$maxLines * lineHeight * 1.4;
-            var dims = { top: 0, bottom: 0, left: 0 };
-            var spaceBelow = screenHeight - pos.top - 3 * this.$borderSize - lineHeight;
-            var spaceAbove = pos.top - 3 * this.$borderSize;
-            if (!anchor) {
-                if (spaceAbove <= spaceBelow || spaceBelow >= maxH) {
-                    anchor = "bottom";
-                }
-                else {
-                    anchor = "top";
-                }
-            }
-            if (anchor === "top") {
-                dims.bottom = pos.top - this.$borderSize;
-                dims.top = dims.bottom - maxH;
-            }
-            else if (anchor === "bottom") {
-                dims.top = pos.top + lineHeight + this.$borderSize;
-                dims.bottom = dims.top + maxH;
-            }
-            var fitsX = dims.top >= 0 && dims.bottom <= screenHeight;
-            if (!forceShow && !fitsX) {
-                return false;
-            }
-            if (!fitsX) {
-                if (anchor === "top") {
-                    renderer.$maxPixelHeight = spaceAbove;
-                }
-                else {
-                    renderer.$maxPixelHeight = spaceBelow;
-                }
-            }
-            else {
-                renderer.$maxPixelHeight = null;
-            }
-            if (anchor === "top") {
-                el.style.top = "";
-                el.style.bottom = (screenHeight - dims.bottom) + "px";
-                popup.isTopdown = false;
-            }
-            else {
-                el.style.top = dims.top + "px";
-                el.style.bottom = "";
-                popup.isTopdown = true;
-            }
-            el.style.display = "";
-            var left = pos.left;
-            if (left + el.offsetWidth > screenWidth)
-                left = screenWidth - el.offsetWidth;
-            el.style.left = left + "px";
-            el.style.right = "";
-            if (!popup.isOpen) {
-                popup.isOpen = true;
-                this._signal("show");
-                lastMouseEvent = null;
-            }
-            popup.anchorPos = pos;
-            popup.anchor = anchor;
-            return true;
-        };
-        popup.show = function (pos, lineHeight, topdownOnly) {
-            this.tryShow(pos, lineHeight, topdownOnly ? "bottom" : undefined, true);
-        };
-        popup.goTo = function (where) {
-            var row = this.getRow();
-            var max = this.session.getLength() - 1;
-            switch (where) {
-                case "up":
-                    row = row <= 0 ? max : row - 1;
-                    break;
-                case "down":
-                    row = row >= max ? -1 : row + 1;
-                    break;
-                case "start":
-                    row = 0;
-                    break;
-                case "end":
-                    row = max;
-                    break;
-            }
-            this.setRow(row);
-        };
-        popup.getTextLeftOffset = function () {
-            return this.$borderSize + this.renderer.$padding + this.$imageSize;
-        };
-        popup.$imageSize = 0;
-        popup.$borderSize = 1;
-        return popup;
-    }
-    return AcePopup;
-}());
-dom.importCssString("\n.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\n    background-color: #CAD6FA;\n    z-index: 1;\n}\n.ace_dark.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\n    background-color: #3a674e;\n}\n.ace_editor.ace_autocomplete .ace_line-hover {\n    border: 1px solid #abbffe;\n    margin-top: -1px;\n    background: rgba(233,233,253,0.4);\n    position: absolute;\n    z-index: 2;\n}\n.ace_dark.ace_editor.ace_autocomplete .ace_line-hover {\n    border: 1px solid rgba(109, 150, 13, 0.8);\n    background: rgba(58, 103, 78, 0.62);\n}\n.ace_completion-meta {\n    opacity: 0.5;\n    margin-left: 0.9em;\n}\n.ace_completion-message {\n    color: blue;\n}\n.ace_editor.ace_autocomplete .ace_completion-highlight{\n    color: #2d69c7;\n}\n.ace_dark.ace_editor.ace_autocomplete .ace_completion-highlight{\n    color: #93ca12;\n}\n.ace_editor.ace_autocomplete {\n    width: 300px;\n    z-index: 200000;\n    border: 1px lightgray solid;\n    position: fixed;\n    box-shadow: 2px 3px 5px rgba(0,0,0,.2);\n    line-height: 1.4;\n    background: #fefefe;\n    color: #111;\n}\n.ace_dark.ace_editor.ace_autocomplete {\n    border: 1px #484747 solid;\n    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.51);\n    line-height: 1.4;\n    background: #25282c;\n    color: #c1c1c1;\n}\n.ace_autocomplete .ace_text-layer  {\n    width: calc(100% - 8px);\n}\n.ace_autocomplete .ace_line {\n    display: flex;\n    align-items: center;\n}\n.ace_autocomplete .ace_line > * {\n    min-width: 0;\n    flex: 0 0 auto;\n}\n.ace_autocomplete .ace_line .ace_ {\n    flex: 0 1 auto;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n}\n.ace_autocomplete .ace_completion-spacer {\n    flex: 1;\n}\n", "autocompletion.css", false);
-exports.AcePopup = AcePopup;
-exports.$singleLineEditor = $singleLineEditor;
-exports.getAriaId = getAriaId;
-
-});
-
 ace.define("ace/snippets",["require","exports","module","ace/lib/dom","ace/lib/oop","ace/lib/event_emitter","ace/lib/lang","ace/range","ace/range_list","ace/keyboard/hash_handler","ace/tokenizer","ace/clipboard","ace/editor"], function(require, exports, module){"use strict";
 var dom = require("./lib/dom");
 var oop = require("./lib/oop");
@@ -1420,6 +1079,347 @@ exports.AceInline = AceInline;
 
 });
 
+ace.define("ace/autocomplete/popup",["require","exports","module","ace/virtual_renderer","ace/editor","ace/range","ace/lib/event","ace/lib/lang","ace/lib/dom","ace/config"], function(require, exports, module){"use strict";
+var Renderer = require("../virtual_renderer").VirtualRenderer;
+var Editor = require("../editor").Editor;
+var Range = require("../range").Range;
+var event = require("../lib/event");
+var lang = require("../lib/lang");
+var dom = require("../lib/dom");
+var nls = require("../config").nls;
+var getAriaId = function (index) {
+    return "suggest-aria-id:".concat(index);
+};
+var $singleLineEditor = function (el) {
+    var renderer = new Renderer(el);
+    renderer.$maxLines = 4;
+    var editor = new Editor(renderer);
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setHighlightGutterLine(false);
+    editor.$mouseHandler.$focusTimeout = 0;
+    editor.$highlightTagPending = true;
+    return editor;
+};
+var AcePopup = /** @class */ (function () {
+    function AcePopup(parentNode) {
+        var el = dom.createElement("div");
+        var popup = new $singleLineEditor(el);
+        if (parentNode) {
+            parentNode.appendChild(el);
+        }
+        el.style.display = "none";
+        popup.renderer.content.style.cursor = "default";
+        popup.renderer.setStyle("ace_autocomplete");
+        popup.renderer.$textLayer.element.setAttribute("role", "listbox");
+        popup.renderer.$textLayer.element.setAttribute("aria-label", nls("Autocomplete suggestions"));
+        popup.renderer.textarea.setAttribute("aria-hidden", "true");
+        popup.setOption("displayIndentGuides", false);
+        popup.setOption("dragDelay", 150);
+        var noop = function () { };
+        popup.focus = noop;
+        popup.$isFocused = true;
+        popup.renderer.$cursorLayer.restartTimer = noop;
+        popup.renderer.$cursorLayer.element.style.opacity = 0;
+        popup.renderer.$maxLines = 8;
+        popup.renderer.$keepTextAreaAtCursor = false;
+        popup.setHighlightActiveLine(false);
+        popup.session.highlight("");
+        popup.session.$searchHighlight.clazz = "ace_highlight-marker";
+        popup.on("mousedown", function (e) {
+            var pos = e.getDocumentPosition();
+            popup.selection.moveToPosition(pos);
+            selectionMarker.start.row = selectionMarker.end.row = pos.row;
+            e.stop();
+        });
+        var lastMouseEvent;
+        var hoverMarker = new Range(-1, 0, -1, Infinity);
+        var selectionMarker = new Range(-1, 0, -1, Infinity);
+        selectionMarker.id = popup.session.addMarker(selectionMarker, "ace_active-line", "fullLine");
+        popup.setSelectOnHover = function (val) {
+            if (!val) {
+                hoverMarker.id = popup.session.addMarker(hoverMarker, "ace_line-hover", "fullLine");
+            }
+            else if (hoverMarker.id) {
+                popup.session.removeMarker(hoverMarker.id);
+                hoverMarker.id = null;
+            }
+        };
+        popup.setSelectOnHover(false);
+        popup.on("mousemove", function (e) {
+            if (!lastMouseEvent) {
+                lastMouseEvent = e;
+                return;
+            }
+            if (lastMouseEvent.x == e.x && lastMouseEvent.y == e.y) {
+                return;
+            }
+            lastMouseEvent = e;
+            lastMouseEvent.scrollTop = popup.renderer.scrollTop;
+            popup.isMouseOver = true;
+            var row = lastMouseEvent.getDocumentPosition().row;
+            if (hoverMarker.start.row != row) {
+                if (!hoverMarker.id)
+                    popup.setRow(row);
+                setHoverMarker(row);
+            }
+        });
+        popup.renderer.on("beforeRender", function () {
+            if (lastMouseEvent && hoverMarker.start.row != -1) {
+                lastMouseEvent.$pos = null;
+                var row = lastMouseEvent.getDocumentPosition().row;
+                if (!hoverMarker.id)
+                    popup.setRow(row);
+                setHoverMarker(row, true);
+            }
+        });
+        popup.renderer.on("afterRender", function () {
+            var row = popup.getRow();
+            var t = popup.renderer.$textLayer;
+            var selected = t.element.childNodes[row - t.config.firstRow];
+            var el = document.activeElement; // Active element is textarea of main editor
+            if (selected !== t.selectedNode && t.selectedNode) {
+                dom.removeCssClass(t.selectedNode, "ace_selected");
+                el.removeAttribute("aria-activedescendant");
+                t.selectedNode.removeAttribute("id");
+            }
+            t.selectedNode = selected;
+            if (selected) {
+                dom.addCssClass(selected, "ace_selected");
+                var ariaId = getAriaId(row);
+                selected.id = ariaId;
+                t.element.setAttribute("aria-activedescendant", ariaId);
+                el.setAttribute("aria-activedescendant", ariaId);
+                selected.setAttribute("role", "option");
+                selected.setAttribute("aria-label", popup.getData(row).value);
+                selected.setAttribute("aria-setsize", popup.data.length);
+                selected.setAttribute("aria-posinset", row + 1);
+                selected.setAttribute("aria-describedby", "doc-tooltip");
+            }
+        });
+        var hideHoverMarker = function () { setHoverMarker(-1); };
+        var setHoverMarker = function (row, suppressRedraw) {
+            if (row !== hoverMarker.start.row) {
+                hoverMarker.start.row = hoverMarker.end.row = row;
+                if (!suppressRedraw)
+                    popup.session._emit("changeBackMarker");
+                popup._emit("changeHoverMarker");
+            }
+        };
+        popup.getHoveredRow = function () {
+            return hoverMarker.start.row;
+        };
+        event.addListener(popup.container, "mouseout", function () {
+            popup.isMouseOver = false;
+            hideHoverMarker();
+        });
+        popup.on("hide", hideHoverMarker);
+        popup.on("changeSelection", hideHoverMarker);
+        popup.session.doc.getLength = function () {
+            return popup.data.length;
+        };
+        popup.session.doc.getLine = function (i) {
+            var data = popup.data[i];
+            if (typeof data == "string")
+                return data;
+            return (data && data.value) || "";
+        };
+        var bgTokenizer = popup.session.bgTokenizer;
+        bgTokenizer.$tokenizeRow = function (row) {
+            var data = popup.data[row];
+            var tokens = [];
+            if (!data)
+                return tokens;
+            if (typeof data == "string")
+                data = { value: data };
+            var caption = data.caption || data.value || data.name;
+            function addToken(value, className) {
+                value && tokens.push({
+                    type: (data.className || "") + (className || ""),
+                    value: value
+                });
+            }
+            var lower = caption.toLowerCase();
+            var filterText = (popup.filterText || "").toLowerCase();
+            var lastIndex = 0;
+            var lastI = 0;
+            for (var i = 0; i <= filterText.length; i++) {
+                if (i != lastI && (data.matchMask & (1 << i) || i == filterText.length)) {
+                    var sub = filterText.slice(lastI, i);
+                    lastI = i;
+                    var index = lower.indexOf(sub, lastIndex);
+                    if (index == -1)
+                        continue;
+                    addToken(caption.slice(lastIndex, index), "");
+                    lastIndex = index + sub.length;
+                    addToken(caption.slice(index, lastIndex), "completion-highlight");
+                }
+            }
+            addToken(caption.slice(lastIndex, caption.length), "");
+            tokens.push({ type: "completion-spacer", value: " " });
+            if (data.meta)
+                tokens.push({ type: "completion-meta", value: data.meta });
+            if (data.message)
+                tokens.push({ type: "completion-message", value: data.message });
+            return tokens;
+        };
+        bgTokenizer.$updateOnChange = noop;
+        bgTokenizer.start = noop;
+        popup.session.$computeWidth = function () {
+            return this.screenWidth = 0;
+        };
+        popup.isOpen = false;
+        popup.isTopdown = false;
+        popup.autoSelect = true;
+        popup.filterText = "";
+        popup.isMouseOver = false;
+        popup.data = [];
+        popup.setData = function (list, filterText) {
+            popup.filterText = filterText || "";
+            popup.setValue(lang.stringRepeat("\n", list.length), -1);
+            popup.data = list || [];
+            popup.setRow(0);
+        };
+        popup.getData = function (row) {
+            return popup.data[row];
+        };
+        popup.getRow = function () {
+            return selectionMarker.start.row;
+        };
+        popup.setRow = function (line) {
+            line = Math.max(this.autoSelect ? 0 : -1, Math.min(this.data.length - 1, line));
+            if (selectionMarker.start.row != line) {
+                popup.selection.clearSelection();
+                selectionMarker.start.row = selectionMarker.end.row = line || 0;
+                popup.session._emit("changeBackMarker");
+                popup.moveCursorTo(line || 0, 0);
+                if (popup.isOpen)
+                    popup._signal("select");
+            }
+        };
+        popup.on("changeSelection", function () {
+            if (popup.isOpen)
+                popup.setRow(popup.selection.lead.row);
+            popup.renderer.scrollCursorIntoView();
+        });
+        popup.hide = function () {
+            this.container.style.display = "none";
+            popup.anchorPos = null;
+            popup.anchor = null;
+            if (popup.isOpen) {
+                popup.isOpen = false;
+                this._signal("hide");
+            }
+        };
+        popup.tryShow = function (pos, lineHeight, anchor, forceShow) {
+            if (!forceShow && popup.isOpen && popup.anchorPos && popup.anchor &&
+                popup.anchorPos.top === pos.top && popup.anchorPos.left === pos.left &&
+                popup.anchor === anchor) {
+                return true;
+            }
+            var el = this.container;
+            var screenHeight = window.innerHeight;
+            var screenWidth = window.innerWidth;
+            var renderer = this.renderer;
+            var maxH = renderer.$maxLines * lineHeight * 1.4;
+            var dims = { top: 0, bottom: 0, left: 0 };
+            var spaceBelow = screenHeight - pos.top - 3 * this.$borderSize - lineHeight;
+            var spaceAbove = pos.top - 3 * this.$borderSize;
+            if (!anchor) {
+                if (spaceAbove <= spaceBelow || spaceBelow >= maxH) {
+                    anchor = "bottom";
+                }
+                else {
+                    anchor = "top";
+                }
+            }
+            if (anchor === "top") {
+                dims.bottom = pos.top - this.$borderSize;
+                dims.top = dims.bottom - maxH;
+            }
+            else if (anchor === "bottom") {
+                dims.top = pos.top + lineHeight + this.$borderSize;
+                dims.bottom = dims.top + maxH;
+            }
+            var fitsX = dims.top >= 0 && dims.bottom <= screenHeight;
+            if (!forceShow && !fitsX) {
+                return false;
+            }
+            if (!fitsX) {
+                if (anchor === "top") {
+                    renderer.$maxPixelHeight = spaceAbove;
+                }
+                else {
+                    renderer.$maxPixelHeight = spaceBelow;
+                }
+            }
+            else {
+                renderer.$maxPixelHeight = null;
+            }
+            if (anchor === "top") {
+                el.style.top = "";
+                el.style.bottom = (screenHeight - dims.bottom) + "px";
+                popup.isTopdown = false;
+            }
+            else {
+                el.style.top = dims.top + "px";
+                el.style.bottom = "";
+                popup.isTopdown = true;
+            }
+            el.style.display = "";
+            var left = pos.left;
+            if (left + el.offsetWidth > screenWidth)
+                left = screenWidth - el.offsetWidth;
+            el.style.left = left + "px";
+            el.style.right = "";
+            if (!popup.isOpen) {
+                popup.isOpen = true;
+                this._signal("show");
+                lastMouseEvent = null;
+            }
+            popup.anchorPos = pos;
+            popup.anchor = anchor;
+            return true;
+        };
+        popup.show = function (pos, lineHeight, topdownOnly) {
+            this.tryShow(pos, lineHeight, topdownOnly ? "bottom" : undefined, true);
+        };
+        popup.goTo = function (where) {
+            var row = this.getRow();
+            var max = this.session.getLength() - 1;
+            switch (where) {
+                case "up":
+                    row = row <= 0 ? max : row - 1;
+                    break;
+                case "down":
+                    row = row >= max ? -1 : row + 1;
+                    break;
+                case "start":
+                    row = 0;
+                    break;
+                case "end":
+                    row = max;
+                    break;
+            }
+            this.setRow(row);
+        };
+        popup.getTextLeftOffset = function () {
+            return this.$borderSize + this.renderer.$padding + this.$imageSize;
+        };
+        popup.$imageSize = 0;
+        popup.$borderSize = 1;
+        return popup;
+    }
+    return AcePopup;
+}());
+dom.importCssString("\n.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\n    background-color: #CAD6FA;\n    z-index: 1;\n}\n.ace_dark.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\n    background-color: #3a674e;\n}\n.ace_editor.ace_autocomplete .ace_line-hover {\n    border: 1px solid #abbffe;\n    margin-top: -1px;\n    background: rgba(233,233,253,0.4);\n    position: absolute;\n    z-index: 2;\n}\n.ace_dark.ace_editor.ace_autocomplete .ace_line-hover {\n    border: 1px solid rgba(109, 150, 13, 0.8);\n    background: rgba(58, 103, 78, 0.62);\n}\n.ace_completion-meta {\n    opacity: 0.5;\n    margin-left: 0.9em;\n}\n.ace_completion-message {\n    margin-left: 0.9em;\n    color: blue;\n}\n.ace_editor.ace_autocomplete .ace_completion-highlight{\n    color: #2d69c7;\n}\n.ace_dark.ace_editor.ace_autocomplete .ace_completion-highlight{\n    color: #93ca12;\n}\n.ace_editor.ace_autocomplete {\n    width: 300px;\n    z-index: 200000;\n    border: 1px lightgray solid;\n    position: fixed;\n    box-shadow: 2px 3px 5px rgba(0,0,0,.2);\n    line-height: 1.4;\n    background: #fefefe;\n    color: #111;\n}\n.ace_dark.ace_editor.ace_autocomplete {\n    border: 1px #484747 solid;\n    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.51);\n    line-height: 1.4;\n    background: #25282c;\n    color: #c1c1c1;\n}\n.ace_autocomplete .ace_text-layer  {\n    width: calc(100% - 8px);\n}\n.ace_autocomplete .ace_line {\n    display: flex;\n    align-items: center;\n}\n.ace_autocomplete .ace_line > * {\n    min-width: 0;\n    flex: 0 0 auto;\n}\n.ace_autocomplete .ace_line .ace_ {\n    flex: 0 1 auto;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n}\n.ace_autocomplete .ace_completion-spacer {\n    flex: 1;\n}\n.ace_autocomplete.ace_loading:after  {\n    content: \"\";\n    position: absolute;\n    top: 0px;\n    height: 2px;\n    width: 8%;\n    background: blue;\n    z-index: 100;\n    animation: ace_progress 3s infinite linear;\n    animation-delay: 300ms;\n    transform: translateX(-100%) scaleX(1);\n}\n@keyframes ace_progress {\n    0% { transform: translateX(-100%) scaleX(1) }\n    50% { transform: translateX(625%) scaleX(2) } \n    100% { transform: translateX(1500%) scaleX(3) } \n}\n@media (prefers-reduced-motion) {\n    .ace_autocomplete.ace_loading:after {\n        transform: translateX(625%) scaleX(2);\n        animation: none;\n     }\n}\n", "autocompletion.css", false);
+exports.AcePopup = AcePopup;
+exports.$singleLineEditor = $singleLineEditor;
+exports.getAriaId = getAriaId;
+
+});
+
 ace.define("ace/autocomplete/util",["require","exports","module"], function(require, exports, module){"use strict";
 exports.parForEach = function (array, fn, callback) {
     var completed = 0;
@@ -1522,6 +1522,18 @@ var Autocomplete = /** @class */ (function () {
         this.tooltipTimer = lang.delayedCall(this.updateDocTooltip.bind(this), 50);
         this.stickySelectionTimer = lang.delayedCall(function () {
             this.stickySelection = true;
+        }.bind(this), this.stickySelectionDelay);
+        this.$firstOpenTimer = lang.delayedCall(function () {
+            var initialPosition = this.completionProvider && this.completionProvider.initialPosition;
+            if (this.autoShown || (this.popup && this.popup.isOpen) || !initialPosition)
+                return;
+            var completionsForEmpty = [{
+                    caption: config.nls("Loading..."),
+                    value: ""
+                }];
+            this.completions = new FilteredList(completionsForEmpty);
+            this.openPopup(this.editor, initialPosition.prefix, false);
+            this.popup.renderer.setStyle("ace_loading", true);
         }.bind(this), this.stickySelectionDelay);
     }
     Autocomplete.prototype.$init = function () {
@@ -1633,6 +1645,7 @@ var Autocomplete = /** @class */ (function () {
         this.popup.show(pos, lineHeight);
     };
     Autocomplete.prototype.openPopup = function (editor, prefix, keepPopupPosition) {
+        this.$firstOpenTimer.cancel();
         if (!this.popup)
             this.$init();
         if (this.inlineEnabled && !this.inlineRenderer)
@@ -1675,6 +1688,7 @@ var Autocomplete = /** @class */ (function () {
             this.editor.off("mousedown", this.mousedownListener);
             this.editor.off("mousewheel", this.mousewheelListener);
         }
+        this.$firstOpenTimer.cancel();
         this.changeTimer.cancel();
         this.hideDocTooltip();
         if (this.completionProvider) {
@@ -1797,6 +1811,7 @@ var Autocomplete = /** @class */ (function () {
         }).provideCompletions(this.editor, completionOptions, function (err, completions, finished) {
             var filtered = completions.filtered;
             var prefix = util.getCompletionPrefix(this.editor);
+            this.$firstOpenTimer.cancel();
             if (finished) {
                 if (!filtered.length) {
                     var emptyMessage = !this.autoShown && this.emptyMessage;
@@ -1804,7 +1819,7 @@ var Autocomplete = /** @class */ (function () {
                         emptyMessage = this.emptyMessage(prefix);
                     if (emptyMessage) {
                         var completionsForEmpty = [{
-                                caption: this.emptyMessage(prefix),
+                                caption: emptyMessage,
                                 value: ""
                             }];
                         this.completions = new FilteredList(completionsForEmpty);
@@ -1820,7 +1835,11 @@ var Autocomplete = /** @class */ (function () {
             }
             this.completions = completions;
             this.openPopup(this.editor, prefix, keepPopupPosition);
+            this.popup.renderer.setStyle("ace_loading", !finished);
         }.bind(this));
+        if (!this.autoShown && !(this.popup && this.popup.isOpen)) {
+            this.$firstOpenTimer.delay(this.stickySelectionDelay / 2);
+        }
     };
     Autocomplete.prototype.cancelContextMenu = function () {
         this.editor.$mouseHandler.cancelContextMenu();
@@ -2203,756 +2222,1045 @@ exports.FilteredList = FilteredList;
 
 });
 
-ace.define("ace/ext/menu_tools/settings_menu.css",["require","exports","module"], function(require, exports, module){module.exports = "#ace_settingsmenu, #kbshortcutmenu {\n    background-color: #F7F7F7;\n    color: black;\n    box-shadow: -5px 4px 5px rgba(126, 126, 126, 0.55);\n    padding: 1em 0.5em 2em 1em;\n    overflow: auto;\n    position: absolute;\n    margin: 0;\n    bottom: 0;\n    right: 0;\n    top: 0;\n    z-index: 9991;\n    cursor: default;\n}\n\n.ace_dark #ace_settingsmenu, .ace_dark #kbshortcutmenu {\n    box-shadow: -20px 10px 25px rgba(126, 126, 126, 0.25);\n    background-color: rgba(255, 255, 255, 0.6);\n    color: black;\n}\n\n.ace_optionsMenuEntry:hover {\n    background-color: rgba(100, 100, 100, 0.1);\n    transition: all 0.3s\n}\n\n.ace_closeButton {\n    background: rgba(245, 146, 146, 0.5);\n    border: 1px solid #F48A8A;\n    border-radius: 50%;\n    padding: 7px;\n    position: absolute;\n    right: -8px;\n    top: -8px;\n    z-index: 100000;\n}\n.ace_closeButton{\n    background: rgba(245, 146, 146, 0.9);\n}\n.ace_optionsMenuKey {\n    color: darkslateblue;\n    font-weight: bold;\n}\n.ace_optionsMenuCommand {\n    color: darkcyan;\n    font-weight: normal;\n}\n.ace_optionsMenuEntry input, .ace_optionsMenuEntry button {\n    vertical-align: middle;\n}\n\n.ace_optionsMenuEntry button[ace_selected_button=true] {\n    background: #e7e7e7;\n    box-shadow: 1px 0px 2px 0px #adadad inset;\n    border-color: #adadad;\n}\n.ace_optionsMenuEntry button {\n    background: white;\n    border: 1px solid lightgray;\n    margin: 0px;\n}\n.ace_optionsMenuEntry button:hover{\n    background: #f0f0f0;\n}";
-
-});
-
-ace.define("ace/ext/menu_tools/overlay_page",["require","exports","module","ace/lib/dom","ace/ext/menu_tools/settings_menu.css"], function(require, exports, module){/*jslint indent: 4, maxerr: 50, white: true, browser: true, vars: true*/
-'use strict';
-var dom = require("../../lib/dom");
-var cssText = require("./settings_menu.css");
-dom.importCssString(cssText, "settings_menu.css", false);
-module.exports.overlayPage = function overlayPage(editor, contentElement, callback) {
-    var closer = document.createElement('div');
-    var ignoreFocusOut = false;
-    function documentEscListener(e) {
-        if (e.keyCode === 27) {
-            close();
+ace.define("ace/ext/command_bar",["require","exports","module","ace/tooltip","ace/lib/event_emitter","ace/lib/lang","ace/lib/dom","ace/lib/oop","ace/lib/useragent"], function(require, exports, module){var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
         }
-    }
-    function close() {
-        if (!closer)
-            return;
-        document.removeEventListener('keydown', documentEscListener);
-        closer.parentNode.removeChild(closer);
-        if (editor) {
-            editor.focus();
-        }
-        closer = null;
-        callback && callback();
-    }
-    function setIgnoreFocusOut(ignore) {
-        ignoreFocusOut = ignore;
-        if (ignore) {
-            closer.style.pointerEvents = "none";
-            contentElement.style.pointerEvents = "auto";
-        }
-    }
-    closer.style.cssText = 'margin: 0; padding: 0; ' +
-        'position: fixed; top:0; bottom:0; left:0; right:0;' +
-        'z-index: 9990; ' +
-        (editor ? 'background-color: rgba(0, 0, 0, 0.3);' : '');
-    closer.addEventListener('click', function (e) {
-        if (!ignoreFocusOut) {
-            close();
-        }
-    });
-    document.addEventListener('keydown', documentEscListener);
-    contentElement.addEventListener('click', function (e) {
-        e.stopPropagation();
-    });
-    closer.appendChild(contentElement);
-    document.body.appendChild(closer);
-    if (editor) {
-        editor.blur();
-    }
-    return {
-        close: close,
-        setIgnoreFocusOut: setIgnoreFocusOut
     };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-
-});
-
-ace.define("ace/ext/modelist",["require","exports","module"], function(require, exports, module){"use strict";
-var modes = [];
-function getModeForPath(path) {
-    var mode = modesByName.text;
-    var fileName = path.split(/[\/\\]/).pop();
-    for (var i = 0; i < modes.length; i++) {
-        if (modes[i].supportsFile(fileName)) {
-            mode = modes[i];
-            break;
-        }
-    }
-    return mode;
-}
-var Mode = /** @class */ (function () {
-    function Mode(name, caption, extensions) {
-        this.name = name;
-        this.caption = caption;
-        this.mode = "ace/mode/" + name;
-        this.extensions = extensions;
-        var re;
-        if (/\^/.test(extensions)) {
-            re = extensions.replace(/\|(\^)?/g, function (a, b) {
-                return "$|" + (b ? "^" : "^.*\\.");
-            }) + "$";
-        }
-        else {
-            re = "^.*\\.(" + extensions + ")$";
-        }
-        this.extRe = new RegExp(re, "gi");
-    }
-    Mode.prototype.supportsFile = function (filename) {
-        return filename.match(this.extRe);
-    };
-    return Mode;
-}());
-var supportedModes = {
-    ABAP: ["abap"],
-    ABC: ["abc"],
-    ActionScript: ["as"],
-    ADA: ["ada|adb"],
-    Alda: ["alda"],
-    Apache_Conf: ["^htaccess|^htgroups|^htpasswd|^conf|htaccess|htgroups|htpasswd"],
-    Apex: ["apex|cls|trigger|tgr"],
-    AQL: ["aql"],
-    AsciiDoc: ["asciidoc|adoc"],
-    ASL: ["dsl|asl|asl.json"],
-    Assembly_x86: ["asm|a"],
-    Astro: ["astro"],
-    AutoHotKey: ["ahk"],
-    BatchFile: ["bat|cmd"],
-    BibTeX: ["bib"],
-    C_Cpp: ["cpp|c|cc|cxx|h|hh|hpp|ino"],
-    C9Search: ["c9search_results"],
-    Cirru: ["cirru|cr"],
-    Clojure: ["clj|cljs"],
-    Cobol: ["CBL|COB"],
-    coffee: ["coffee|cf|cson|^Cakefile"],
-    ColdFusion: ["cfm|cfc"],
-    Crystal: ["cr"],
-    CSharp: ["cs"],
-    Csound_Document: ["csd"],
-    Csound_Orchestra: ["orc"],
-    Csound_Score: ["sco"],
-    CSS: ["css"],
-    Curly: ["curly"],
-    Cuttlefish: ["conf"],
-    D: ["d|di"],
-    Dart: ["dart"],
-    Diff: ["diff|patch"],
-    Django: ["djt|html.djt|dj.html|djhtml"],
-    Dockerfile: ["^Dockerfile"],
-    Dot: ["dot"],
-    Drools: ["drl"],
-    Edifact: ["edi"],
-    Eiffel: ["e|ge"],
-    EJS: ["ejs"],
-    Elixir: ["ex|exs"],
-    Elm: ["elm"],
-    Erlang: ["erl|hrl"],
-    Flix: ["flix"],
-    Forth: ["frt|fs|ldr|fth|4th"],
-    Fortran: ["f|f90"],
-    FSharp: ["fsi|fs|ml|mli|fsx|fsscript"],
-    FSL: ["fsl"],
-    FTL: ["ftl"],
-    Gcode: ["gcode"],
-    Gherkin: ["feature"],
-    Gitignore: ["^.gitignore"],
-    Glsl: ["glsl|frag|vert"],
-    Gobstones: ["gbs"],
-    golang: ["go"],
-    GraphQLSchema: ["gql"],
-    Groovy: ["groovy"],
-    HAML: ["haml"],
-    Handlebars: ["hbs|handlebars|tpl|mustache"],
-    Haskell: ["hs"],
-    Haskell_Cabal: ["cabal"],
-    haXe: ["hx"],
-    Hjson: ["hjson"],
-    HTML: ["html|htm|xhtml|vue|we|wpy"],
-    HTML_Elixir: ["eex|html.eex"],
-    HTML_Ruby: ["erb|rhtml|html.erb"],
-    INI: ["ini|conf|cfg|prefs"],
-    Io: ["io"],
-    Ion: ["ion"],
-    Jack: ["jack"],
-    Jade: ["jade|pug"],
-    Java: ["java"],
-    JavaScript: ["js|jsm|jsx|cjs|mjs"],
-    JEXL: ["jexl"],
-    JSON: ["json"],
-    JSON5: ["json5"],
-    JSONiq: ["jq"],
-    JSP: ["jsp"],
-    JSSM: ["jssm|jssm_state"],
-    JSX: ["jsx"],
-    Julia: ["jl"],
-    Kotlin: ["kt|kts"],
-    LaTeX: ["tex|latex|ltx|bib"],
-    Latte: ["latte"],
-    LESS: ["less"],
-    Liquid: ["liquid"],
-    Lisp: ["lisp"],
-    LiveScript: ["ls"],
-    Log: ["log"],
-    LogiQL: ["logic|lql"],
-    Logtalk: ["lgt"],
-    LSL: ["lsl"],
-    Lua: ["lua"],
-    LuaPage: ["lp"],
-    Lucene: ["lucene"],
-    Makefile: ["^Makefile|^GNUmakefile|^makefile|^OCamlMakefile|make"],
-    Markdown: ["md|markdown"],
-    Mask: ["mask"],
-    MATLAB: ["matlab"],
-    Maze: ["mz"],
-    MediaWiki: ["wiki|mediawiki"],
-    MEL: ["mel"],
-    MIPS: ["s|asm"],
-    MIXAL: ["mixal"],
-    MUSHCode: ["mc|mush"],
-    MySQL: ["mysql"],
-    Nasal: ["nas"],
-    Nginx: ["nginx|conf"],
-    Nim: ["nim"],
-    Nix: ["nix"],
-    NSIS: ["nsi|nsh"],
-    Nunjucks: ["nunjucks|nunjs|nj|njk"],
-    ObjectiveC: ["m|mm"],
-    OCaml: ["ml|mli"],
-    Odin: ["odin"],
-    PartiQL: ["partiql|pql"],
-    Pascal: ["pas|p"],
-    Perl: ["pl|pm"],
-    pgSQL: ["pgsql"],
-    PHP: ["php|inc|phtml|shtml|php3|php4|php5|phps|phpt|aw|ctp|module"],
-    PHP_Laravel_blade: ["blade.php"],
-    Pig: ["pig"],
-    PLSQL: ["plsql"],
-    Powershell: ["ps1"],
-    Praat: ["praat|praatscript|psc|proc"],
-    Prisma: ["prisma"],
-    Prolog: ["plg|prolog"],
-    Properties: ["properties"],
-    Protobuf: ["proto"],
-    PRQL: ["prql"],
-    Puppet: ["epp|pp"],
-    Python: ["py"],
-    QML: ["qml"],
-    R: ["r"],
-    Raku: ["raku|rakumod|rakutest|p6|pl6|pm6"],
-    Razor: ["cshtml|asp"],
-    RDoc: ["Rd"],
-    Red: ["red|reds"],
-    RHTML: ["Rhtml"],
-    Robot: ["robot|resource"],
-    RST: ["rst"],
-    Ruby: ["rb|ru|gemspec|rake|^Guardfile|^Rakefile|^Gemfile"],
-    Rust: ["rs"],
-    SaC: ["sac"],
-    SASS: ["sass"],
-    SCAD: ["scad"],
-    Scala: ["scala|sbt"],
-    Scheme: ["scm|sm|rkt|oak|scheme"],
-    Scrypt: ["scrypt"],
-    SCSS: ["scss"],
-    SH: ["sh|bash|^.bashrc"],
-    SJS: ["sjs"],
-    Slim: ["slim|skim"],
-    Smarty: ["smarty|tpl"],
-    Smithy: ["smithy"],
-    snippets: ["snippets"],
-    Soy_Template: ["soy"],
-    Space: ["space"],
-    SPARQL: ["rq"],
-    SQL: ["sql"],
-    SQLServer: ["sqlserver"],
-    Stylus: ["styl|stylus"],
-    SVG: ["svg"],
-    Swift: ["swift"],
-    Tcl: ["tcl"],
-    Terraform: ["tf", "tfvars", "terragrunt"],
-    Tex: ["tex"],
-    Text: ["txt"],
-    Textile: ["textile"],
-    Toml: ["toml"],
-    TSX: ["tsx"],
-    Turtle: ["ttl"],
-    Twig: ["twig|swig"],
-    Typescript: ["ts|mts|cts|typescript|str"],
-    Vala: ["vala"],
-    VBScript: ["vbs|vb"],
-    Velocity: ["vm"],
-    Verilog: ["v|vh|sv|svh"],
-    VHDL: ["vhd|vhdl"],
-    Visualforce: ["vfp|component|page"],
-    Wollok: ["wlk|wpgm|wtest"],
-    XML: ["xml|rdf|rss|wsdl|xslt|atom|mathml|mml|xul|xbl|xaml"],
-    XQuery: ["xq"],
-    YAML: ["yaml|yml"],
-    Zeek: ["zeek|bro"]
-};
-var nameOverrides = {
-    ObjectiveC: "Objective-C",
-    CSharp: "C#",
-    golang: "Go",
-    C_Cpp: "C and C++",
-    Csound_Document: "Csound Document",
-    Csound_Orchestra: "Csound",
-    Csound_Score: "Csound Score",
-    coffee: "CoffeeScript",
-    HTML_Ruby: "HTML (Ruby)",
-    HTML_Elixir: "HTML (Elixir)",
-    FTL: "FreeMarker",
-    PHP_Laravel_blade: "PHP (Blade Template)",
-    Perl6: "Perl 6",
-    AutoHotKey: "AutoHotkey / AutoIt"
-};
-var modesByName = {};
-for (var name in supportedModes) {
-    var data = supportedModes[name];
-    var displayName = (nameOverrides[name] || name).replace(/_/g, " ");
-    var filename = name.toLowerCase();
-    var mode = new Mode(filename, displayName, data[0]);
-    modesByName[filename] = mode;
-    modes.push(mode);
-}
-module.exports = {
-    getModeForPath: getModeForPath,
-    modes: modes,
-    modesByName: modesByName
-};
-
-});
-
-ace.define("ace/ext/prompt",["require","exports","module","ace/config","ace/range","ace/lib/dom","ace/autocomplete","ace/autocomplete/popup","ace/autocomplete/popup","ace/undomanager","ace/tokenizer","ace/ext/menu_tools/overlay_page","ace/ext/modelist"], function(require, exports, module){/**
- * Prompt plugin is used for getting input from user.
- *
- * @param {Object} editor                   Ouside editor related to this prompt. Will be blurred when prompt is open.
- * @param {String} message                  Predefined value of prompt input box.
- * @param {Object} options                  Cusomizable options for this prompt.
- * @param {String} options.name             Prompt name.
- * @param {String} options.$type            Use prompt of specific type (gotoLine|commands|modes or default if empty).
- * @param {[start, end]} options.selection  Defines which part of the predefined value should be highlited.
- * @param {Boolean} options.hasDescription  Set to true if prompt has description below input box.
- * @param {String} options.prompt           Description below input box.
- * @param {String} options.placeholder      Placeholder for value.
- * @param {Object} options.$rules           Specific rules for input like password or regexp.
- * @param {Boolean} options.ignoreFocusOut  Set to true to keep the prompt open when focus moves to another part of the editor.
- * @param {Function} options.getCompletions Function for defining list of options for value.
- * @param {Function} options.getPrefix      Function for defining current value prefix.
- * @param {Function} options.onAccept       Function called when Enter is pressed.
- * @param {Function} options.onInput        Function called when input is added to prompt input box.
- * @param {Function} options.onCancel       Function called when Esc|Shift-Esc is pressed.
- * @param {Function} callback               Function called after done.
- * */
-"use strict";
-var nls = require("../config").nls;
-var Range = require("../range").Range;
+var Tooltip = require("../tooltip").Tooltip;
+var EventEmitter = require("../lib/event_emitter").EventEmitter;
+var lang = require("../lib/lang");
 var dom = require("../lib/dom");
-var FilteredList = require("../autocomplete").FilteredList;
-var AcePopup = require('../autocomplete/popup').AcePopup;
-var $singleLineEditor = require('../autocomplete/popup').$singleLineEditor;
-var UndoManager = require("../undomanager").UndoManager;
-var Tokenizer = require("../tokenizer").Tokenizer;
-var overlayPage = require("./menu_tools/overlay_page").overlayPage;
-var modelist = require("./modelist");
-var openPrompt;
-function prompt(editor, message, options, callback) {
-    if (typeof message == "object") {
-        return prompt(editor, "", message, options);
+var oop = require("../lib/oop");
+var useragent = require("../lib/useragent");
+var BUTTON_CLASS_NAME = 'command_bar_tooltip_button';
+var VALUE_CLASS_NAME = 'command_bar_button_value';
+var CAPTION_CLASS_NAME = 'command_bar_button_caption';
+var KEYBINDING_CLASS_NAME = 'command_bar_keybinding';
+var TOOLTIP_CLASS_NAME = 'command_bar_tooltip';
+var MORE_OPTIONS_BUTTON_ID = 'MoreOptionsButton';
+var defaultDelay = 100;
+var defaultMaxElements = 4;
+var minPosition = function (posA, posB) {
+    if (posB.row > posA.row) {
+        return posA;
     }
-    if (openPrompt) {
-        var lastPrompt = openPrompt;
-        editor = lastPrompt.editor;
-        lastPrompt.close();
-        if (lastPrompt.name && lastPrompt.name == options.name)
-            return;
+    else if (posB.row === posA.row && posB.column > posA.column) {
+        return posA;
     }
-    if (options.$type)
-        return prompt[options.$type](editor, callback);
-    var cmdLine = $singleLineEditor();
-    cmdLine.session.setUndoManager(new UndoManager());
-    var el = dom.buildDom(["div", { class: "ace_prompt_container" + (options.hasDescription ? " input-box-with-description" : "") }]);
-    var overlay = overlayPage(editor, el, done);
-    el.appendChild(cmdLine.container);
-    if (editor) {
-        editor.cmdLine = cmdLine;
-        cmdLine.setOption("fontSize", editor.getOption("fontSize"));
-    }
-    if (message) {
-        cmdLine.setValue(message, 1);
-    }
-    if (options.selection) {
-        cmdLine.selection.setRange({
-            start: cmdLine.session.doc.indexToPosition(options.selection[0]),
-            end: cmdLine.session.doc.indexToPosition(options.selection[1])
-        });
-    }
-    if (options.getCompletions) {
-        var popup = new AcePopup();
-        popup.renderer.setStyle("ace_autocomplete_inline");
-        popup.container.style.display = "block";
-        popup.container.style.maxWidth = "600px";
-        popup.container.style.width = "100%";
-        popup.container.style.marginTop = "3px";
-        popup.renderer.setScrollMargin(2, 2, 0, 0);
-        popup.autoSelect = false;
-        popup.renderer.$maxLines = 15;
-        popup.setRow(-1);
-        popup.on("click", function (e) {
-            var data = popup.getData(popup.getRow());
-            if (!data.error) {
-                cmdLine.setValue(data.value || data.name || data);
-                accept();
-                e.stop();
+    return posB;
+};
+var keyDisplayMap = {
+    "Ctrl": { mac: "^" },
+    "Option": { mac: "⌥" },
+    "Command": { mac: "⌘" },
+    "Cmd": { mac: "⌘" },
+    "Shift": "⇧",
+    "Left": "←",
+    "Right": "→",
+    "Up": "↑",
+    "Down": "↓"
+};
+var CommandBarTooltip = /** @class */ (function () {
+    function CommandBarTooltip(parentNode, options) {
+        var e_1, _a;
+        options = options || {};
+        this.parentNode = parentNode;
+        this.tooltip = new Tooltip(this.parentNode);
+        this.moreOptions = new Tooltip(this.parentNode);
+        this.maxElementsOnTooltip = options.maxElementsOnTooltip || defaultMaxElements;
+        this.$alwaysShow = options.alwaysShow || false;
+        this.eventListeners = {};
+        this.elements = {};
+        this.commands = {};
+        this.tooltipEl = dom.buildDom(['div', { class: TOOLTIP_CLASS_NAME }], this.tooltip.getElement());
+        this.moreOptionsEl = dom.buildDom(['div', { class: TOOLTIP_CLASS_NAME + " tooltip_more_options" }], this.moreOptions.getElement());
+        this.$showTooltipTimer = lang.delayedCall(this.$showTooltip.bind(this), options.showDelay || defaultDelay);
+        this.$hideTooltipTimer = lang.delayedCall(this.$hideTooltip.bind(this), options.hideDelay || defaultDelay);
+        this.$tooltipEnter = this.$tooltipEnter.bind(this);
+        this.$onMouseMove = this.$onMouseMove.bind(this);
+        this.$onChangeScroll = this.$onChangeScroll.bind(this);
+        this.$onEditorChangeSession = this.$onEditorChangeSession.bind(this);
+        this.$scheduleTooltipForHide = this.$scheduleTooltipForHide.bind(this);
+        this.$preventMouseEvent = this.$preventMouseEvent.bind(this);
+        try {
+            for (var _b = __values(["mousedown", "mouseup", "click"]), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var event = _c.value;
+                this.tooltip.getElement().addEventListener(event, this.$preventMouseEvent);
+                this.moreOptions.getElement().addEventListener(event, this.$preventMouseEvent);
             }
-        });
-        el.appendChild(popup.container);
-        updateCompletions();
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
     }
-    if (options.$rules) {
-        var tokenizer = new Tokenizer(options.$rules);
-        cmdLine.session.bgTokenizer.setTokenizer(tokenizer);
-    }
-    if (options.placeholder) {
-        cmdLine.setOption("placeholder", options.placeholder);
-    }
-    if (options.hasDescription) {
-        var promptTextContainer = dom.buildDom(["div", { class: "ace_prompt_text_container" }]);
-        dom.buildDom(options.prompt || "Press 'Enter' to confirm or 'Escape' to cancel", promptTextContainer);
-        el.appendChild(promptTextContainer);
-    }
-    overlay.setIgnoreFocusOut(options.ignoreFocusOut);
-    function accept() {
-        var val;
-        if (popup && popup.getCursorPosition().row > 0) {
-            val = valueFromRecentList();
+    CommandBarTooltip.prototype.registerCommand = function (id, command) {
+        var registerForMainTooltip = Object.keys(this.commands).length < this.maxElementsOnTooltip;
+        if (!registerForMainTooltip && !this.elements[MORE_OPTIONS_BUTTON_ID]) {
+            this.$createCommand(MORE_OPTIONS_BUTTON_ID, {
+                name: "···",
+                exec: function () {
+                    this.$shouldHideMoreOptions = false;
+                    this.$setMoreOptionsVisibility(!this.isMoreOptionsShown());
+                }.bind(this),
+                type: "checkbox",
+                getValue: function () {
+                    return this.isMoreOptionsShown();
+                }.bind(this),
+                enabled: true
+            }, true);
+        }
+        this.$createCommand(id, command, registerForMainTooltip);
+        if (this.isShown()) {
+            this.updatePosition();
+        }
+    };
+    CommandBarTooltip.prototype.isShown = function () {
+        return !!this.tooltip && this.tooltip.isOpen;
+    };
+    CommandBarTooltip.prototype.isMoreOptionsShown = function () {
+        return !!this.moreOptions && this.moreOptions.isOpen;
+    };
+    CommandBarTooltip.prototype.getAlwaysShow = function () {
+        return this.$alwaysShow;
+    };
+    CommandBarTooltip.prototype.setAlwaysShow = function (alwaysShow) {
+        this.$alwaysShow = alwaysShow;
+        this.$updateOnHoverHandlers(!this.$alwaysShow);
+        this._signal("alwaysShow", this.$alwaysShow);
+    };
+    CommandBarTooltip.prototype.attach = function (editor) {
+        if (!editor || (this.isShown() && this.editor === editor)) {
+            return;
+        }
+        this.detach();
+        this.editor = editor;
+        this.editor.on("changeSession", this.$onEditorChangeSession);
+        if (this.editor.session) {
+            this.editor.session.on("changeScrollLeft", this.$onChangeScroll);
+            this.editor.session.on("changeScrollTop", this.$onChangeScroll);
+        }
+        if (this.getAlwaysShow()) {
+            this.$showTooltip();
         }
         else {
-            val = cmdLine.getValue();
-        }
-        var curData = popup ? popup.getData(popup.getRow()) : val;
-        if (curData && !curData.error) {
-            done();
-            options.onAccept && options.onAccept({
-                value: val,
-                item: curData
-            }, cmdLine);
-        }
-    }
-    var keys = {
-        "Enter": accept,
-        "Esc|Shift-Esc": function () {
-            options.onCancel && options.onCancel(cmdLine.getValue(), cmdLine);
-            done();
+            this.$updateOnHoverHandlers(true);
         }
     };
-    if (popup) {
-        Object.assign(keys, {
-            "Up": function (editor) { popup.goTo("up"); valueFromRecentList(); },
-            "Down": function (editor) { popup.goTo("down"); valueFromRecentList(); },
-            "Ctrl-Up|Ctrl-Home": function (editor) { popup.goTo("start"); valueFromRecentList(); },
-            "Ctrl-Down|Ctrl-End": function (editor) { popup.goTo("end"); valueFromRecentList(); },
-            "Tab": function (editor) {
-                popup.goTo("down");
-                valueFromRecentList();
-            },
-            "PageUp": function (editor) { popup.gotoPageUp(); valueFromRecentList(); },
-            "PageDown": function (editor) { popup.gotoPageDown(); valueFromRecentList(); }
-        });
-    }
-    cmdLine.commands.bindKeys(keys);
-    function done() {
-        overlay.close();
-        callback && callback();
-        openPrompt = null;
-    }
-    cmdLine.on("input", function () {
-        options.onInput && options.onInput();
-        updateCompletions();
-    });
-    function updateCompletions() {
-        if (options.getCompletions) {
-            var prefix;
-            if (options.getPrefix) {
-                prefix = options.getPrefix(cmdLine);
+    CommandBarTooltip.prototype.updatePosition = function () {
+        if (!this.editor) {
+            return;
+        }
+        var renderer = this.editor.renderer;
+        var ranges;
+        if (this.editor.selection.getAllRanges) {
+            ranges = this.editor.selection.getAllRanges();
+        }
+        else {
+            ranges = [this.editor.getSelectionRange()];
+        }
+        if (!ranges.length) {
+            return;
+        }
+        var minPos = minPosition(ranges[0].start, ranges[0].end);
+        for (var i = 0, range; range = ranges[i]; i++) {
+            minPos = minPosition(minPos, minPosition(range.start, range.end));
+        }
+        var pos = renderer.$cursorLayer.getPixelPosition(minPos, true);
+        var tooltipEl = this.tooltip.getElement();
+        var screenWidth = window.innerWidth;
+        var screenHeight = window.innerHeight;
+        var rect = this.editor.container.getBoundingClientRect();
+        pos.top += rect.top - renderer.layerConfig.offset;
+        pos.left += rect.left + renderer.gutterWidth - renderer.scrollLeft;
+        var cursorVisible = pos.top >= rect.top && pos.top <= rect.bottom &&
+            pos.left >= rect.left + renderer.gutterWidth && pos.left <= rect.right;
+        if (!cursorVisible && this.isShown()) {
+            this.$hideTooltip();
+            return;
+        }
+        else if (cursorVisible && !this.isShown() && this.getAlwaysShow()) {
+            this.$showTooltip();
+            return;
+        }
+        var top = pos.top - tooltipEl.offsetHeight;
+        var left = Math.min(screenWidth - tooltipEl.offsetWidth, pos.left);
+        var tooltipFits = top >= 0 && top + tooltipEl.offsetHeight <= screenHeight &&
+            left >= 0 && left + tooltipEl.offsetWidth <= screenWidth;
+        if (!tooltipFits) {
+            this.$hideTooltip();
+            return;
+        }
+        this.tooltip.setPosition(left, top);
+        if (this.isMoreOptionsShown()) {
+            top = top + tooltipEl.offsetHeight;
+            left = this.elements[MORE_OPTIONS_BUTTON_ID].getBoundingClientRect().left;
+            var moreOptionsEl = this.moreOptions.getElement();
+            var screenHeight = window.innerHeight;
+            if (top + moreOptionsEl.offsetHeight > screenHeight) {
+                top -= tooltipEl.offsetHeight + moreOptionsEl.offsetHeight;
             }
-            var completions = options.getCompletions(cmdLine);
-            popup.setData(completions, prefix);
-            popup.resize(true);
+            if (left + moreOptionsEl.offsetWidth > screenWidth) {
+                left = screenWidth - moreOptionsEl.offsetWidth;
+            }
+            this.moreOptions.setPosition(left, top);
+        }
+    };
+    CommandBarTooltip.prototype.update = function () {
+        Object.keys(this.elements).forEach(this.$updateElement.bind(this));
+    };
+    CommandBarTooltip.prototype.detach = function () {
+        this.tooltip.hide();
+        this.moreOptions.hide();
+        this.$updateOnHoverHandlers(false);
+        if (this.editor) {
+            this.editor.off("changeSession", this.$onEditorChangeSession);
+            if (this.editor.session) {
+                this.editor.session.off("changeScrollLeft", this.$onChangeScroll);
+                this.editor.session.off("changeScrollTop", this.$onChangeScroll);
+            }
+        }
+        this.$mouseInTooltip = false;
+        this.editor = null;
+    };
+    CommandBarTooltip.prototype.destroy = function () {
+        if (this.tooltip && this.moreOptions) {
+            this.detach();
+            this.tooltip.destroy();
+            this.moreOptions.destroy();
+        }
+        this.eventListeners = {};
+        this.commands = {};
+        this.elements = {};
+        this.tooltip = this.moreOptions = this.parentNode = null;
+    };
+    CommandBarTooltip.prototype.$createCommand = function (id, command, forMainTooltip) {
+        var parentEl = forMainTooltip ? this.tooltipEl : this.moreOptionsEl;
+        var keyParts = [];
+        var bindKey = command.bindKey;
+        if (bindKey) {
+            if (typeof bindKey === 'object') {
+                bindKey = useragent.isMac ? bindKey.mac : bindKey.win;
+            }
+            bindKey = bindKey.split("|")[0];
+            keyParts = bindKey.split("-");
+            keyParts = keyParts.map(function (key) {
+                if (keyDisplayMap[key]) {
+                    if (typeof keyDisplayMap[key] === 'string') {
+                        return keyDisplayMap[key];
+                    }
+                    else if (useragent.isMac && keyDisplayMap[key].mac) {
+                        return keyDisplayMap[key].mac;
+                    }
+                }
+                return key;
+            });
+        }
+        var buttonNode;
+        if (forMainTooltip && command.iconCssClass) {
+            buttonNode = [
+                'div',
+                {
+                    class: ["ace_icon_svg", command.iconCssClass].join(" "),
+                    "aria-label": command.name + " (" + command.bindKey + ")"
+                }
+            ];
+        }
+        else {
+            buttonNode = [
+                ['div', { class: VALUE_CLASS_NAME }],
+                ['div', { class: CAPTION_CLASS_NAME }, command.name]
+            ];
+            if (keyParts.length) {
+                buttonNode.push([
+                    'div',
+                    { class: KEYBINDING_CLASS_NAME },
+                    keyParts.map(function (keyPart) {
+                        return ['div', keyPart];
+                    })
+                ]);
+            }
+        }
+        dom.buildDom(['div', { class: [BUTTON_CLASS_NAME, command.cssClass || ""].join(" "), ref: id }, buttonNode], parentEl, this.elements);
+        this.commands[id] = command;
+        var eventListener = function (e) {
+            if (this.editor) {
+                this.editor.focus();
+            }
+            this.$shouldHideMoreOptions = this.isMoreOptionsShown();
+            if (!this.elements[id].disabled && command.exec) {
+                command.exec(this.editor);
+            }
+            if (this.$shouldHideMoreOptions) {
+                this.$setMoreOptionsVisibility(false);
+            }
+            this.update();
+            e.preventDefault();
+        }.bind(this);
+        this.eventListeners[id] = eventListener;
+        this.elements[id].addEventListener('click', eventListener.bind(this));
+        this.$updateElement(id);
+    };
+    CommandBarTooltip.prototype.$setMoreOptionsVisibility = function (visible) {
+        if (visible) {
+            this.moreOptions.setTheme(this.editor.renderer.theme);
+            this.moreOptions.setClassName(TOOLTIP_CLASS_NAME + "_wrapper");
+            this.moreOptions.show();
+            this.update();
+            this.updatePosition();
+        }
+        else {
+            this.moreOptions.hide();
+        }
+    };
+    CommandBarTooltip.prototype.$onEditorChangeSession = function (e) {
+        if (e.oldSession) {
+            e.oldSession.off("changeScrollTop", this.$onChangeScroll);
+            e.oldSession.off("changeScrollLeft", this.$onChangeScroll);
+        }
+        this.detach();
+    };
+    CommandBarTooltip.prototype.$onChangeScroll = function () {
+        if (this.editor.renderer && (this.isShown() || this.getAlwaysShow())) {
+            this.editor.renderer.once("afterRender", this.updatePosition.bind(this));
+        }
+    };
+    CommandBarTooltip.prototype.$onMouseMove = function (e) {
+        if (this.$mouseInTooltip) {
+            return;
+        }
+        var cursorPosition = this.editor.getCursorPosition();
+        var cursorScreenPosition = this.editor.renderer.textToScreenCoordinates(cursorPosition.row, cursorPosition.column);
+        var lineHeight = this.editor.renderer.lineHeight;
+        var isInCurrentLine = e.clientY >= cursorScreenPosition.pageY && e.clientY < cursorScreenPosition.pageY + lineHeight;
+        if (isInCurrentLine) {
+            if (!this.isShown() && !this.$showTooltipTimer.isPending()) {
+                this.$showTooltipTimer.delay();
+            }
+            if (this.$hideTooltipTimer.isPending()) {
+                this.$hideTooltipTimer.cancel();
+            }
+        }
+        else {
+            if (this.isShown() && !this.$hideTooltipTimer.isPending()) {
+                this.$hideTooltipTimer.delay();
+            }
+            if (this.$showTooltipTimer.isPending()) {
+                this.$showTooltipTimer.cancel();
+            }
+        }
+    };
+    CommandBarTooltip.prototype.$preventMouseEvent = function (e) {
+        if (this.editor) {
+            this.editor.focus();
+        }
+        e.preventDefault();
+    };
+    CommandBarTooltip.prototype.$scheduleTooltipForHide = function () {
+        this.$mouseInTooltip = false;
+        this.$showTooltipTimer.cancel();
+        this.$hideTooltipTimer.delay();
+    };
+    CommandBarTooltip.prototype.$tooltipEnter = function () {
+        this.$mouseInTooltip = true;
+        if (this.$showTooltipTimer.isPending()) {
+            this.$showTooltipTimer.cancel();
+        }
+        if (this.$hideTooltipTimer.isPending()) {
+            this.$hideTooltipTimer.cancel();
+        }
+    };
+    CommandBarTooltip.prototype.$updateOnHoverHandlers = function (enableHover) {
+        var tooltipEl = this.tooltip.getElement();
+        var moreOptionsEl = this.moreOptions.getElement();
+        if (enableHover) {
+            if (this.editor) {
+                this.editor.on("mousemove", this.$onMouseMove);
+                this.editor.renderer.getMouseEventTarget().addEventListener("mouseout", this.$scheduleTooltipForHide, true);
+            }
+            tooltipEl.addEventListener('mouseenter', this.$tooltipEnter);
+            tooltipEl.addEventListener('mouseleave', this.$scheduleTooltipForHide);
+            moreOptionsEl.addEventListener('mouseenter', this.$tooltipEnter);
+            moreOptionsEl.addEventListener('mouseleave', this.$scheduleTooltipForHide);
+        }
+        else {
+            if (this.editor) {
+                this.editor.off("mousemove", this.$onMouseMove);
+                this.editor.renderer.getMouseEventTarget().removeEventListener("mouseout", this.$scheduleTooltipForHide, true);
+            }
+            tooltipEl.removeEventListener('mouseenter', this.$tooltipEnter);
+            tooltipEl.removeEventListener('mouseleave', this.$scheduleTooltipForHide);
+            moreOptionsEl.removeEventListener('mouseenter', this.$tooltipEnter);
+            moreOptionsEl.removeEventListener('mouseleave', this.$scheduleTooltipForHide);
+        }
+    };
+    CommandBarTooltip.prototype.$showTooltip = function () {
+        if (this.isShown()) {
+            return;
+        }
+        this.tooltip.setTheme(this.editor.renderer.theme);
+        this.tooltip.setClassName(TOOLTIP_CLASS_NAME + "_wrapper");
+        this.tooltip.show();
+        this.update();
+        this.updatePosition();
+        this._signal("show");
+    };
+    CommandBarTooltip.prototype.$hideTooltip = function () {
+        this.$mouseInTooltip = false;
+        if (!this.isShown()) {
+            return;
+        }
+        this.moreOptions.hide();
+        this.tooltip.hide();
+        this._signal("hide");
+    };
+    CommandBarTooltip.prototype.$updateElement = function (id) {
+        var command = this.commands[id];
+        if (!command) {
+            return;
+        }
+        var el = this.elements[id];
+        var commandEnabled = command.enabled;
+        if (typeof commandEnabled === 'function') {
+            commandEnabled = commandEnabled(this.editor);
+        }
+        if (typeof command.getValue === 'function') {
+            var value = command.getValue(this.editor);
+            if (command.type === 'text') {
+                el.textContent = value;
+            }
+            else if (command.type === 'checkbox') {
+                var domCssFn = value ? dom.addCssClass : dom.removeCssClass;
+                var isOnTooltip = el.parentElement === this.tooltipEl;
+                el.ariaChecked = value;
+                if (isOnTooltip) {
+                    domCssFn(el, "ace_selected");
+                }
+                else {
+                    el = el.querySelector("." + VALUE_CLASS_NAME);
+                    domCssFn(el, "ace_checkmark");
+                }
+            }
+        }
+        if (commandEnabled && el.disabled) {
+            dom.removeCssClass(el, "ace_disabled");
+            el.ariaDisabled = el.disabled = false;
+            el.removeAttribute("disabled");
+        }
+        else if (!commandEnabled && !el.disabled) {
+            dom.addCssClass(el, "ace_disabled");
+            el.ariaDisabled = el.disabled = true;
+            el.setAttribute("disabled", "");
+        }
+    };
+    return CommandBarTooltip;
+}());
+oop.implement(CommandBarTooltip.prototype, EventEmitter);
+dom.importCssString("\n.ace_tooltip.".concat(TOOLTIP_CLASS_NAME, "_wrapper {\n    padding: 0;\n}\n\n.ace_tooltip .").concat(TOOLTIP_CLASS_NAME, " {\n    padding: 1px 5px;\n    display: flex;\n    pointer-events: auto;\n}\n\n.ace_tooltip .").concat(TOOLTIP_CLASS_NAME, ".tooltip_more_options {\n    padding: 1px;\n    flex-direction: column;\n}\n\ndiv.").concat(BUTTON_CLASS_NAME, " {\n    display: inline-flex;\n    cursor: pointer;\n    margin: 1px;\n    border-radius: 2px;\n    padding: 2px 5px;\n    align-items: center;\n}\n\ndiv.").concat(BUTTON_CLASS_NAME, ".ace_selected,\ndiv.").concat(BUTTON_CLASS_NAME, ":hover:not(.ace_disabled) {\n    background-color: rgba(0, 0, 0, 0.1);\n}\n\ndiv.").concat(BUTTON_CLASS_NAME, ".ace_disabled {\n    color: #777;\n    pointer-events: none;\n}\n\ndiv.").concat(BUTTON_CLASS_NAME, " .ace_icon_svg {\n    height: 12px;\n    background-color: #000;\n}\n\ndiv.").concat(BUTTON_CLASS_NAME, ".ace_disabled .ace_icon_svg {\n    background-color: #777;\n}\n\n.").concat(TOOLTIP_CLASS_NAME, ".tooltip_more_options .").concat(BUTTON_CLASS_NAME, " {\n    display: flex;\n}\n\n.").concat(TOOLTIP_CLASS_NAME, ".").concat(VALUE_CLASS_NAME, " {\n    display: none;\n}\n\n.").concat(TOOLTIP_CLASS_NAME, ".tooltip_more_options .").concat(VALUE_CLASS_NAME, " {\n    display: inline-block;\n    width: 12px;\n}\n\n.").concat(CAPTION_CLASS_NAME, " {\n    display: inline-block;\n}\n\n.").concat(KEYBINDING_CLASS_NAME, " {\n    margin: 0 2px;\n    display: inline-block;\n    font-size: 8px;\n}\n\n.").concat(TOOLTIP_CLASS_NAME, ".tooltip_more_options .").concat(KEYBINDING_CLASS_NAME, " {\n    margin-left: auto;\n}\n\n.").concat(KEYBINDING_CLASS_NAME, " div {\n    display: inline-block;\n    min-width: 8px;\n    padding: 2px;\n    margin: 0 1px;\n    border-radius: 2px;\n    background-color: #ccc;\n    text-align: center;\n}\n\n.ace_dark.ace_tooltip .").concat(TOOLTIP_CLASS_NAME, " {\n    background-color: #373737;\n    color: #eee;\n}\n\n.ace_dark div.").concat(BUTTON_CLASS_NAME, ".ace_disabled {\n    color: #979797;\n}\n\n.ace_dark div.").concat(BUTTON_CLASS_NAME, ".ace_selected,\n.ace_dark div.").concat(BUTTON_CLASS_NAME, ":hover:not(.ace_disabled) {\n    background-color: rgba(255, 255, 255, 0.1);\n}\n\n.ace_dark div.").concat(BUTTON_CLASS_NAME, " .ace_icon_svg {\n    background-color: #eee;\n}\n\n.ace_dark div.").concat(BUTTON_CLASS_NAME, ".ace_disabled .ace_icon_svg {\n    background-color: #979797;\n}\n\n.ace_dark .").concat(BUTTON_CLASS_NAME, ".ace_disabled {\n    color: #979797;\n}\n\n.ace_dark .").concat(KEYBINDING_CLASS_NAME, " div {\n    background-color: #575757;\n}\n\n.ace_checkmark::before {\n    content: '\u2713';\n}\n"), "commandbar.css", false);
+exports.CommandBarTooltip = CommandBarTooltip;
+exports.TOOLTIP_CLASS_NAME = TOOLTIP_CLASS_NAME;
+exports.BUTTON_CLASS_NAME = BUTTON_CLASS_NAME;
+
+});
+
+ace.define("ace/autocomplete/text_completer",["require","exports","module","ace/range"], function(require, exports, module){var Range = require("../range").Range;
+var splitRegex = /[^a-zA-Z_0-9\$\-\u00C0-\u1FFF\u2C00-\uD7FF\w]+/;
+function getWordIndex(doc, pos) {
+    var textBefore = doc.getTextRange(Range.fromPoints({
+        row: 0,
+        column: 0
+    }, pos));
+    return textBefore.split(splitRegex).length - 1;
+}
+function wordDistance(doc, pos) {
+    var prefixPos = getWordIndex(doc, pos);
+    var words = doc.getValue().split(splitRegex);
+    var wordScores = Object.create(null);
+    var currentWord = words[prefixPos];
+    words.forEach(function (word, idx) {
+        if (!word || word === currentWord)
+            return;
+        var distance = Math.abs(prefixPos - idx);
+        var score = words.length - distance;
+        if (wordScores[word]) {
+            wordScores[word] = Math.max(score, wordScores[word]);
+        }
+        else {
+            wordScores[word] = score;
+        }
+    });
+    return wordScores;
+}
+exports.getCompletions = function (editor, session, pos, prefix, callback) {
+    var wordScore = wordDistance(session, pos);
+    var wordList = Object.keys(wordScore);
+    callback(null, wordList.map(function (word) {
+        return {
+            caption: word,
+            value: word,
+            score: wordScore[word],
+            meta: "local"
+        };
+    }));
+};
+
+});
+
+ace.define("ace/ext/language_tools",["require","exports","module","ace/snippets","ace/autocomplete","ace/config","ace/lib/lang","ace/autocomplete/util","ace/autocomplete/text_completer","ace/editor","ace/config"], function(require, exports, module){"use strict";
+var snippetManager = require("../snippets").snippetManager;
+var Autocomplete = require("../autocomplete").Autocomplete;
+var config = require("../config");
+var lang = require("../lib/lang");
+var util = require("../autocomplete/util");
+var textCompleter = require("../autocomplete/text_completer");
+var keyWordCompleter = {
+    getCompletions: function (editor, session, pos, prefix, callback) {
+        if (session.$mode.completer) {
+            return session.$mode.completer.getCompletions(editor, session, pos, prefix, callback);
+        }
+        var state = editor.session.getState(pos.row);
+        var completions = session.$mode.getCompletions(state, session, pos, prefix);
+        completions = completions.map(function (el) {
+            el.completerId = keyWordCompleter.id;
+            return el;
+        });
+        callback(null, completions);
+    },
+    id: "keywordCompleter"
+};
+var transformSnippetTooltip = function (str) {
+    var record = {};
+    return str.replace(/\${(\d+)(:(.*?))?}/g, function (_, p1, p2, p3) {
+        return (record[p1] = p3 || '');
+    }).replace(/\$(\d+?)/g, function (_, p1) {
+        return record[p1];
+    });
+};
+var snippetCompleter = {
+    getCompletions: function (editor, session, pos, prefix, callback) {
+        var scopes = [];
+        var token = session.getTokenAt(pos.row, pos.column);
+        if (token && token.type.match(/(tag-name|tag-open|tag-whitespace|attribute-name|attribute-value)\.xml$/))
+            scopes.push('html-tag');
+        else
+            scopes = snippetManager.getActiveScopes(editor);
+        var snippetMap = snippetManager.snippetMap;
+        var completions = [];
+        scopes.forEach(function (scope) {
+            var snippets = snippetMap[scope] || [];
+            for (var i = snippets.length; i--;) {
+                var s = snippets[i];
+                var caption = s.name || s.tabTrigger;
+                if (!caption)
+                    continue;
+                completions.push({
+                    caption: caption,
+                    snippet: s.content,
+                    meta: s.tabTrigger && !s.name ? s.tabTrigger + "\u21E5 " : "snippet",
+                    completerId: snippetCompleter.id
+                });
+            }
+        }, this);
+        callback(null, completions);
+    },
+    getDocTooltip: function (item) {
+        if (item.snippet && !item.docHTML) {
+            item.docHTML = [
+                "<b>", lang.escapeHTML(item.caption), "</b>", "<hr></hr>",
+                lang.escapeHTML(transformSnippetTooltip(item.snippet))
+            ].join("");
+        }
+    },
+    id: "snippetCompleter"
+};
+var completers = [snippetCompleter, textCompleter, keyWordCompleter];
+exports.setCompleters = function (val) {
+    completers.length = 0;
+    if (val)
+        completers.push.apply(completers, val);
+};
+exports.addCompleter = function (completer) {
+    completers.push(completer);
+};
+exports.textCompleter = textCompleter;
+exports.keyWordCompleter = keyWordCompleter;
+exports.snippetCompleter = snippetCompleter;
+var expandSnippet = {
+    name: "expandSnippet",
+    exec: function (editor) {
+        return snippetManager.expandWithTab(editor);
+    },
+    bindKey: "Tab"
+};
+var onChangeMode = function (e, editor) {
+    loadSnippetsForMode(editor.session.$mode);
+};
+var loadSnippetsForMode = function (mode) {
+    if (typeof mode == "string")
+        mode = config.$modes[mode];
+    if (!mode)
+        return;
+    if (!snippetManager.files)
+        snippetManager.files = {};
+    loadSnippetFile(mode.$id, mode.snippetFileId);
+    if (mode.modes)
+        mode.modes.forEach(loadSnippetsForMode);
+};
+var loadSnippetFile = function (id, snippetFilePath) {
+    if (!snippetFilePath || !id || snippetManager.files[id])
+        return;
+    snippetManager.files[id] = {};
+    config.loadModule(snippetFilePath, function (m) {
+        if (!m)
+            return;
+        snippetManager.files[id] = m;
+        if (!m.snippets && m.snippetText)
+            m.snippets = snippetManager.parseSnippetFile(m.snippetText);
+        snippetManager.register(m.snippets || [], m.scope);
+        if (m.includeScopes) {
+            snippetManager.snippetMap[m.scope].includeScopes = m.includeScopes;
+            m.includeScopes.forEach(function (x) {
+                loadSnippetsForMode("ace/mode/" + x);
+            });
+        }
+    });
+};
+var doLiveAutocomplete = function (e) {
+    var editor = e.editor;
+    var hasCompleter = editor.completer && editor.completer.activated;
+    if (e.command.name === "backspace") {
+        if (hasCompleter && !util.getCompletionPrefix(editor))
+            editor.completer.detach();
+    }
+    else if (e.command.name === "insertstring" && !hasCompleter) {
+        lastExecEvent = e;
+        var delay = e.editor.$liveAutocompletionDelay;
+        if (delay) {
+            liveAutocompleteTimer.delay(delay);
+        }
+        else {
+            showLiveAutocomplete(e);
         }
     }
-    function valueFromRecentList() {
-        var current = popup.getData(popup.getRow());
-        if (current && !current.error)
-            return current.value || current.caption || current;
+};
+var lastExecEvent;
+var liveAutocompleteTimer = lang.delayedCall(function () {
+    showLiveAutocomplete(lastExecEvent);
+}, 0);
+var showLiveAutocomplete = function (e) {
+    var editor = e.editor;
+    var prefix = util.getCompletionPrefix(editor);
+    var triggerAutocomplete = util.triggerAutocomplete(editor);
+    if (prefix && prefix.length >= editor.$liveAutocompletionThreshold || triggerAutocomplete) {
+        var completer = Autocomplete.for(editor);
+        completer.autoShown = true;
+        completer.showPopup(editor);
     }
-    cmdLine.resize(true);
-    if (popup) {
-        popup.resize(true);
-    }
-    cmdLine.focus();
-    openPrompt = {
-        close: done,
-        name: options.name,
-        editor: editor
-    };
-}
-prompt.gotoLine = function (editor, callback) {
-    function stringifySelection(selection) {
-        if (!Array.isArray(selection))
-            selection = [selection];
-        return selection.map(function (r) {
-            var cursor = r.isBackwards ? r.start : r.end;
-            var anchor = r.isBackwards ? r.end : r.start;
-            var row = anchor.row;
-            var s = (row + 1) + ":" + anchor.column;
-            if (anchor.row == cursor.row) {
-                if (anchor.column != cursor.column)
-                    s += ">" + ":" + cursor.column;
+};
+var Editor = require("../editor").Editor;
+require("../config").defineOptions(Editor.prototype, "editor", {
+    enableBasicAutocompletion: {
+        set: function (val) {
+            if (val) {
+                if (!this.completers)
+                    this.completers = Array.isArray(val) ? val : completers;
+                this.commands.addCommand(Autocomplete.startCommand);
             }
             else {
-                s += ">" + (cursor.row + 1) + ":" + cursor.column;
+                this.commands.removeCommand(Autocomplete.startCommand);
             }
-            return s;
-        }).reverse().join(", ");
+        },
+        value: false
+    },
+    enableLiveAutocompletion: {
+        set: function (val) {
+            if (val) {
+                if (!this.completers)
+                    this.completers = Array.isArray(val) ? val : completers;
+                this.commands.on('afterExec', doLiveAutocomplete);
+            }
+            else {
+                this.commands.off('afterExec', doLiveAutocomplete);
+            }
+        },
+        value: false
+    },
+    liveAutocompletionDelay: {
+        initialValue: 0
+    },
+    liveAutocompletionThreshold: {
+        initialValue: 0
+    },
+    enableSnippets: {
+        set: function (val) {
+            if (val) {
+                this.commands.addCommand(expandSnippet);
+                this.on("changeMode", onChangeMode);
+                onChangeMode(null, this);
+            }
+            else {
+                this.commands.removeCommand(expandSnippet);
+                this.off("changeMode", onChangeMode);
+            }
+        },
+        value: false
     }
-    prompt(editor, ":" + stringifySelection(editor.selection.toJSON()), {
-        name: "gotoLine",
-        selection: [1, Number.MAX_VALUE],
-        onAccept: function (data) {
-            var value = data.value;
-            var _history = prompt.gotoLine._history;
-            if (!_history)
-                prompt.gotoLine._history = _history = [];
-            if (_history.indexOf(value) != -1)
-                _history.splice(_history.indexOf(value), 1);
-            _history.unshift(value);
-            if (_history.length > 20)
-                _history.length = 20;
-            var pos = editor.getCursorPosition();
-            var ranges = [];
-            value.replace(/^:/, "").split(/,/).map(function (str) {
-                var parts = str.split(/([<>:+-]|c?\d+)|[^c\d<>:+-]+/).filter(Boolean);
-                var i = 0;
-                function readPosition() {
-                    var c = parts[i++];
-                    if (!c)
-                        return;
-                    if (c[0] == "c") {
-                        var index = parseInt(c.slice(1)) || 0;
-                        return editor.session.doc.indexToPosition(index);
-                    }
-                    var row = pos.row;
-                    var column = 0;
-                    if (/\d/.test(c)) {
-                        row = parseInt(c) - 1;
-                        c = parts[i++];
-                    }
-                    if (c == ":") {
-                        c = parts[i++];
-                        if (/\d/.test(c)) {
-                            column = parseInt(c) || 0;
-                        }
-                    }
-                    return { row: row, column: column };
-                }
-                pos = readPosition();
-                var range = Range.fromPoints(pos, pos);
-                if (parts[i] == ">") {
-                    i++;
-                    range.end = readPosition();
-                }
-                else if (parts[i] == "<") {
-                    i++;
-                    range.start = readPosition();
-                }
-                ranges.unshift(range);
-            });
-            editor.selection.fromJSON(ranges);
-            var scrollTop = editor.renderer.scrollTop;
-            editor.renderer.scrollSelectionIntoView(editor.selection.anchor, editor.selection.cursor, 0.5);
-            editor.renderer.animateScrolling(scrollTop);
-        },
-        history: function () {
-            if (!prompt.gotoLine._history)
-                return [];
-            return prompt.gotoLine._history;
-        },
-        getCompletions: function (cmdLine) {
-            var value = cmdLine.getValue();
-            var m = value.replace(/^:/, "").split(":");
-            var row = Math.min(parseInt(m[0]) || 1, editor.session.getLength()) - 1;
-            var line = editor.session.getLine(row);
-            var current = value + "  " + line;
-            return [current].concat(this.history());
-        },
-        $rules: {
-            start: [{
-                    regex: /\d+/,
-                    token: "string"
-                }, {
-                    regex: /[:,><+\-c]/,
-                    token: "keyword"
-                }]
-        }
-    });
+});
+
+});
+
+ace.define("ace/ext/inline_autocomplete",["require","exports","module","ace/keyboard/hash_handler","ace/autocomplete/inline","ace/autocomplete","ace/autocomplete","ace/editor","ace/autocomplete/util","ace/lib/dom","ace/lib/lang","ace/ext/command_bar","ace/ext/command_bar","ace/ext/language_tools","ace/ext/language_tools","ace/ext/language_tools","ace/config"], function(require, exports, module){"use strict";
+var HashHandler = require("../keyboard/hash_handler").HashHandler;
+var AceInline = require("../autocomplete/inline").AceInline;
+var FilteredList = require("../autocomplete").FilteredList;
+var CompletionProvider = require("../autocomplete").CompletionProvider;
+var Editor = require("../editor").Editor;
+var util = require("../autocomplete/util");
+var dom = require("../lib/dom");
+var lang = require("../lib/lang");
+var CommandBarTooltip = require("./command_bar").CommandBarTooltip;
+var BUTTON_CLASS_NAME = require("./command_bar").BUTTON_CLASS_NAME;
+var snippetCompleter = require("./language_tools").snippetCompleter;
+var textCompleter = require("./language_tools").textCompleter;
+var keyWordCompleter = require("./language_tools").keyWordCompleter;
+var destroyCompleter = function (e, editor) {
+    editor.completer && editor.completer.destroy();
 };
-prompt.commands = function (editor, callback) {
-    function normalizeName(name) {
-        return (name || "").replace(/^./, function (x) {
-            return x.toUpperCase(x);
-        }).replace(/[a-z][A-Z]/g, function (x) {
-            return x[0] + " " + x[1].toLowerCase(x);
-        });
+var InlineAutocomplete = /** @class */ (function () {
+    function InlineAutocomplete(editor) {
+        this.editor = editor;
+        this.keyboardHandler = new HashHandler(this.commands);
+        this.$index = -1;
+        this.blurListener = this.blurListener.bind(this);
+        this.changeListener = this.changeListener.bind(this);
+        this.changeTimer = lang.delayedCall(function () {
+            this.updateCompletions();
+        }.bind(this));
     }
-    function getEditorCommandsByName(excludeCommands) {
-        var commandsByName = [];
-        var commandMap = {};
-        editor.keyBinding.$handlers.forEach(function (handler) {
-            var platform = handler.platform;
-            var cbn = handler.byName;
-            for (var i in cbn) {
-                var key = cbn[i].bindKey;
-                if (typeof key !== "string") {
-                    key = key && key[platform] || "";
-                }
-                var commands = cbn[i];
-                var description = commands.description || normalizeName(commands.name);
-                if (!Array.isArray(commands))
-                    commands = [commands];
-                commands.forEach(function (command) {
-                    if (typeof command != "string")
-                        command = command.name;
-                    var needle = excludeCommands.find(function (el) {
-                        return el === command;
-                    });
-                    if (!needle) {
-                        if (commandMap[command]) {
-                            commandMap[command].key += "|" + key;
-                        }
-                        else {
-                            commandMap[command] = { key: key, command: command, description: description };
-                            commandsByName.push(commandMap[command]);
-                        }
-                    }
-                });
+    InlineAutocomplete.prototype.getInlineRenderer = function () {
+        if (!this.inlineRenderer)
+            this.inlineRenderer = new AceInline();
+        return this.inlineRenderer;
+    };
+    InlineAutocomplete.prototype.getInlineTooltip = function () {
+        if (!this.inlineTooltip) {
+            this.inlineTooltip = InlineAutocomplete.createInlineTooltip(document.body || document.documentElement);
+        }
+        return this.inlineTooltip;
+    };
+    InlineAutocomplete.prototype.show = function (options) {
+        this.activated = true;
+        if (this.editor.completer !== this) {
+            if (this.editor.completer)
+                this.editor.completer.detach();
+            this.editor.completer = this;
+        }
+        this.editor.on("changeSelection", this.changeListener);
+        this.editor.on("blur", this.blurListener);
+        this.updateCompletions(options);
+    };
+    InlineAutocomplete.prototype.$open = function () {
+        if (this.editor.textInput.setAriaOptions) {
+            this.editor.textInput.setAriaOptions({});
+        }
+        this.editor.keyBinding.addKeyboardHandler(this.keyboardHandler);
+        this.getInlineTooltip().attach(this.editor);
+        if (this.$index === -1) {
+            this.setIndex(0);
+        }
+        else {
+            this.$showCompletion();
+        }
+        this.changeTimer.cancel();
+    };
+    InlineAutocomplete.prototype.insertMatch = function () {
+        var result = this.getCompletionProvider().insertByIndex(this.editor, this.$index);
+        this.detach();
+        return result;
+    };
+    InlineAutocomplete.prototype.changeListener = function (e) {
+        var cursor = this.editor.selection.lead;
+        if (cursor.row != this.base.row || cursor.column < this.base.column) {
+            this.detach();
+        }
+        if (this.activated)
+            this.changeTimer.schedule();
+        else
+            this.detach();
+    };
+    InlineAutocomplete.prototype.blurListener = function (e) {
+        this.detach();
+    };
+    InlineAutocomplete.prototype.goTo = function (where) {
+        if (!this.completions || !this.completions.filtered) {
+            return;
+        }
+        var completionLength = this.completions.filtered.length;
+        switch (where.toLowerCase()) {
+            case "prev":
+                this.setIndex((this.$index - 1 + completionLength) % completionLength);
+                break;
+            case "next":
+                this.setIndex((this.$index + 1 + completionLength) % completionLength);
+                break;
+            case "first":
+                this.setIndex(0);
+                break;
+            case "last":
+                this.setIndex(this.completions.filtered.length - 1);
+                break;
+        }
+    };
+    InlineAutocomplete.prototype.getLength = function () {
+        if (!this.completions || !this.completions.filtered) {
+            return 0;
+        }
+        return this.completions.filtered.length;
+    };
+    InlineAutocomplete.prototype.getData = function (index) {
+        if (index == undefined || index === null) {
+            return this.completions.filtered[this.$index];
+        }
+        else {
+            return this.completions.filtered[index];
+        }
+    };
+    InlineAutocomplete.prototype.getIndex = function () {
+        return this.$index;
+    };
+    InlineAutocomplete.prototype.isOpen = function () {
+        return this.$index >= 0;
+    };
+    InlineAutocomplete.prototype.setIndex = function (value) {
+        if (!this.completions || !this.completions.filtered) {
+            return;
+        }
+        var newIndex = Math.max(-1, Math.min(this.completions.filtered.length - 1, value));
+        if (newIndex !== this.$index) {
+            this.$index = newIndex;
+            this.$showCompletion();
+        }
+    };
+    InlineAutocomplete.prototype.getCompletionProvider = function (initialPosition) {
+        if (!this.completionProvider)
+            this.completionProvider = new CompletionProvider(initialPosition);
+        return this.completionProvider;
+    };
+    InlineAutocomplete.prototype.$showCompletion = function () {
+        if (!this.getInlineRenderer().show(this.editor, this.completions.filtered[this.$index], this.completions.filterText)) {
+            this.getInlineRenderer().hide();
+        }
+        if (this.inlineTooltip && this.inlineTooltip.isShown()) {
+            this.inlineTooltip.update();
+        }
+    };
+    InlineAutocomplete.prototype.$updatePrefix = function () {
+        var pos = this.editor.getCursorPosition();
+        var prefix = this.editor.session.getTextRange({ start: this.base, end: pos });
+        this.completions.setFilter(prefix);
+        if (!this.completions.filtered.length)
+            return this.detach();
+        if (this.completions.filtered.length == 1
+            && this.completions.filtered[0].value == prefix
+            && !this.completions.filtered[0].snippet)
+            return this.detach();
+        this.$open(this.editor, prefix);
+        return prefix;
+    };
+    InlineAutocomplete.prototype.updateCompletions = function (options) {
+        var prefix = "";
+        if (options && options.matches) {
+            var pos = this.editor.getSelectionRange().start;
+            this.base = this.editor.session.doc.createAnchor(pos.row, pos.column);
+            this.base.$insertRight = true;
+            this.completions = new FilteredList(options.matches);
+            return this.$open(this.editor, "");
+        }
+        if (this.base && this.completions) {
+            prefix = this.$updatePrefix();
+        }
+        var session = this.editor.getSession();
+        var pos = this.editor.getCursorPosition();
+        var prefix = util.getCompletionPrefix(this.editor);
+        this.base = session.doc.createAnchor(pos.row, pos.column - prefix.length);
+        this.base.$insertRight = true;
+        var options = {
+            exactMatch: true,
+            ignoreCaption: true
+        };
+        this.getCompletionProvider({
+            prefix: prefix,
+            base: this.base,
+            pos: pos
+        }).provideCompletions(this.editor, options, function (err, completions, finished) {
+            var filtered = completions.filtered;
+            var prefix = util.getCompletionPrefix(this.editor);
+            if (finished) {
+                if (!filtered.length)
+                    return this.detach();
+                if (filtered.length == 1 && filtered[0].value == prefix && !filtered[0].snippet)
+                    return this.detach();
             }
-        });
-        return commandsByName;
+            this.completions = completions;
+            this.$open(this.editor, prefix);
+        }.bind(this));
+    };
+    InlineAutocomplete.prototype.detach = function () {
+        if (this.editor) {
+            this.editor.keyBinding.removeKeyboardHandler(this.keyboardHandler);
+            this.editor.off("changeSelection", this.changeListener);
+            this.editor.off("blur", this.blurListener);
+        }
+        this.changeTimer.cancel();
+        if (this.inlineTooltip) {
+            this.inlineTooltip.detach();
+        }
+        this.setIndex(-1);
+        if (this.completionProvider) {
+            this.completionProvider.detach();
+        }
+        if (this.inlineRenderer && this.inlineRenderer.isOpen()) {
+            this.inlineRenderer.hide();
+        }
+        if (this.base)
+            this.base.detach();
+        this.activated = false;
+        this.completionProvider = this.completions = this.base = null;
+    };
+    InlineAutocomplete.prototype.destroy = function () {
+        this.detach();
+        if (this.inlineRenderer)
+            this.inlineRenderer.destroy();
+        if (this.inlineTooltip)
+            this.inlineTooltip.destroy();
+        if (this.editor && this.editor.completer == this) {
+            this.editor.off("destroy", destroyCompleter);
+            this.editor.completer = null;
+        }
+        this.inlineTooltip = this.editor = this.inlineRenderer = null;
+    };
+    return InlineAutocomplete;
+}());
+InlineAutocomplete.prototype.commands = {
+    "Previous": {
+        bindKey: "Alt-[",
+        name: "Previous",
+        exec: function (editor) {
+            editor.completer.goTo("prev");
+        }
+    },
+    "Next": {
+        bindKey: "Alt-]",
+        name: "Next",
+        exec: function (editor) {
+            editor.completer.goTo("next");
+        }
+    },
+    "Accept": {
+        bindKey: { win: "Tab|Ctrl-Right", mac: "Tab|Cmd-Right" },
+        name: "Accept",
+        exec: function (editor) {
+            return editor.completer.insertMatch();
+        }
+    },
+    "Close": {
+        bindKey: "Esc",
+        name: "Close",
+        exec: function (editor) {
+            editor.completer.detach();
+        }
     }
-    var excludeCommandsList = ["insertstring", "inserttext", "setIndentation", "paste"];
-    var shortcutsArray = getEditorCommandsByName(excludeCommandsList);
-    shortcutsArray = shortcutsArray.map(function (item) {
-        return { value: item.description, meta: item.key, command: item.command };
-    });
-    prompt(editor, "", {
-        name: "commands",
-        selection: [0, Number.MAX_VALUE],
-        maxHistoryCount: 5,
-        onAccept: function (data) {
-            if (data.item) {
-                var commandName = data.item.command;
-                this.addToHistory(data.item);
-                editor.execCommand(commandName);
-            }
-        },
-        addToHistory: function (item) {
-            var history = this.history();
-            history.unshift(item);
-            delete item.message;
-            for (var i = 1; i < history.length; i++) {
-                if (history[i]["command"] == item.command) {
-                    history.splice(i, 1);
-                    break;
-                }
-            }
-            if (this.maxHistoryCount > 0 && history.length > this.maxHistoryCount) {
-                history.splice(history.length - 1, 1);
-            }
-            prompt.commands.history = history;
-        },
-        history: function () {
-            return prompt.commands.history || [];
-        },
-        getPrefix: function (cmdLine) {
-            var currentPos = cmdLine.getCursorPosition();
-            var filterValue = cmdLine.getValue();
-            return filterValue.substring(0, currentPos.column);
-        },
-        getCompletions: function (cmdLine) {
-            function getFilteredCompletions(commands, prefix) {
-                var resultCommands = JSON.parse(JSON.stringify(commands));
-                var filtered = new FilteredList(resultCommands);
-                return filtered.filterCompletions(resultCommands, prefix);
-            }
-            function getUniqueCommandList(commands, usedCommands) {
-                if (!usedCommands || !usedCommands.length) {
-                    return commands;
-                }
-                var excludeCommands = [];
-                usedCommands.forEach(function (item) {
-                    excludeCommands.push(item.command);
-                });
-                var resultCommands = [];
-                commands.forEach(function (item) {
-                    if (excludeCommands.indexOf(item.command) === -1) {
-                        resultCommands.push(item);
-                    }
-                });
-                return resultCommands;
-            }
-            var prefix = this.getPrefix(cmdLine);
-            var recentlyUsedCommands = getFilteredCompletions(this.history(), prefix);
-            var otherCommands = getUniqueCommandList(shortcutsArray, recentlyUsedCommands);
-            otherCommands = getFilteredCompletions(otherCommands, prefix);
-            if (recentlyUsedCommands.length && otherCommands.length) {
-                recentlyUsedCommands[0].message = nls("Recently used");
-                otherCommands[0].message = nls("Other commands");
-            }
-            var completions = recentlyUsedCommands.concat(otherCommands);
-            return completions.length > 0 ? completions : [{
-                    value: nls("No matching commands"),
-                    error: 1
-                }];
-        }
-    });
 };
-prompt.modes = function (editor, callback) {
-    var modesArray = modelist.modes;
-    modesArray = modesArray.map(function (item) {
-        return { value: item.caption, mode: item.name };
-    });
-    prompt(editor, "", {
-        name: "modes",
-        selection: [0, Number.MAX_VALUE],
-        onAccept: function (data) {
-            if (data.item) {
-                var modeName = "ace/mode/" + data.item.mode;
-                editor.session.setMode(modeName);
-            }
-        },
-        getPrefix: function (cmdLine) {
-            var currentPos = cmdLine.getCursorPosition();
-            var filterValue = cmdLine.getValue();
-            return filterValue.substring(0, currentPos.column);
-        },
-        getCompletions: function (cmdLine) {
-            function getFilteredCompletions(modes, prefix) {
-                var resultCommands = JSON.parse(JSON.stringify(modes));
-                var filtered = new FilteredList(resultCommands);
-                return filtered.filterCompletions(resultCommands, prefix);
-            }
-            var prefix = this.getPrefix(cmdLine);
-            var completions = getFilteredCompletions(modesArray, prefix);
-            return completions.length > 0 ? completions : [{
-                    "caption": "No mode matching",
-                    "value": "No mode matching",
-                    "error": 1
-                }];
-        }
-    });
+InlineAutocomplete.for = function (editor) {
+    if (editor.completer instanceof InlineAutocomplete) {
+        return editor.completer;
+    }
+    if (editor.completer) {
+        editor.completer.destroy();
+        editor.completer = null;
+    }
+    editor.completer = new InlineAutocomplete(editor);
+    editor.once("destroy", destroyCompleter);
+    return editor.completer;
 };
-dom.importCssString(".ace_prompt_container {\n    max-width: 603px;\n    width: 100%;\n    margin: 20px auto;\n    padding: 3px;\n    background: white;\n    border-radius: 2px;\n    box-shadow: 0px 2px 3px 0px #555;\n}", "promtp.css", false);
-exports.prompt = prompt;
+InlineAutocomplete.startCommand = {
+    name: "startInlineAutocomplete",
+    exec: function (editor, options) {
+        var completer = InlineAutocomplete.for(editor);
+        completer.show(options);
+    },
+    bindKey: { win: "Alt-C", mac: "Option-C" }
+};
+var completers = [snippetCompleter, textCompleter, keyWordCompleter];
+require("../config").defineOptions(Editor.prototype, "editor", {
+    enableInlineAutocompletion: {
+        set: function (val) {
+            if (val) {
+                if (!this.completers)
+                    this.completers = Array.isArray(val) ? val : completers;
+                this.commands.addCommand(InlineAutocomplete.startCommand);
+            }
+            else {
+                this.commands.removeCommand(InlineAutocomplete.startCommand);
+            }
+        },
+        value: false
+    }
+});
+InlineAutocomplete.createInlineTooltip = function (parentEl) {
+    var inlineTooltip = new CommandBarTooltip(parentEl);
+    inlineTooltip.registerCommand("Previous", Object.assign({}, InlineAutocomplete.prototype.commands["Previous"], {
+        enabled: true,
+        type: "button",
+        iconCssClass: "ace_arrow_rotated"
+    }));
+    inlineTooltip.registerCommand("Position", {
+        enabled: false,
+        getValue: function (editor) {
+            return editor ? [editor.completer.getIndex() + 1, editor.completer.getLength()].join("/") : "";
+        },
+        type: "text",
+        cssClass: "completion_position"
+    });
+    inlineTooltip.registerCommand("Next", Object.assign({}, InlineAutocomplete.prototype.commands["Next"], {
+        enabled: true,
+        type: "button",
+        iconCssClass: "ace_arrow"
+    }));
+    inlineTooltip.registerCommand("Accept", Object.assign({}, InlineAutocomplete.prototype.commands["Accept"], {
+        enabled: function (editor) {
+            return !!editor && editor.completer.getIndex() >= 0;
+        },
+        type: "button"
+    }));
+    inlineTooltip.registerCommand("ShowTooltip", {
+        name: "Always Show Tooltip",
+        exec: function () {
+            inlineTooltip.setAlwaysShow(!inlineTooltip.getAlwaysShow());
+        },
+        enabled: true,
+        getValue: function () {
+            return inlineTooltip.getAlwaysShow();
+        },
+        type: "checkbox"
+    });
+    return inlineTooltip;
+};
+dom.importCssString("\n\n.ace_icon_svg.ace_arrow,\n.ace_icon_svg.ace_arrow_rotated {\n    -webkit-mask-image: url(\"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTUuODM3MDEgMTVMNC41ODc1MSAxMy43MTU1TDEwLjE0NjggOEw0LjU4NzUxIDIuMjg0NDZMNS44MzcwMSAxTDEyLjY0NjUgOEw1LjgzNzAxIDE1WiIgZmlsbD0iYmxhY2siLz48L3N2Zz4=\");\n}\n\n.ace_icon_svg.ace_arrow_rotated {\n    transform: rotate(180deg);\n}\n\ndiv.".concat(BUTTON_CLASS_NAME, ".completion_position {\n    padding: 0;\n}\n"), "inlineautocomplete.css", false);
+exports.InlineAutocomplete = InlineAutocomplete;
 
 });                (function() {
-                    ace.require(["ace/ext/prompt"], function(m) {
+                    ace.require(["ace/ext/inline_autocomplete"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
                         }
