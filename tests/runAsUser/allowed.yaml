@@ -6,7 +6,6 @@ metadata:
     app: nginx-users
 spec:
   securityContext:
-    runAsUser: 100
   containers:
     - name: nginx
       image: nginx
