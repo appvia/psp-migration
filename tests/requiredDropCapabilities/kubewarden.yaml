@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: requireddropcapabilities
 spec:
-  module: registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.13
+  module: registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.15
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
