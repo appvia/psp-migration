@@ -32,7 +32,7 @@
     "@kubernetes/client-node": "0.17.0",
     "@types/jest": "29.5.11",
     "@types/materialize-css": "1.0.14",
-    "@types/node": "18.19.11",
+    "@types/node": "18.19.12",
     "@types/yargs": "17.0.32",
     "ace-builds": "1.32.5",
     "copy-webpack-plugin": "11.0.0",
