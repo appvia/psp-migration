@@ -21,7 +21,7 @@ jobs:
           submodules: true
       - name: Tar files
         run: tar -cf checkout.tar ./
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: checkout.tar
           path: checkout.tar
@@ -44,7 +44,7 @@ jobs:
 
       - name: Tar files
         run: tar -cf codebase.tar ./
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: codebase.tar
           path: codebase.tar
@@ -86,7 +86,7 @@ jobs:
       - run: "npm run build:webpack"
       - name: Tar files
         run: tar -cf webui.tar dist
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: webui.tar
           path: webui.tar
@@ -129,47 +129,47 @@ jobs:
 
       - run: npm run build
 
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-alpine-arm64
           path: dist/bin/psp-migration-alpine-arm64
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-alpine-x64
           path: dist/bin/psp-migration-alpine-x64
 
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-linux-arm64
           path: dist/bin/psp-migration-linux-arm64
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-linux-x64
           path: dist/bin/psp-migration-linux-x64
 
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-linuxstatic-arm64
           path: dist/bin/psp-migration-linuxstatic-arm64
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-linuxstatic-x64
           path: dist/bin/psp-migration-linuxstatic-x64
 
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-win-arm64.exe
           path: dist/bin/psp-migration-win-arm64.exe
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-win-x64.exe
           path: dist/bin/psp-migration-win-x64.exe
 
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-macos-arm64
           path: dist/bin/psp-migration-macos-arm64
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: psp-migration-macos-x64
           path: dist/bin/psp-migration-macos-x64
