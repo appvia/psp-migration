@@ -2812,7 +2812,7 @@ exports[`transform_kubewarden runAsGroup 1`] = `
       "name": "psp-usergroup",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.0",
+      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.2",
       "mutating": false,
       "rules": [
         {
@@ -2925,7 +2925,7 @@ exports[`transform_kubewarden runAsUser 1`] = `
       "name": "psp-usergroup",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.0",
+      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.2",
       "mutating": false,
       "rules": [
         {
@@ -3245,7 +3245,7 @@ exports[`transform_kubewarden supplementalGroups 1`] = `
       "name": "psp-usergroup",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.0",
+      "module": "registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.2",
       "mutating": false,
       "rules": [
         {
