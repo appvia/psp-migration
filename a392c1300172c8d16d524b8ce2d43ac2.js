@@ -1224,53 +1224,18 @@ exports.DocCommentHighlightRules = DocCommentHighlightRules;
 
 });
 
-ace.define("ace/mode/java_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module){"use strict";
+ace.define("ace/mode/wollok_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module){"use strict";
 var oop = require("../lib/oop");
 var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
-var JavaHighlightRules = function () {
-    var identifierRe = "[a-zA-Z_$][a-zA-Z0-9_$]*";
-    var keywords = ("abstract|continue|for|new|switch|" +
-        "assert|default|goto|package|synchronized|" +
-        "boolean|do|if|private|this|" +
-        "break|double|implements|protected|throw|" +
-        "byte|else|import|public|throws|" +
-        "case|enum|instanceof|return|transient|" +
-        "catch|extends|int|short|try|" +
-        "char|final|interface|static|void|" +
-        "class|finally|long|strictfp|volatile|" +
-        "const|float|native|super|while|" +
-        "var|exports|opens|requires|uses|yield|" +
-        "module|permits|(?:non\\-)?sealed|var|" +
-        "provides|to|when|" +
-        "open|record|transitive|with");
-    var buildinConstants = ("null|Infinity|NaN|undefined");
-    var langClasses = ("AbstractMethodError|AssertionError|ClassCircularityError|" +
-        "ClassFormatError|Deprecated|EnumConstantNotPresentException|" +
-        "ExceptionInInitializerError|IllegalAccessError|" +
-        "IllegalThreadStateException|InstantiationError|InternalError|" +
-        "NegativeArraySizeException|NoSuchFieldError|Override|Process|" +
-        "ProcessBuilder|SecurityManager|StringIndexOutOfBoundsException|" +
-        "SuppressWarnings|TypeNotPresentException|UnknownError|" +
-        "UnsatisfiedLinkError|UnsupportedClassVersionError|VerifyError|" +
-        "InstantiationException|IndexOutOfBoundsException|" +
-        "ArrayIndexOutOfBoundsException|CloneNotSupportedException|" +
-        "NoSuchFieldException|IllegalArgumentException|NumberFormatException|" +
-        "SecurityException|Void|InheritableThreadLocal|IllegalStateException|" +
-        "InterruptedException|NoSuchMethodException|IllegalAccessException|" +
-        "UnsupportedOperationException|Enum|StrictMath|Package|Compiler|" +
-        "Readable|Runtime|StringBuilder|Math|IncompatibleClassChangeError|" +
-        "NoSuchMethodError|ThreadLocal|RuntimePermission|ArithmeticException|" +
-        "NullPointerException|Long|Integer|Short|Byte|Double|Number|Float|" +
-        "Character|Boolean|StackTraceElement|Appendable|StringBuffer|" +
-        "Iterable|ThreadGroup|Runnable|Thread|IllegalMonitorStateException|" +
-        "StackOverflowError|OutOfMemoryError|VirtualMachineError|" +
-        "ArrayStoreException|ClassCastException|LinkageError|" +
-        "NoClassDefFoundError|ClassNotFoundException|RuntimeException|" +
-        "Exception|ThreadDeath|Error|Throwable|System|ClassLoader|" +
-        "Cloneable|Class|CharSequence|Comparable|String|Object");
+var WollokHighlightRules = function () {
+    var keywords = ("test|describe|package|inherits|false|import|else|or|class|and|not|native|override|program|self|try|const|var|catch|object|super|throw|if|null|return|true|new|constructor|method|mixin");
+    var buildinConstants = ("null|assert|console");
+    var langClasses = ("Object|Pair|String|Boolean|Number|Integer|Double|Collection|Set|List|Exception|Range" +
+        "|StackTraceElement");
     var keywordMapper = this.createKeywordMapper({
-        "variable.language": "this",
+        "variable.language": "self",
+        "keyword": keywords,
         "constant.language": buildinConstants,
         "support.function": langClasses
     }, "identifier");
@@ -1285,151 +1250,13 @@ var JavaHighlightRules = function () {
                 token: "comment", // multi line comment
                 regex: "\\/\\*",
                 next: "comment"
-            },
-            { include: "multiline-strings" },
-            { include: "strings" },
-            { include: "constants" },
-            {
-                regex: "(open(?:\\s+))?module(?=\\s*\\w)",
-                token: "keyword",
-                next: [{
-                        regex: "{",
-                        token: "paren.lparen",
-                        next: [{
-                                regex: "}",
-                                token: "paren.rparen",
-                                next: "start"
-                            }, {
-                                regex: "\\b(requires|transitive|exports|opens|to|uses|provides|with)\\b",
-                                token: "keyword"
-                            }]
-                    }, {
-                        token: "text",
-                        regex: "\\s+"
-                    }, {
-                        token: "identifier",
-                        regex: "\\w+"
-                    }, {
-                        token: "punctuation.operator",
-                        regex: "."
-                    }, {
-                        token: "text",
-                        regex: "\\s+"
-                    }, {
-                        regex: "", // exit if there is anything else
-                        next: "start"
-                    }]
-            },
-            { include: "statements" }
-        ],
-        "comment": [
-            {
-                token: "comment", // closing comment
-                regex: "\\*\\/",
-                next: "start"
-            }, {
-                defaultToken: "comment"
-            }
-        ],
-        "strings": [
-            {
-                token: ["punctuation", "string"],
-                regex: /(\.)(")/,
-                push: [
-                    {
-                        token: "lparen",
-                        regex: /\\\{/,
-                        push: [
-                            {
-                                token: "text",
-                                regex: /$/,
-                                next: "start"
-                            }, {
-                                token: "rparen",
-                                regex: /}/,
-                                next: "pop"
-                            }, {
-                                include: "strings"
-                            }, {
-                                include: "constants"
-                            }, {
-                                include: "statements"
-                            }
-                        ]
-                    }, {
-                        token: "string",
-                        regex: /"/,
-                        next: "pop"
-                    }, {
-                        defaultToken: "string"
-                    }
-                ]
             }, {
                 token: "string", // single line
                 regex: '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
             }, {
                 token: "string", // single line
                 regex: "['](?:(?:\\\\.)|(?:[^'\\\\]))*?[']"
-            }
-        ],
-        "multiline-strings": [
-            {
-                token: ["punctuation", "string"],
-                regex: /(\.)(""")/,
-                push: [
-                    {
-                        token: "string",
-                        regex: '"""',
-                        next: "pop"
-                    }, {
-                        token: "lparen",
-                        regex: /\\\{/,
-                        push: [
-                            {
-                                token: "text",
-                                regex: /$/,
-                                next: "start"
-                            }, {
-                                token: "rparen",
-                                regex: /}/,
-                                next: "pop"
-                            }, {
-                                include: "multiline-strings"
-                            }, {
-                                include: "strings"
-                            }, {
-                                include: "constants"
-                            }, {
-                                include: "statements"
-                            }
-                        ]
-                    }, {
-                        token: "constant.language.escape",
-                        regex: /\\./
-                    }, {
-                        defaultToken: "string"
-                    }
-                ]
-            },
-            {
-                token: "string",
-                regex: '"""',
-                push: [
-                    {
-                        token: "string",
-                        regex: '"""',
-                        next: "pop"
-                    }, {
-                        token: "constant.language.escape",
-                        regex: /\\./
-                    }, {
-                        defaultToken: "string"
-                    }
-                ]
-            }
-        ],
-        "constants": [
-            {
+            }, {
                 token: "constant.numeric", // hex
                 regex: /0(?:[xX][0-9a-fA-F][0-9a-fA-F_]*|[bB][01][01_]*)[LlSsDdFfYy]?\b/
             }, {
@@ -1438,28 +1265,12 @@ var JavaHighlightRules = function () {
             }, {
                 token: "constant.language.boolean",
                 regex: "(?:true|false)\\b"
-            }
-        ],
-        "statements": [
-            {
-                token: ["keyword", "text", "identifier"],
-                regex: "(record)(\\s+)(" + identifierRe + ")\\b"
-            },
-            {
-                token: "keyword",
-                regex: "(?:" + keywords + ")\\b"
             }, {
-                token: "storage.type.annotation",
-                regex: "@" + identifierRe + "\\b"
-            }, {
-                token: "entity.name.function",
-                regex: identifierRe + "(?=\\()"
-            }, {
-                token: keywordMapper, // TODO: Unicode escape sequences
-                regex: identifierRe + "\\b"
+                token: keywordMapper,
+                regex: "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
             }, {
                 token: "keyword.operator",
-                regex: "!|\\$|%|&|\\||\\^|\\*|\\/|\\-\\-|\\-|\\+\\+|\\+|~|===|==|=|!=|!==|<=|>=|<<=|>>=|>>>=|<>|<|>|!|&&|\\|\\||\\?|\\:|\\*=|\\/=|%=|\\+=|\\-=|&=|\\|=|\\^=|\\b(?:in|instanceof|new|delete|typeof|void)"
+                regex: "===|&&|\\*=|\\.\\.|\\*\\*|#|!|%|\\*|\\?:|\\+|\\/|,|\\+=|\\-|\\.\\.<|!==|:|\\/=|\\?\\.|\\+\\+|>|=|<|>=|=>|==|\\]|\\[|\\-=|\\->|\\||\\-\\-|<>|!=|%=|\\|"
             }, {
                 token: "lparen",
                 regex: "[[({]"
@@ -1470,84 +1281,46 @@ var JavaHighlightRules = function () {
                 token: "text",
                 regex: "\\s+"
             }
+        ],
+        "comment": [
+            {
+                token: "comment", // closing comment
+                regex: ".*?\\*\\/",
+                next: "start"
+            }, {
+                token: "comment", // comment spanning whole line
+                regex: ".+"
+            }
         ]
     };
     this.embedRules(DocCommentHighlightRules, "doc-", [DocCommentHighlightRules.getEndRule("start")]);
-    this.normalizeRules();
 };
-oop.inherits(JavaHighlightRules, TextHighlightRules);
-exports.JavaHighlightRules = JavaHighlightRules;
+oop.inherits(WollokHighlightRules, TextHighlightRules);
+exports.WollokHighlightRules = WollokHighlightRules;
 
 });
 
-ace.define("ace/mode/folding/java",["require","exports","module","ace/lib/oop","ace/mode/folding/cstyle","ace/range"], function(require, exports, module){"use strict";
-var oop = require("../../lib/oop");
-var CStyleFoldMode = require("./cstyle").FoldMode;
-var Range = require("../../range").Range;
-var FoldMode = exports.FoldMode = function () { };
-oop.inherits(FoldMode, CStyleFoldMode);
-(function () {
-    this.importRegex = /^import /;
-    this.getCStyleFoldWidget = this.getFoldWidget;
-    this.getFoldWidget = function (session, foldStyle, row) {
-        if (foldStyle === "markbegin") {
-            var line = session.getLine(row);
-            if (this.importRegex.test(line)) {
-                if (row == 0 || !this.importRegex.test(session.getLine(row - 1)))
-                    return "start";
-            }
-        }
-        return this.getCStyleFoldWidget(session, foldStyle, row);
-    };
-    this.getCstyleFoldWidgetRange = this.getFoldWidgetRange;
-    this.getFoldWidgetRange = function (session, foldStyle, row, forceMultiline) {
-        var line = session.getLine(row);
-        var match = line.match(this.importRegex);
-        if (!match || foldStyle !== "markbegin")
-            return this.getCstyleFoldWidgetRange(session, foldStyle, row, forceMultiline);
-        var startColumn = match[0].length;
-        var maxRow = session.getLength();
-        var startRow = row;
-        var endRow = row;
-        while (++row < maxRow) {
-            var line = session.getLine(row);
-            if (line.match(/^\s*$/))
-                continue;
-            if (!line.match(this.importRegex))
-                break;
-            endRow = row;
-        }
-        if (endRow > startRow) {
-            var endColumn = session.getLine(endRow).length;
-            return new Range(startRow, startColumn, endRow, endColumn);
-        }
-    };
-}).call(FoldMode.prototype);
-
-});
-
-ace.define("ace/mode/java",["require","exports","module","ace/lib/oop","ace/mode/javascript","ace/mode/java_highlight_rules","ace/mode/folding/java"], function(require, exports, module){"use strict";
+ace.define("ace/mode/wollok",["require","exports","module","ace/lib/oop","ace/mode/javascript","ace/mode/wollok_highlight_rules"], function(require, exports, module){"use strict";
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
-var JavaHighlightRules = require("./java_highlight_rules").JavaHighlightRules;
-var JavaFoldMode = require("./folding/java").FoldMode;
+var WollokHighlightRules = require("./wollok_highlight_rules").WollokHighlightRules;
 var Mode = function () {
     JavaScriptMode.call(this);
-    this.HighlightRules = JavaHighlightRules;
-    this.foldingRules = new JavaFoldMode();
+    this.HighlightRules = WollokHighlightRules;
+    this.$behaviour = this.$defaultBehaviour;
 };
 oop.inherits(Mode, JavaScriptMode);
 (function () {
     this.createWorker = function (session) {
         return null;
     };
-    this.$id = "ace/mode/java";
-    this.snippetFileId = "ace/snippets/java";
+    this.$id = "ace/mode/wollok";
+    this.snippetFileId = "ace/snippets/wollok";
 }).call(Mode.prototype);
 exports.Mode = Mode;
 
 });                (function() {
-                    ace.require(["ace/mode/java"], function(m) {
+                    ace.require(["ace/mode/wollok"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
                         }
