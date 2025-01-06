@@ -34,7 +34,7 @@
     "@types/materialize-css": "1.0.14",
     "@types/node": "18.19.69",
     "@types/yargs": "17.0.33",
-    "ace-builds": "1.37.1",
+    "ace-builds": "1.37.2",
     "copy-webpack-plugin": "12.0.2",
     "crypto-browserify": "3.12.1",
     "css-loader": "7.1.2",
