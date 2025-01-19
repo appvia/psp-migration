@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: allowedcapabilities
 spec:
-  module: registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.15
+  module: registry://ghcr.io/kubewarden/policies/capabilities-psp:v0.1.16
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]
