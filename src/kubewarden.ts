@@ -95,7 +95,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.allowedHostPaths)
     policies.push(mod.kubewarden_policy_helper(
       'allowedHostPaths',
-      'registry://ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.10',
+      'registry://ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.11',
       { allowedHostPaths: PSP.spec.allowedHostPaths }
     ))
 
