@@ -122,7 +122,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   )
     policies.push(mod.kubewarden_policy_helper(
       'usergroup',
-      'registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.2',
+      'registry://ghcr.io/kubewarden/policies/user-group-psp:v0.6.3',
       {
         run_as_user: PSP.spec?.runAsUser,
         run_as_group: PSP.spec?.runAsGroup,
