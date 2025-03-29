@@ -1111,7 +1111,7 @@ exports[`transform_kubewarden allowPrivilegeEscalation 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1210,7 +1210,7 @@ exports[`transform_kubewarden allowedCapabilities 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1313,7 +1313,7 @@ exports[`transform_kubewarden allowedFlexVolumes 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1416,7 +1416,7 @@ exports[`transform_kubewarden allowedHostPaths 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1520,7 +1520,7 @@ exports[`transform_kubewarden allowedProcMountTypes 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1619,7 +1619,7 @@ exports[`transform_kubewarden allowedUnsafeSysctls 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1721,7 +1721,7 @@ exports[`transform_kubewarden apparmor 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1822,7 +1822,7 @@ exports[`transform_kubewarden defaultAddCapabilities 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -1927,7 +1927,7 @@ exports[`transform_kubewarden defaultAllowPrivilegeEscalation 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2026,7 +2026,7 @@ exports[`transform_kubewarden forbiddenSysctls 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2128,7 +2128,7 @@ exports[`transform_kubewarden fsgroup 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2233,7 +2233,7 @@ exports[`transform_kubewarden hostIPC 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2301,7 +2301,7 @@ exports[`transform_kubewarden hostNetwork 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2369,7 +2369,7 @@ exports[`transform_kubewarden hostPID 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2437,7 +2437,7 @@ exports[`transform_kubewarden hostPorts 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2510,7 +2510,7 @@ exports[`transform_kubewarden privileged 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2607,7 +2607,7 @@ exports[`transform_kubewarden readOnlyRootFilesystem 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2675,7 +2675,7 @@ exports[`transform_kubewarden requiredDropCapabilities 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2778,7 +2778,7 @@ exports[`transform_kubewarden runAsGroup 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -2891,7 +2891,7 @@ exports[`transform_kubewarden runAsUser 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -3002,7 +3002,7 @@ exports[`transform_kubewarden seLinux 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -3105,7 +3105,7 @@ exports[`transform_kubewarden seccomp 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -3211,7 +3211,7 @@ exports[`transform_kubewarden supplementalGroups 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
@@ -3322,7 +3322,7 @@ exports[`transform_kubewarden volumes 1`] = `
       "name": "psp-hostnamespaces",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.6",
+      "module": "registry://ghcr.io/kubewarden/policies/host-namespaces-psp:v0.1.7",
       "mutating": false,
       "rules": [
         {
