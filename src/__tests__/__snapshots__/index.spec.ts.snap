@@ -1145,7 +1145,7 @@ exports[`transform_kubewarden allowPrivilegeEscalation 1`] = `
       "name": "psp-defaultallowprivilegeescalation",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.2.8",
+      "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v1.0.0",
       "mutating": false,
       "rules": [
         {
@@ -1961,7 +1961,7 @@ exports[`transform_kubewarden defaultAllowPrivilegeEscalation 1`] = `
       "name": "psp-defaultallowprivilegeescalation",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.2.8",
+      "module": "registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v1.0.0",
       "mutating": true,
       "rules": [
         {
