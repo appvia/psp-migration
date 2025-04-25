@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: allowprivilegeescalation
 spec:
-  module: registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v0.2.8
+  module: registry://ghcr.io/kubewarden/policies/allow-privilege-escalation-psp:v1.0.0
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
