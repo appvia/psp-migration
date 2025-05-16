@@ -2162,7 +2162,7 @@ exports[`transform_kubewarden fsgroup 1`] = `
       "name": "psp-fsgroup",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v1.0.0",
+      "module": "registry://ghcr.io/kubewarden/policies/allowed-fsgroups-psp:v1.0.1",
       "mutating": false,
       "rules": [
         {
