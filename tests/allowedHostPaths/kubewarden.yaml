@@ -3,7 +3,7 @@ kind: ClusterAdmissionPolicy
 metadata:
   name: allowedhostpaths
 spec:
-  module: registry://ghcr.io/kubewarden/policies/hostpaths-psp:v0.1.11
+  module: registry://ghcr.io/kubewarden/policies/hostpaths-psp:v1.0.1
   rules:
     - apiGroups: [""]
       apiVersions: ["v1"]
