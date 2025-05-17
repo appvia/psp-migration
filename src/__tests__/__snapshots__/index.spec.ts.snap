@@ -3139,7 +3139,7 @@ exports[`transform_kubewarden seccomp 1`] = `
       "name": "psp-seccomp",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.4",
+      "module": "registry://ghcr.io/kubewarden/policies/seccomp-psp:v1.0.1",
       "mutating": false,
       "rules": [
         {
