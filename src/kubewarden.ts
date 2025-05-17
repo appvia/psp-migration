@@ -14,7 +14,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.readOnlyRootFilesystem === true)
     policies.push(mod.kubewarden_policy_helper(
       'readOnlyRootFilesystem',
-      'registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v0.1.6',
+      'registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v1.0.1',
     ))
 
   policies.push(mod.kubewarden_policy_helper(
