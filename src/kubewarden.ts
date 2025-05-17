@@ -53,7 +53,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
     }
     policies.push(mod.kubewarden_policy_helper(
       'seccomp',
-      'registry://ghcr.io/kubewarden/policies/seccomp-psp:v0.1.4',
+      'registry://ghcr.io/kubewarden/policies/seccomp-psp:v1.0.1',
       {
         allowed_profiles: PSP.metadata.annotations['seccomp.security.alpha.kubernetes.io/allowedProfileNames'].split(","),
         profile_types,
