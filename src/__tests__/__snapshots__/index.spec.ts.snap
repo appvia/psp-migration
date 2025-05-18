@@ -3036,7 +3036,7 @@ exports[`transform_kubewarden seLinux 1`] = `
       "name": "psp-selinux",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v0.1.12",
+      "module": "registry://ghcr.io/kubewarden/policies/selinux-psp:v1.0.1",
       "mutating": true,
       "rules": [
         {
