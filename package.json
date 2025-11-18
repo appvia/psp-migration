@@ -33,7 +33,7 @@
     "@types/jest": "29.5.14",
     "@types/materialize-css": "1.0.14",
     "@types/node": "22.18.13",
-    "@types/yargs": "17.0.34",
+    "@types/yargs": "17.0.35",
     "ace-builds": "1.41.0",
     "copy-webpack-plugin": "13.0.1",
     "crypto-browserify": "3.12.1",
