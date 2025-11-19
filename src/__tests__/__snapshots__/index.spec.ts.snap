@@ -1755,7 +1755,7 @@ exports[`transform_kubewarden apparmor 1`] = `
       "name": "psp-apparmor",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/apparmor-psp:v1.0.1",
+      "module": "registry://ghcr.io/kubewarden/policies/apparmor-psp:v1.0.7",
       "mutating": false,
       "rules": [
         {
