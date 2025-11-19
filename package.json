@@ -47,7 +47,7 @@
     "npm-run-all": "4.1.5",
     "pkg": "5.8.1",
     "sass": "1.89.1",
-    "sass-loader": "16.0.5",
+    "sass-loader": "16.0.6",
     "stream-browserify": "3.0.0",
     "style-loader": "4.0.0",
     "ts-jest": "29.3.4",
