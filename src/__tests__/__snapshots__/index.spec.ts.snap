@@ -2578,7 +2578,7 @@ exports[`transform_kubewarden readOnlyRootFilesystem 1`] = `
       "name": "psp-readonlyrootfilesystem",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v1.0.1",
+      "module": "registry://ghcr.io/kubewarden/policies/readonly-root-filesystem-psp:v1.0.7",
       "mutating": false,
       "rules": [
         {
