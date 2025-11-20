@@ -1347,7 +1347,7 @@ exports[`transform_kubewarden allowedFlexVolumes 1`] = `
       "name": "psp-allowedflexvolumes",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v1.0.1",
+      "module": "registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v1.0.8",
       "mutating": false,
       "rules": [
         {
