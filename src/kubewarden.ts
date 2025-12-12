@@ -109,7 +109,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.allowedUnsafeSysctls || PSP.spec?.forbiddenSysctls)
     policies.push(mod.kubewarden_policy_helper(
       'allowedProcMountTypes',
-      'registry://ghcr.io/kubewarden/policies/sysctl-psp:v1.0.1',
+      'registry://ghcr.io/kubewarden/policies/sysctl-psp:v1.0.9',
       {
         allowedUnsafeSysctls: PSP.spec?.allowedUnsafeSysctls,
         forbiddenSysctls: PSP.spec?.forbiddenSysctls
