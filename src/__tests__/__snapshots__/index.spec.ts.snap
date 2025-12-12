@@ -1653,7 +1653,7 @@ exports[`transform_kubewarden allowedUnsafeSysctls 1`] = `
       "name": "psp-allowedprocmounttypes",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v1.0.1",
+      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v1.0.9",
       "mutating": false,
       "rules": [
         {
@@ -2060,7 +2060,7 @@ exports[`transform_kubewarden forbiddenSysctls 1`] = `
       "name": "psp-allowedprocmounttypes",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v1.0.1",
+      "module": "registry://ghcr.io/kubewarden/policies/sysctl-psp:v1.0.9",
       "mutating": false,
       "rules": [
         {
