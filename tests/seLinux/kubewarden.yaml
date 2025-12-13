@@ -4,7 +4,7 @@ metadata:
   name: selinux
 spec:
   policyServer: default
-  module: registry://ghcr.io/kubewarden/policies/selinux-psp:v1.0.1
+  module: registry://ghcr.io/kubewarden/policies/selinux-psp:v1.0.6
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]
