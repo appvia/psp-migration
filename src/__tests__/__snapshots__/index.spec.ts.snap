@@ -3356,7 +3356,7 @@ exports[`transform_kubewarden volumes 1`] = `
       "name": "psp-volumes",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/volumes-psp:v1.0.1",
+      "module": "registry://ghcr.io/kubewarden/policies/volumes-psp:v1.1.5",
       "mutating": false,
       "rules": [
         {
