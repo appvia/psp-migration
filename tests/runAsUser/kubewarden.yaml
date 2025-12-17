@@ -4,7 +4,7 @@ metadata:
   name: runasuser
 spec:
   policyServer: default
-  module: registry://ghcr.io/kubewarden/policies/user-group-psp:v1.0.1
+  module: registry://ghcr.io/kubewarden/policies/user-group-psp:v1.1.3
   rules:
   - apiGroups: [""]
     apiVersions: ["v1"]
