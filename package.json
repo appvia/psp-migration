@@ -37,7 +37,7 @@
     "ace-builds": "1.43.6",
     "copy-webpack-plugin": "13.0.1",
     "crypto-browserify": "3.12.1",
-    "css-loader": "7.1.2",
+    "css-loader": "7.1.4",
     "file-loader": "6.2.0",
     "git-rev-sync": "3.0.2",
     "github-fork-ribbon-css": "0.2.3",
