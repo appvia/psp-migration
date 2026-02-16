@@ -8,7 +8,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if ( !PSP.spec?.privileged)
     policies.push(mod.kubewarden_policy_helper(
       'privileged',
-      'registry://ghcr.io/kubewarden/policies/pod-privileged:v0.3.2',
+      'registry://ghcr.io/kubewarden/policies/pod-privileged:v0.3.4',
     ))
 
   if (PSP.spec?.readOnlyRootFilesystem === true)
