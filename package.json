@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/appvia/psp-migration#readme",
   "devDependencies": {
-    "@kubernetes/client-node": "0.17.0",
+    "@kubernetes/client-node": "0.22.3",
     "@types/jest": "29.5.14",
     "@types/materialize-css": "1.0.14",
     "@types/node": "22.19.8",
