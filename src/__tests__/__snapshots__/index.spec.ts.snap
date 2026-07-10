@@ -1244,7 +1244,7 @@ exports[`transform_kubewarden allowedCapabilities 1`] = `
       "name": "psp-capabilities",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v1.0.7",
+      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v1.0.11",
       "mutating": false,
       "rules": [
         {
@@ -1856,7 +1856,7 @@ exports[`transform_kubewarden defaultAddCapabilities 1`] = `
       "name": "psp-capabilities",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v1.0.7",
+      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v1.0.11",
       "mutating": true,
       "rules": [
         {
@@ -2709,7 +2709,7 @@ exports[`transform_kubewarden requiredDropCapabilities 1`] = `
       "name": "psp-capabilities",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v1.0.7",
+      "module": "registry://ghcr.io/kubewarden/policies/capabilities-psp:v1.0.11",
       "mutating": false,
       "rules": [
         {
