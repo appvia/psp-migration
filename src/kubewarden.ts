@@ -88,7 +88,7 @@ export function transform_kubewarden(PSP: k8s.V1beta1PodSecurityPolicy): object[
   if (PSP.spec?.allowedFlexVolumes)
     policies.push(mod.kubewarden_policy_helper(
       'allowedFlexVolumes',
-      'registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v1.0.9',
+      'registry://ghcr.io/kubewarden/policies/flexvolume-drivers-psp:v1.0.16',
       { allowedFlexVolumes: PSP.spec.allowedFlexVolumes }
     ))
 
