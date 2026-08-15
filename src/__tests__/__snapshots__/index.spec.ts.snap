@@ -1450,7 +1450,7 @@ exports[`transform_kubewarden allowedHostPaths 1`] = `
       "name": "psp-allowedhostpaths",
     },
     "spec": {
-      "module": "registry://ghcr.io/kubewarden/policies/hostpaths-psp:v1.1.3",
+      "module": "registry://ghcr.io/kubewarden/policies/hostpaths-psp:v1.1.10",
       "mutating": false,
       "rules": [
         {
