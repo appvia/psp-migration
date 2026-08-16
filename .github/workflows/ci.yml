@@ -223,7 +223,7 @@ jobs:
 
       - uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3.5
         with:
-          version: 'v3.7.1'
+          version: 'v3.21.4'
 
       - if: matrix.system == 'gatekeeper'
         name: Install gatekeeper
