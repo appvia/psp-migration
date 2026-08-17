@@ -363,12 +363,12 @@ jobs:
         run: tar -xf checkout.tar ./
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@45c373516f557556c15d420e3f5e0aa3d64366bc # v3.31.9
+        uses: github/codeql-action/init@f3712979fa5f215279b101dd0a2e3bdfb4353324 # v3.37.7
         with:
           languages: javascript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@45c373516f557556c15d420e3f5e0aa3d64366bc # v3.31.9
+        uses: github/codeql-action/analyze@f3712979fa5f215279b101dd0a2e3bdfb4353324 # v3.37.7
 
   semver:
     name: Generate a semantic version number
