@@ -117,6 +117,6 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "yargs": "^17.3.1"
+    "yargs": "^18.0.0"
   }
 }
